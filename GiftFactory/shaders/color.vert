@@ -1,11 +1,6 @@
-attribute vec3 normals;
-
-varying vec3 normal;
+#version 120
 
 void main(void)
 {
-	normal = normals;
-
-	gl_TexCoord[0] = gl_MultiTexCoord0;
-	gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
+	gl_Position = gl_ProjectionMatrix * gl_Vertex;
 }
