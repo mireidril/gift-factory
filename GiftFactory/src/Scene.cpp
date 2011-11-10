@@ -18,11 +18,11 @@ void Scene::render()
 	//Draw here
 
 	//TODO : TEST à virer
-	//glUseProgramObjectARB(ShaderManager::getInstance()->getShaderProgramId("color") );
+	glUseProgramObjectARB(ShaderManager::getInstance()->getShaderProgramId("color") );
 	glPushMatrix();
 	glTranslatef(0.f, 0.f, -3.f);
 	glutSolidTeapot( 1.0 );
 	glPopMatrix();
-
+	//FIN TODO
 	SDL_GL_SwapBuffers();
 }
