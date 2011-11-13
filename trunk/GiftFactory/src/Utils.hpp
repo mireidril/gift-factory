@@ -20,4 +20,13 @@
 // PPM Loading
 GLubyte * loadPPM(const char * const fn, unsigned int& w, unsigned int& h);
 
+void normalize (GLfloat * a);
+GLfloat getNorm (GLfloat * a);
+void vectorProduct (GLfloat * a, GLfloat * b, GLfloat * result);
+void multMatrixBtoMatrixA(GLfloat * A, GLfloat * B);
+void setToIdentity(GLfloat * matrix);
+void setToTranslate(GLfloat * matrix, GLfloat * t);
+void setToScale(GLfloat * matrix, GLfloat * s);
+void setToRotate(GLfloat * matrix, GLfloat angle, GLfloat * axis);
+
 #endif

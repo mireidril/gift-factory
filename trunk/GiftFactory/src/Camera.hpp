@@ -9,37 +9,34 @@ class Camera
 		Camera();
 		~Camera();
 
-		/*void setProjectionData(Camera * camera, GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat near, GLfloat far);
-		void switchCameraProjection(Camera * camera);
+		void setProjectionData(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat nearCam, GLfloat farCam);
+		void switchCameraProjection();
 
-		void lookAt(Camera * camera, GLfloat * c, GLfloat * aim, GLfloat * up);
-		void setPerspectiveFromAngle(Camera * camera, GLfloat fovy, GLfloat aspectRatio);
+		void lookAt(GLfloat * c, GLfloat * aim, GLfloat * up);
+		void setPerspectiveFromAngle(GLfloat fovy, GLfloat aspectRatio);
 
-		void updateView(Camera * camera);
-		void updateProjection(Camera * camera);
-
-		void deleteCamera(Camera * camera);
-		
+		void updateView();
+		void updateProjection();
 
 	private :
 		// View Data
-		GLfloat c[3]; // Camera position 
-		GLfloat x[3]; // Camera axis x : right side
-		GLfloat y[3]; // Camera axis y : up
-		GLfloat z[3]; // Camera axis z : backward
-		GLfloat view[16];
+		GLfloat _position[3]; // Camera position 
+		GLfloat _xAxis[3]; // Camera axis x : right side
+		GLfloat _yAxis[3]; // Camera axis y : up
+		GLfloat _zAxis[3]; // Camera axis z : backward
+		GLfloat _view[16];
 
-		GLfloat aim[3];
+		GLfloat _aim[3];
 
 		// Projection data
-		bool perspectiveProjection; // persepective projection:true / orthographic projection:false
-		GLfloat left; // x coord from center to left plane of frustum
-		GLfloat right; // x coord from center to right plane of frustum
-		GLfloat bottom; // y coord from center to bottom plane of frustum
-		GLfloat top; // y coord from center to top plane of frustum
-		GLfloat near; // z coord from c to near plane of frustum
-		GLfloat far; // z coord from c to far plane of frustum
-		GLfloat projection[16];*/
+		bool _perspectiveProjection; // persepective projection:true / orthographic projection:false
+		GLfloat _left; // x coord from center to left plane of frustum
+		GLfloat _right; // x coord from center to right plane of frustum
+		GLfloat _bottom; // y coord from center to bottom plane of frustum
+		GLfloat _top; // y coord from center to top plane of frustum
+		GLfloat _near; // z coord from c to near plane of frustum
+		GLfloat _far; // z coord from c to far plane of frustum
+		GLfloat _projection[16];
 };
 
 #endif

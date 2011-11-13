@@ -56,3 +56,147 @@ GLubyte * loadPPM(const char * const fn, unsigned int& w, unsigned int& h)
 
 	return img;
 }
+
+// To normalize a vector
+void normalize (GLfloat * a)
+{
+	GLfloat norm=sqrt(a[0]*a[0]+a[1]*a[1]+a[2]*a[2]);
+	if (norm!=0.0)
+	{
+	    a[0]/=norm;
+	    a[1]/=norm;
+	    a[2]/=norm;
+	}
+}
+
+GLfloat getNorm (GLfloat * a){
+	return sqrt(a[0]*a[0]+a[1]*a[1]+a[2]*a[2]);
+}
+
+
+// To get the vector product
+void vectorProduct (GLfloat * a, GLfloat * b, GLfloat * result)
+{
+	result[0]=a[1]*b[2] - a[2]*b[1];
+	result[1]=a[2]*b[0] - a[0]*b[2];
+	result[2]=a[0]*b[1] - a[1]*b[0];
+}
+
+// Does the multiplication A=A*B : all the matrices are described column-major
+void multMatrixBtoMatrixA(GLfloat * A, GLfloat * B)
+{
+    int i=0; // row index
+    int j=0; // column index
+    GLfloat temp[16];
+    
+    for (int iValue=0 ; iValue<16 ; iValue++)
+    {
+        temp[iValue]=0;
+        //j=iValue%4; // if raw-major
+        //i=iValue/4; // if raw-major
+        i=iValue%4; // if column-major
+        j=iValue/4; // if column-major
+        for (int k=0 ; k<4 ; k++)
+        {
+            int indexik=k*4+i;
+            int indexkj=j*4+k;
+            temp[iValue]+=A[indexik]*B[indexkj];
+        }
+    }
+    
+    for (int iValue=0 ; iValue<16 ; iValue++)
+        A[iValue]=temp[iValue];
+}
+
+
+// Sets the provided matrix to identity
+void setToIdentity(GLfloat * matrix)
+{
+    GLfloat I[]={1.0, 0.0, 0.0, 0.0, 
+                 0.0, 1.0, 0.0, 0.0, 
+                 0.0, 0.0, 1.0, 0.0, 
+                 0.0, 0.0, 0.0, 1.0};
+    for (int iMatrixCoord=0 ; iMatrixCoord<16 ; iMatrixCoord++)
+        matrix[iMatrixCoord]=I[iMatrixCoord];
+
+}
+
+
+// Sets the provided matrix to a translate matrix on vector t
+void setToTranslate(GLfloat * matrix, GLfloat * t)
+{
+    GLfloat T[]={1.0,   0.0,   0.0,   0.0,
+                 0.0,   1.0,   0.0,   0.0,
+                 0.0,   0.0,   1.0,   0.0,
+                 t[0],  t[1],  t[2],  1.0}; 
+    for (int iMatrixCoord=0 ; iMatrixCoord<16 ; iMatrixCoord++)
+        matrix[iMatrixCoord]=T[iMatrixCoord];
+}
+
+
+// Sets the provided matrix to a scale matrix by coeficients in s
+void setToScale(GLfloat * matrix, GLfloat * s)
+{
+    GLfloat S[]={s[0], 0.0,  0.0,  0.0,
+                 0.0,  s[1], 0.0,  0.0,
+                 0.0,  0.0,  s[2], 0.0,
+                 0.0,  0.0,  0.0,  1.0};  
+    for (int iMatrixCoord=0 ; iMatrixCoord<16 ; iMatrixCoord++)
+        matrix[iMatrixCoord]=S[iMatrixCoord];
+}
+
+
+// Sets the provided matrix to a rotate matrix of angle "angle", around axis "axis"
+void setToRotate(GLfloat * matrix, GLfloat angle, GLfloat * axis)
+{
+    GLfloat c=cos(angle);
+    GLfloat s=sin(angle);
+    GLfloat x=axis[0]; 
+    GLfloat y=axis[1]; 
+    GLfloat z=axis[2];
+
+    if ((x==1.0) && (y==0.0) && (z==0.0))
+    {
+        GLfloat R[]={1.0, 0.0, 0.0, 0.0, 
+                     0.0, c,   s,   0.0, 
+                     0.0, -s,  c,   0.0, 
+                     0.0, 0.0, 0.0, 1.0};
+        for (int iMatrixCoord=0 ; iMatrixCoord<16 ; iMatrixCoord++)
+            matrix[iMatrixCoord]=R[iMatrixCoord];
+    }
+    else
+    {
+        if ((x==0.0) && (y==1.0) && (z==0.0))
+        {                    
+            GLfloat R[]={c,   0.0, -s,  0.0, 
+                         0.0, 1.0, 0.0, 0.0, 
+                         s,   0.0, c,   0.0, 
+                         0.0, 0.0, 0.0, 1.0};
+            for (int iMatrixCoord=0 ; iMatrixCoord<16 ; iMatrixCoord++)
+                matrix[iMatrixCoord]=R[iMatrixCoord];
+        }
+        else
+        {
+
+            if ((x==0.0) && (y==0.0) && (z==1.0))
+            {                                          
+                GLfloat R[]={c,   s,   0.0, 0.0, 
+                             -s,  c,   0.0, 0.0, 
+                             0.0, 0.0, 1.0, 0.0, 
+                             0.0, 0.0, 0.0, 1.0};
+                for (int iMatrixCoord=0 ; iMatrixCoord<16 ; iMatrixCoord++)
+                    matrix[iMatrixCoord]=R[iMatrixCoord];
+            }
+            else
+            {
+                GLfloat R[]={ (1.0-c)*(x*x-1.0) + 1.0, (1.0-c)*x*y + (z*s),     (1.0-c)*x*z - (y*s),      0.0, 
+                              (1.0-c)*x*y - (z*s),     (1.0-c)*(y*y-1.0) + 1.0, (1.0-c)*y*z + (x*s),      0.0, 
+                              (1.0-c)*x*z + (y*s),     (1.0-c)*y*z - (x*s),     (1.0-c)*(z*z-1.0) + 1.0,  0.0, 
+                              0.0,                     0.0,                     0.0,                      1.0};
+                for (int iMatrixCoord=0 ; iMatrixCoord<16 ; iMatrixCoord++)
+                    matrix[iMatrixCoord]=R[iMatrixCoord];
+                std::cout<<"Rotation on non standard axis."<<std::endl;
+            }
+        }
+    }
+}
