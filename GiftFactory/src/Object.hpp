@@ -1,7 +1,9 @@
 #ifndef __OBJECT_HPP__
 #define __OBJECT_HPP__
 
-#include "ShaderManager.hpp"
+#include "Utils.hpp"
+
+class ShaderManager;
 
 class Object
 {

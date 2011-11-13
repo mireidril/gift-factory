@@ -1,7 +1,9 @@
 #ifndef __SCENE_HPP__
 #define __SCENE_HPP__
 
-#include "Object.hpp"
+#include "Utils.hpp"
+
+class Object;
 
 class Scene
 {
