@@ -1,4 +1,5 @@
 #include "Object.hpp"
+#include "ShaderManager.hpp"
 
 Object::Object()
 : m_uiNbTextures(0)

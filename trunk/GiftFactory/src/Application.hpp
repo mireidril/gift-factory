@@ -1,7 +1,9 @@
 #ifndef __APPLICATION_HPP__
 #define __APPLICATION_HPP__
 
-#include "Scene.hpp"
+#include "Utils.hpp"
+
+class Scene;
 
 //Main class of the program
 class Application

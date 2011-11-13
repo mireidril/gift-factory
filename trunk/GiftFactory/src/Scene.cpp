@@ -1,4 +1,6 @@
 #include "Scene.hpp"
+#include "Object.hpp"
+#include "ShaderManager.hpp"
 
 Scene::Scene()
 {}
