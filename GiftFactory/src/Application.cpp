@@ -107,8 +107,8 @@ void Application::initGL()
 void Application::initScenes()
 {
 	// TODO : A REMPLACER
-	m_vScenes.push_back(Scene());
-	m_vScenes[0].init();
+	m_vScenes.push_back(new Scene());
+	m_vScenes[0]->init();
 	m_vSceneRendered.push_back(0);
 }
 
@@ -116,10 +116,10 @@ void Application::reshapeWindow(int iNewWidth, int iNewHeight)
 {
 	//TODO : EN OPENGL3 ?
 	float ratio = (float)iNewWidth/(float)iNewHeight;
-	glViewport(0, 0, (GLint)iNewWidth, (GLint)iNewWidth);
+//	glViewport(0, 0, (GLint)iNewWidth, (GLint)iNewWidth);
 
 	m_uiWindowWidth = iNewWidth;
-	m_uiWindowHeight = iNewWidth;
+	m_uiWindowHeight = iNewHeight;
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
@@ -128,6 +128,13 @@ void Application::reshapeWindow(int iNewWidth, int iNewHeight)
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
+
+	// Copier de Arrows : 
+	//SDL_VideoMode update (may be unnecessary, and not woking proberly on some operating systems) (Comment on MacOSX 10.6)
+	screen = SDL_SetVideoMode(m_uiWindowWidth, m_uiWindowHeight, 0,  SDL_OPENGL | SDL_RESIZABLE);
+
+    // Viewport transformation update to fit window size
+    glViewport(0, 0, m_uiWindowWidth, m_uiWindowHeight);
 }
 
 void Application::checkEvents()
@@ -219,7 +226,7 @@ void Application::update()
 		for(unsigned int i = 0; i < m_vSceneRendered.size(); ++i)
 		{
 			unsigned int uiId = m_vSceneRendered[i];
-			m_vScenes[uiId].render();
+			m_vScenes[uiId]->render();
 		}
 	}
 }

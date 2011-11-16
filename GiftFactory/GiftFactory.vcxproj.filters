@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="shaders">
+      <UniqueIdentifier>{e501bbc8-6bc0-400c-9382-8f62d7ed77b7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -36,6 +39,9 @@
     <ClCompile Include="src\Utils.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
+    <ClCompile Include="src\model_obj.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Application.hpp">
@@ -56,5 +62,28 @@
     <ClInclude Include="src\Utils.hpp">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
+    <ClInclude Include="src\model_obj.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shaders\earthShader.vert">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\color.frag">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\color.vert">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\earthShader.frag">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\texture2D.frag">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\texture2D.vert">
+      <Filter>shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

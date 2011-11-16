@@ -1,17 +1,23 @@
 #include "Object.hpp"
 #include "ShaderManager.hpp"
 
-Object::Object()
+
+Object::Object(const char* filename, bool enableTextures)
 : m_uiNbTextures(0)
 , m_iTextureIds(NULL)
 , m_sShaderName("")
+, objFileName(filename)
+, g_enableTextures(enableTextures)
 {
 	m_shaderManager = ShaderManager::getInstance();
+
+	init();
 }
 
 Object::~Object()
 {
 	//Textures deletion ?
+	
 }
 
 void Object::init()
@@ -24,12 +30,173 @@ void Object::init()
 		m_uiShaderId = m_shaderManager->addShaders(m_sShaderName, false);
 	}
 
-	//Textures initialization ?
+	// Mesh initialisation
+	std::cout << "obj to load : " << objFileName << std::endl;
+	if (!g_model.import(objFileName))
+    {
+        SetCursor(LoadCursor(0, IDC_ARROW));
+		std::cout << "Failed to load model " << std::endl;
+        throw std::runtime_error("Failed to load model.");
+    }
+    else 
+		g_model.normalize();
 
+	//Textures initialization
+	if(g_enableTextures){
+		
+		const ModelOBJ::Material *pMaterial = (g_model.getMesh(0)).pMaterial;
+		glGenTextures(pMaterial->textures.size(), &m_iTextureIds);
+
+		for(unsigned int i = 0 ; i < pMaterial->textures.size() ; i++){
+
+			glBindTexture(GL_TEXTURE_2D,m_iTextureIds+i);
+
+	  		unsigned int tmpwidth, tmpheight;
+			std::string texFile = "./objects/" + pMaterial->textures[i]->texFileName;
+			std::cout << "texFile = " << texFile << std::endl;
+	  		unsigned char * image = loadPPM(texFile.c_str(), tmpwidth, tmpheight);
+
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, tmpwidth, tmpheight, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
+
+			delete[] image;
+
+		}
+
+		/*
+
+			// Loading texture
+			m_texFileName = "./objects/" + (g_model.getMesh(0)).pMaterial->colorMapFilename;
+			std::cout << m_texFileName << std::endl;
+			unsigned int width, height = 0;
+			GLubyte * img = loadPPM(m_texFileName.c_str(), width, height);
+		
+			if(!img){
+				std::cerr << "Texture error : the file \"" << m_texFileName << "\" does not exist." << std::endl;
+			}
+			else{
+				
+				glBindTexture(GL_TEXTURE_2D, m_iTextureIds);
+	
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+			
+				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, img);
+			}
+
+			
+		}*/
+		
+	}
 	//Buffer
 }
 
 void Object::draw()
 {
 	//Draw here
+	const ModelOBJ::Mesh *pMesh = 0;
+    const ModelOBJ::Material *pMaterial = 0;
+    const ModelOBJ::Vertex *pVertices = 0;
+    ModelTextures::const_iterator iter;
+	GLuint texture = 0;
+
+    for (int i = 0; i < g_model.getNumberOfMeshes(); ++i)
+    {
+        pMesh = &g_model.getMesh(i);
+        pMaterial = pMesh->pMaterial;
+        pVertices = g_model.getVertexBuffer();
+
+        glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, pMaterial->ambient);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, pMaterial->diffuse);
+        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, pMaterial->specular);
+        glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, pMaterial->shininess * 128.0f);
+		
+        if (g_enableTextures)
+        {
+			glEnable(GL_TEXTURE_2D);
+			for(unsigned int i = 0 ; i < pMaterial->textures.size() ; i++){
+				glActiveTexture( GL_TEXTURE0+i );
+				glBindTexture(GL_TEXTURE_2D,m_iTextureIds+i);
+				glUniform1i( glGetUniformLocation( ShaderManager::getInstance()->getShaderProgramId("texture2D"), pMaterial->textures[i]->shaderUniformName.c_str() ), i );
+			}
+	  	
+			/*
+			glEnable(GL_TEXTURE_2D);
+            glBindTexture(GL_TEXTURE_2D, m_iTextureIds);
+			glUniform1i( glGetUniformLocation( ShaderManager::getInstance()->getShaderProgramId("texture2D"), "diffuseTexture" ), 0 );
+			*/
+        }
+        else
+        {
+            glDisable(GL_TEXTURE_2D);
+        }
+		
+        if (g_model.hasPositions())
+        {
+            glEnableClientState(GL_VERTEX_ARRAY);
+            glVertexPointer(3, GL_FLOAT, g_model.getVertexSize(), g_model.getVertexBuffer()->position);
+        }
+
+        if (g_model.hasTextureCoords())
+        {
+            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+            glTexCoordPointer(2, GL_FLOAT, g_model.getVertexSize(), g_model.getVertexBuffer()->texCoord);
+        }
+
+        if (g_model.hasNormals())
+        {
+            glEnableClientState(GL_NORMAL_ARRAY);
+            glNormalPointer(GL_FLOAT, g_model.getVertexSize(), g_model.getVertexBuffer()->normal);
+        }
+
+        glDrawElements(GL_TRIANGLES, pMesh->triangleCount * 3, GL_UNSIGNED_INT, g_model.getIndexBuffer() + pMesh->startIndex);
+
+        if (g_model.hasNormals())
+            glDisableClientState(GL_NORMAL_ARRAY);
+
+        if (g_model.hasTextureCoords())
+            glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+
+        if (g_model.hasPositions())
+            glDisableClientState(GL_VERTEX_ARRAY);
+    }
+	
+}
+
+
+GLuint Object::LoadTexture(const char *pszFilename)
+{
+    GLuint id = 0;
+    //Bitmap bitmap;
+/*
+    if (bitmap.loadPicture(pszFilename))
+    {
+        // The Bitmap class loads images and orients them top-down.
+        // OpenGL expects bitmap images to be oriented bottom-up.
+        bitmap.flipVertical();
+
+        glGenTextures(1, &id);
+        glBindTexture(GL_TEXTURE_2D, id);
+
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+        if (g_maxAnisotrophy > 1.0f)
+        {
+            glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT,
+                g_maxAnisotrophy);
+        }
+
+        gluBuild2DMipmaps(GL_TEXTURE_2D, 4, bitmap.width, bitmap.height,
+            GL_BGRA_EXT, GL_UNSIGNED_BYTE, bitmap.getPixels());
+    }
+*/
+    return id;
 }

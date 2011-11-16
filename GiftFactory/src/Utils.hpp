@@ -19,7 +19,7 @@
 
 // PPM Loading
 GLubyte * loadPPM(const char * const fn, unsigned int& w, unsigned int& h);
-
+void invertPicture( GLubyte * img, unsigned int& w, unsigned int& h );
 void normalize (GLfloat * a);
 GLfloat getNorm (GLfloat * a);
 void vectorProduct (GLfloat * a, GLfloat * b, GLfloat * result);
