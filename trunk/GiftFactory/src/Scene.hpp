@@ -2,6 +2,7 @@
 #define __SCENE_HPP__
 
 #include "Utils.hpp"
+#include "Object.hpp"
 
 class Object;
 
@@ -16,6 +17,7 @@ class Scene
 
 	private :
 		//Objets id
+		std::vector<Object*> objects;
 };
 
 #endif

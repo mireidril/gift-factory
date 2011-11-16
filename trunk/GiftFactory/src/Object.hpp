@@ -2,22 +2,33 @@
 #define __OBJECT_HPP__
 
 #include "Utils.hpp"
+#include "model_obj.h"
 
 class ShaderManager;
+
+typedef std::map<std::string, GLuint> ModelTextures;
 
 class Object
 {
 	public :
-		Object();
+		Object(const char* filename, bool enableTextures = true);
 		~Object();
 
 		void init();
 		void draw();
+		GLuint LoadTexture(const char *pszFilename);
 
 	private :
+		// Mesh Datas
+		const char* objFileName;
+		ModelOBJ	g_model;
+		ModelTextures	g_modelTextures;
+
 		//Textures
+		bool g_enableTextures;
 		unsigned int m_uiNbTextures;
-		GLuint *m_iTextureIds;
+		GLuint m_iTextureIds;
+		std::string m_texFileName;
 
 		//Shader
 		const char* m_sShaderName;

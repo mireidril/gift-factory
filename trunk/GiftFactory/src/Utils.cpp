@@ -38,14 +38,14 @@ GLubyte * loadPPM(const char * const fn, unsigned int& w, unsigned int& h)
 						i += sscanf_s(head, "%d", &d);
 		}
 		img = new GLubyte[(size_t)(w) * (size_t)(h) * 3];
-	
+		
 		if(img==NULL)
 		{
 			fclose(f);
 			return 0;
 		}
-
 		(void)fread(img, sizeof(GLubyte), (size_t)w*(size_t)h*3,f);
+		invertPicture(img, w, h);
 		fclose(f);
 	}
 	else
@@ -55,6 +55,19 @@ GLubyte * loadPPM(const char * const fn, unsigned int& w, unsigned int& h)
 	}
 
 	return img;
+}
+
+void invertPicture( GLubyte * img, unsigned int& w, unsigned int& h ){
+	for( unsigned int i = 0 ; i < (w*h*3)/2 ; i+=3){
+		/*GLubyte temp = img[(w*h*3)-i];
+		img[(w*h*3)-i] = img[i];
+		img[i] = temp;*/
+		for( int k = 0 ; k < 3 ; k++){
+			GLubyte temp = img[i+k];
+			img[i+k] = img[(w*h*3)-i-(3-k)];
+			img[(w*h*3)-i-(3-k)] = temp;
+		}
+	}
 }
 
 // To normalize a vector
