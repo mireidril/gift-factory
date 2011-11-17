@@ -1,4 +1,5 @@
 #include "Camera.hpp"
+#include "Spline.hpp"
 
 Camera::Camera()
 {
@@ -19,6 +20,35 @@ Camera::Camera()
     setProjectionData(-l, l, -l, l, 0.1, 250.0);
 	setToIdentity(_projection);
     updateProjection();
+
+	//tests spline 
+	std::vector<ModelOBJ::Vertex> vertices;
+	ModelOBJ::Vertex v1;
+	v1.position[0] = 1;
+	v1.position[1] = 1;
+	v1.position[2] = 1;
+	vertices.push_back(v1);
+	ModelOBJ::Vertex v2;
+	v2.position[0] = 3;
+	v2.position[1] = 3;
+	v2.position[2] = 3;
+	vertices.push_back(v2);
+	ModelOBJ::Vertex v3;
+	v3.position[0] = 4;
+	v3.position[1] = 6;
+	v3.position[2] = 4;
+	vertices.push_back(v3);
+	ModelOBJ::Vertex v4;
+	v4.position[0] = 9;
+	v4.position[1] = 9;
+	v4.position[2] = 12;
+	vertices.push_back(v4);
+	ModelOBJ::Vertex v5;
+	v5.position[0] = 11;
+	v5.position[1] = 11;
+	v5.position[2] = 11;
+	vertices.push_back(v5);
+	_spline = new Spline(vertices, 20);
 }
 
 Camera::~Camera()

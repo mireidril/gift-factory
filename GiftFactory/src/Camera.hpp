@@ -3,6 +3,8 @@
 
 #include "Utils.hpp"
 
+class Spline;
+
 class Camera
 {
 	public :
@@ -37,6 +39,8 @@ class Camera
 		GLfloat _near; // z coord from c to near plane of frustum
 		GLfloat _far; // z coord from c to far plane of frustum
 		GLfloat _projection[16];
+
+		Spline* _spline;
 };
 
 #endif
