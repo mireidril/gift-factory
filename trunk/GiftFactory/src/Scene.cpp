@@ -23,7 +23,7 @@ void Scene::render()
 	//Draw here
 
 	//TODO : TEST à virer
-	glUseProgramObjectARB(ShaderManager::getInstance()->getShaderProgramId("texture2D") );
+//	glUseProgramObjectARB(ShaderManager::getInstance()->getShaderProgramId("texture2D") ); // Maintenant dans le draw de chaque objet -> a améliorer ?
 	glPushMatrix();
 	glTranslatef(0.f, 0.f, -3.f);
 	

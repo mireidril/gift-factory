@@ -63,6 +63,7 @@ public:
         std::string name;
         std::string colorMapFilename;
         std::string bumpMapFilename;
+		std::string shaderName;
 		std::vector<Texture*> textures;
     };
 

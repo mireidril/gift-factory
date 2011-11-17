@@ -1,14 +1,135 @@
-﻿La génération a démarré 17/11/2011 00:38:27.
+﻿La génération a démarré 17/11/2011 15:48:44.
      1>Projet "C:\Users\Nonore\Documents\IMAC\GiftFactory\GiftFactory\GiftFactory.vcxproj" sur le nœud 2 (build cible(s)).
      1>InitializeBuildStatus:
          Création de "Debug\GiftFactory.unsuccessfulbuild", car "AlwaysCreate" a été spécifié.
        ClCompile:
-         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I../Dependencies/include /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt src\Object.cpp
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I../Dependencies/include /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt src\Object.cpp src\Scene.cpp src\model_obj.cpp
+         model_obj.cpp
+     1>c:\users\nonore\documents\imac\giftfactory\giftfactory\src\model_obj.cpp(164): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(234) : voir la déclaration de 'fopen'
+     1>c:\users\nonore\documents\imac\giftfactory\giftfactory\src\model_obj.cpp(808): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(253) : voir la déclaration de 'fscanf'
+     1>c:\users\nonore\documents\imac\giftfactory\giftfactory\src\model_obj.cpp(813): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(253) : voir la déclaration de 'fscanf'
+     1>c:\users\nonore\documents\imac\giftfactory\giftfactory\src\model_obj.cpp(817): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(325) : voir la déclaration de 'sscanf'
+     1>c:\users\nonore\documents\imac\giftfactory\giftfactory\src\model_obj.cpp(818): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(253) : voir la déclaration de 'fscanf'
+     1>c:\users\nonore\documents\imac\giftfactory\giftfactory\src\model_obj.cpp(819): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(253) : voir la déclaration de 'fscanf'
+     1>c:\users\nonore\documents\imac\giftfactory\giftfactory\src\model_obj.cpp(822): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(253) : voir la déclaration de 'fscanf'
+     1>c:\users\nonore\documents\imac\giftfactory\giftfactory\src\model_obj.cpp(825): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(325) : voir la déclaration de 'sscanf'
+     1>c:\users\nonore\documents\imac\giftfactory\giftfactory\src\model_obj.cpp(827): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(253) : voir la déclaration de 'fscanf'
+     1>c:\users\nonore\documents\imac\giftfactory\giftfactory\src\model_obj.cpp(828): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(253) : voir la déclaration de 'fscanf'
+     1>c:\users\nonore\documents\imac\giftfactory\giftfactory\src\model_obj.cpp(831): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(253) : voir la déclaration de 'fscanf'
+     1>c:\users\nonore\documents\imac\giftfactory\giftfactory\src\model_obj.cpp(834): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(325) : voir la déclaration de 'sscanf'
+     1>c:\users\nonore\documents\imac\giftfactory\giftfactory\src\model_obj.cpp(836): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(253) : voir la déclaration de 'fscanf'
+     1>c:\users\nonore\documents\imac\giftfactory\giftfactory\src\model_obj.cpp(837): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(253) : voir la déclaration de 'fscanf'
+     1>c:\users\nonore\documents\imac\giftfactory\giftfactory\src\model_obj.cpp(840): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(253) : voir la déclaration de 'fscanf'
+     1>c:\users\nonore\documents\imac\giftfactory\giftfactory\src\model_obj.cpp(845): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(253) : voir la déclaration de 'fscanf'
+     1>c:\users\nonore\documents\imac\giftfactory\giftfactory\src\model_obj.cpp(846): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(253) : voir la déclaration de 'fscanf'
+     1>c:\users\nonore\documents\imac\giftfactory\giftfactory\src\model_obj.cpp(849): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(253) : voir la déclaration de 'fscanf'
+     1>c:\users\nonore\documents\imac\giftfactory\giftfactory\src\model_obj.cpp(856): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(325) : voir la déclaration de 'sscanf'
+     1>c:\users\nonore\documents\imac\giftfactory\giftfactory\src\model_obj.cpp(935): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(253) : voir la déclaration de 'fscanf'
+     1>c:\users\nonore\documents\imac\giftfactory\giftfactory\src\model_obj.cpp(944): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(253) : voir la déclaration de 'fscanf'
+     1>c:\users\nonore\documents\imac\giftfactory\giftfactory\src\model_obj.cpp(948): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(325) : voir la déclaration de 'sscanf'
+     1>c:\users\nonore\documents\imac\giftfactory\giftfactory\src\model_obj.cpp(949): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(253) : voir la déclaration de 'fscanf'
+     1>c:\users\nonore\documents\imac\giftfactory\giftfactory\src\model_obj.cpp(950): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(253) : voir la déclaration de 'fscanf'
+     1>c:\users\nonore\documents\imac\giftfactory\giftfactory\src\model_obj.cpp(966): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(253) : voir la déclaration de 'fscanf'
+     1>c:\users\nonore\documents\imac\giftfactory\giftfactory\src\model_obj.cpp(978): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(325) : voir la déclaration de 'sscanf'
+     1>c:\users\nonore\documents\imac\giftfactory\giftfactory\src\model_obj.cpp(980): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(253) : voir la déclaration de 'fscanf'
+     1>c:\users\nonore\documents\imac\giftfactory\giftfactory\src\model_obj.cpp(981): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(253) : voir la déclaration de 'fscanf'
+     1>c:\users\nonore\documents\imac\giftfactory\giftfactory\src\model_obj.cpp(1002): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(253) : voir la déclaration de 'fscanf'
+     1>c:\users\nonore\documents\imac\giftfactory\giftfactory\src\model_obj.cpp(1016): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(325) : voir la déclaration de 'sscanf'
+     1>c:\users\nonore\documents\imac\giftfactory\giftfactory\src\model_obj.cpp(1018): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(253) : voir la déclaration de 'fscanf'
+     1>c:\users\nonore\documents\imac\giftfactory\giftfactory\src\model_obj.cpp(1019): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(253) : voir la déclaration de 'fscanf'
+     1>c:\users\nonore\documents\imac\giftfactory\giftfactory\src\model_obj.cpp(1035): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(253) : voir la déclaration de 'fscanf'
+     1>c:\users\nonore\documents\imac\giftfactory\giftfactory\src\model_obj.cpp(1049): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(325) : voir la déclaration de 'sscanf'
+     1>c:\users\nonore\documents\imac\giftfactory\giftfactory\src\model_obj.cpp(1050): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(253) : voir la déclaration de 'fscanf'
+     1>c:\users\nonore\documents\imac\giftfactory\giftfactory\src\model_obj.cpp(1051): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(253) : voir la déclaration de 'fscanf'
+     1>c:\users\nonore\documents\imac\giftfactory\giftfactory\src\model_obj.cpp(1061): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(253) : voir la déclaration de 'fscanf'
+     1>c:\users\nonore\documents\imac\giftfactory\giftfactory\src\model_obj.cpp(1074): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(325) : voir la déclaration de 'sscanf'
+     1>c:\users\nonore\documents\imac\giftfactory\giftfactory\src\model_obj.cpp(1087): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(253) : voir la déclaration de 'fscanf'
+     1>c:\users\nonore\documents\imac\giftfactory\giftfactory\src\model_obj.cpp(1095): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(253) : voir la déclaration de 'fscanf'
+     1>c:\users\nonore\documents\imac\giftfactory\giftfactory\src\model_obj.cpp(1102): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(253) : voir la déclaration de 'fscanf'
+     1>c:\users\nonore\documents\imac\giftfactory\giftfactory\src\model_obj.cpp(1120): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(234) : voir la déclaration de 'fopen'
+     1>c:\users\nonore\documents\imac\giftfactory\giftfactory\src\model_obj.cpp(1131): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(253) : voir la déclaration de 'fscanf'
+     1>c:\users\nonore\documents\imac\giftfactory\giftfactory\src\model_obj.cpp(1138): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(325) : voir la déclaration de 'sscanf'
+     1>c:\users\nonore\documents\imac\giftfactory\giftfactory\src\model_obj.cpp(1154): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(253) : voir la déclaration de 'fscanf'
+     1>c:\users\nonore\documents\imac\giftfactory\giftfactory\src\model_obj.cpp(1160): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(253) : voir la déclaration de 'fscanf'
+     1>c:\users\nonore\documents\imac\giftfactory\giftfactory\src\model_obj.cpp(1174): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(253) : voir la déclaration de 'fscanf'
+     1>c:\users\nonore\documents\imac\giftfactory\giftfactory\src\model_obj.cpp(1182): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(253) : voir la déclaration de 'fscanf'
+     1>c:\users\nonore\documents\imac\giftfactory\giftfactory\src\model_obj.cpp(1190): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(253) : voir la déclaration de 'fscanf'
+     1>c:\users\nonore\documents\imac\giftfactory\giftfactory\src\model_obj.cpp(1204): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(253) : voir la déclaration de 'fscanf'
+     1>c:\users\nonore\documents\imac\giftfactory\giftfactory\src\model_obj.cpp(1215): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(253) : voir la déclaration de 'fscanf'
+     1>c:\users\nonore\documents\imac\giftfactory\giftfactory\src\model_obj.cpp(1219): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(253) : voir la déclaration de 'fscanf'
+     1>c:\users\nonore\documents\imac\giftfactory\giftfactory\src\model_obj.cpp(1234): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(325) : voir la déclaration de 'sscanf'
+     1>c:\users\nonore\documents\imac\giftfactory\giftfactory\src\model_obj.cpp(1240): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(325) : voir la déclaration de 'sscanf'
+     1>c:\users\nonore\documents\imac\giftfactory\giftfactory\src\model_obj.cpp(1248): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(325) : voir la déclaration de 'sscanf'
+     1>c:\users\nonore\documents\imac\giftfactory\giftfactory\src\model_obj.cpp(1263): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(325) : voir la déclaration de 'sscanf'
+     1>c:\users\nonore\documents\imac\giftfactory\giftfactory\src\model_obj.cpp(1292): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(325) : voir la déclaration de 'sscanf'
+         Scene.cpp
+     1>c:\program files (x86)\microsoft sdks\windows\v7.0a\include\windef.h(126): warning C4005: 'APIENTRY' : redéfinition de macro
+                 c:\users\nonore\documents\imac\giftfactory\dependencies\include\gl\glew.h(113) : voir la définition précédente de 'APIENTRY'
+     1>c:\program files (x86)\microsoft sdks\windows\v7.0a\include\wingdi.h(30): warning C4005: 'WINGDIAPI' : redéfinition de macro
+                 c:\users\nonore\documents\imac\giftfactory\dependencies\include\gl\glew.h(137) : voir la définition précédente de 'WINGDIAPI'
          Object.cpp
      1>c:\program files (x86)\microsoft sdks\windows\v7.0a\include\windef.h(126): warning C4005: 'APIENTRY' : redéfinition de macro
                  c:\users\nonore\documents\imac\giftfactory\dependencies\include\gl\glew.h(113) : voir la définition précédente de 'APIENTRY'
      1>c:\program files (x86)\microsoft sdks\windows\v7.0a\include\wingdi.h(30): warning C4005: 'WINGDIAPI' : redéfinition de macro
                  c:\users\nonore\documents\imac\giftfactory\dependencies\include\gl\glew.h(137) : voir la définition précédente de 'WINGDIAPI'
+         Génération de code en cours...
        ManifestResourceCompile:
          Toutes les sorties sont à jour.
        Link:
@@ -34,4 +155,4 @@
 
 La génération a réussi.
 
-Temps écoulé 00:00:03.88
+Temps écoulé 00:00:07.60
