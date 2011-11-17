@@ -22,14 +22,6 @@ Object::~Object()
 
 void Object::init()
 {
-	//Shader initialization
-	m_uiShaderId = m_shaderManager->getShaderProgramId(m_sShaderName);
-	if(m_uiShaderId == ERROR_VALUE)
-	{
-		//false if there are only vertex and fragment shader, or true if there are vertex, fragment and geometry shader
-		m_uiShaderId = m_shaderManager->addShaders(m_sShaderName, false);
-	}
-
 	// Mesh initialisation
 	std::cout << "obj to load : " << objFileName << std::endl;
 	if (!g_model.import(objFileName))
@@ -41,10 +33,10 @@ void Object::init()
     else 
 		g_model.normalize();
 
+	const ModelOBJ::Material *pMaterial = (g_model.getMesh(0)).pMaterial;
+
 	//Textures initialization
 	if(g_enableTextures){
-		
-		const ModelOBJ::Material *pMaterial = (g_model.getMesh(0)).pMaterial;
 		glGenTextures(pMaterial->textures.size(), &m_iTextureIds);
 
 		for(unsigned int i = 0 ; i < pMaterial->textures.size() ; i++){
@@ -65,39 +57,22 @@ void Object::init()
 			delete[] image;
 
 		}
-
-		/*
-
-			// Loading texture
-			m_texFileName = "./objects/" + (g_model.getMesh(0)).pMaterial->colorMapFilename;
-			std::cout << m_texFileName << std::endl;
-			unsigned int width, height = 0;
-			GLubyte * img = loadPPM(m_texFileName.c_str(), width, height);
-		
-			if(!img){
-				std::cerr << "Texture error : the file \"" << m_texFileName << "\" does not exist." << std::endl;
-			}
-			else{
-				
-				glBindTexture(GL_TEXTURE_2D, m_iTextureIds);
-	
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-			
-				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, img);
-			}
-
-			
-		}*/
-		
 	}
-	//Buffer
+
+	//Shader initialization
+	m_sShaderName = pMaterial->shaderName.c_str();
+	m_uiShaderId = m_shaderManager->getShaderProgramId(m_sShaderName);
+	if(m_uiShaderId == ERROR_VALUE)
+	{
+		//false if there are only vertex and fragment shader, or true if there are vertex, fragment and geometry shader
+		m_uiShaderId = m_shaderManager->addShaders(m_sShaderName, false);
+	}
 }
 
 void Object::draw()
 {
+	glUseProgramObjectARB(m_uiShaderId);
+
 	//Draw here
 	const ModelOBJ::Mesh *pMesh = 0;
     const ModelOBJ::Material *pMaterial = 0;
@@ -122,14 +97,9 @@ void Object::draw()
 			for(unsigned int i = 0 ; i < pMaterial->textures.size() ; i++){
 				glActiveTexture( GL_TEXTURE0+i );
 				glBindTexture(GL_TEXTURE_2D,m_iTextureIds+i);
-				glUniform1i( glGetUniformLocation( ShaderManager::getInstance()->getShaderProgramId("texture2D"), pMaterial->textures[i]->shaderUniformName.c_str() ), i );
+				glUniform1i( glGetUniformLocation( m_uiShaderId, pMaterial->textures[i]->shaderUniformName.c_str() ), i );
 			}
 	  	
-			/*
-			glEnable(GL_TEXTURE_2D);
-            glBindTexture(GL_TEXTURE_2D, m_iTextureIds);
-			glUniform1i( glGetUniformLocation( ShaderManager::getInstance()->getShaderProgramId("texture2D"), "diffuseTexture" ), 0 );
-			*/
         }
         else
         {

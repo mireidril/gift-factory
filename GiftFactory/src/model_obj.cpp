@@ -1155,6 +1155,7 @@ bool ModelOBJ::importMaterials(const char *pszFilename)
     {
         switch (buffer[0])
         {
+		
         case 'N': // Ns
             fscanf(pFile, "%f", &pMaterial->shininess);
 
@@ -1283,6 +1284,16 @@ bool ModelOBJ::importMaterials(const char *pszFilename)
             m_materialCache[pMaterial->name] = numMaterials;
             ++numMaterials;
             break;
+		
+		case 's':
+			if (strstr(buffer, "shader") != 0)
+            {
+				fgets(buffer, sizeof(buffer), pFile);
+				sscanf(buffer, "%s %s", buffer, buffer);
+				pMaterial = &m_materials[numMaterials];
+				pMaterial->shaderName = buffer;
+            }
+			break;
 
         default:
             fgets(buffer, sizeof(buffer), pFile);
