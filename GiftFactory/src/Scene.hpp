@@ -13,6 +13,7 @@ class Scene
 		~Scene();
 
 		void init();
+		void loadObj(const std::string setFile);
 		void render();
 
 	private :

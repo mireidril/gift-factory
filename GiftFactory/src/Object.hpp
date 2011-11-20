@@ -18,6 +18,9 @@ class Object
 		void draw();
 		GLuint LoadTexture(const char *pszFilename);
 
+		inline float * getTransformMat(){ return m_transformMat; };
+		inline void setTransformMat( float * transformMat ){ m_transformMat = transformMat; };
+
 	private :
 		// Mesh Datas
 		const char* objFileName;
@@ -38,6 +41,7 @@ class Object
 		ShaderManager* m_shaderManager;
 
 		//Transformation matrix
+		float * m_transformMat;
 };
 
 #endif
