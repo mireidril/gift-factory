@@ -10,7 +10,7 @@ Object::Object(const char* filename, bool enableTextures)
 , g_enableTextures(enableTextures)
 {
 	m_shaderManager = ShaderManager::getInstance();
-
+	m_transformMat = NULL;
 	init();
 }
 
@@ -77,16 +77,22 @@ void Object::draw()
 	const ModelOBJ::Mesh *pMesh = 0;
     const ModelOBJ::Material *pMaterial = 0;
     const ModelOBJ::Vertex *pVertices = 0;
-    ModelTextures::const_iterator iter;
-	GLuint texture = 0;
-
+	float modelViewProj[16];
+    
     for (int i = 0; i < g_model.getNumberOfMeshes(); ++i)
     {
         pMesh = &g_model.getMesh(i);
         pMaterial = pMesh->pMaterial;
         pVertices = g_model.getVertexBuffer();
 
-        glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, pMaterial->ambient);
+		// modelViewProj[16] = camera.getViewProjMatrix();
+        // multMatrixBtoMatrixA( camera.getViewProjMatrix(), objects[i].getModelMatrix());
+		// glUniformMatrix4fv(glGetUniformLocation( m_uiShaderId, "modelViewProj" ), 1, GL_TRUE, modelViewProj);
+		glUniformMatrix4fv(glGetUniformLocation( m_uiShaderId, "matTransform" ), 1, GL_TRUE, m_transformMat);
+		//for(int i = 0 ; i < 16; i++) std::cout << m_transformMat[i] << ", " ;
+		//std::cout<< std::endl;
+		
+		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, pMaterial->ambient);
         glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, pMaterial->diffuse);
         glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, pMaterial->specular);
         glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, pMaterial->shininess * 128.0f);
@@ -105,7 +111,7 @@ void Object::draw()
         {
             glDisable(GL_TEXTURE_2D);
         }
-		
+
         if (g_model.hasPositions())
         {
             glEnableClientState(GL_VERTEX_ARRAY);
