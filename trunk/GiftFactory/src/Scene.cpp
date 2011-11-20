@@ -1,6 +1,7 @@
 #include "Scene.hpp"
 #include "Object.hpp"
 #include "ShaderManager.hpp"
+#include "Camera.hpp"
 
 Scene::Scene()
 {}
@@ -14,6 +15,9 @@ void Scene::init()
 	ShaderManager::getInstance()->addShaders("texture2D", false);
 	loadObj("SET_test");
 	
+
+	//TODO : fonction setCamera
+	m_camera =  new Camera();
 }
 
 
@@ -59,12 +63,12 @@ void Scene::render()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	//Draw here
-
-	//TODO : TEST à virer
-//	glUseProgramObjectARB(ShaderManager::getInstance()->getShaderProgramId("texture2D") ); // Maintenant dans le draw de chaque objet -> a améliorer ?
-	glPushMatrix();
-	glTranslatef(0.f, 0.f, -3.f);
 	
+	//TODO : envoyer au shader actuellement utilise
+	GLfloat* view = getCamera()->getView();
+	glUniformMatrix4fv(glGetUniformLocation(ShaderManager::getInstance()->getShaderProgramId("texture2D"), "view"), 1, GL_FALSE, view);
+
+	//glUniform3f( glGetUniformLocation( earthProgram, "light" ), lightDir[0], lightDir[1], lightDir[2] );
 	//glutSolidTeapot( 1.0 );
 	for(unsigned int i = 0; i<objects.size() ; i++){
 		objects[i]->draw();

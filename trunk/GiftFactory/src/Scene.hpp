@@ -5,6 +5,7 @@
 #include "Object.hpp"
 
 class Object;
+class Camera;
 
 class Scene
 {
@@ -16,9 +17,12 @@ class Scene
 		void loadObj(const std::string setFile);
 		void render();
 
+		inline Camera* getCamera() {return m_camera;};
+
 	private :
 		//Objets id
 		std::vector<Object*> objects;
+		Camera* m_camera;
 };
 
 #endif

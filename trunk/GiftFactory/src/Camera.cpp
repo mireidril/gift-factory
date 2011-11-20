@@ -5,21 +5,12 @@ Camera::Camera()
 {
 	// View Data
     // Camera position and orientation  
-    GLfloat position[] = {0.0, 0.0, 1.0};
-
+	GLfloat position[] = {0.0, 0.0, 3.0};
+	std::cout<<"init camera"<<std::endl;
 	GLfloat aim[] = {0.0, 0.0, 0.0};
 
     GLfloat up[] = {0.0, 1.0, 0.0}; // Vector pointing over the camera
-    lookAt(_position, aim, up);
-
-    // Projection data
-    // Projection type : perspective:true / orthographic:false
-   _perspectiveProjection = true;
-    // Projection frustum data
-    GLfloat l = 1.0;
-    setProjectionData(-l, l, -l, l, 0.1, 250.0);
-	setToIdentity(_projection);
-    updateProjection();
+    lookAt(position, aim, up);
 
 	//tests spline 
 	std::vector<ModelOBJ::Vertex> vertices;
@@ -55,32 +46,6 @@ Camera::~Camera()
 {
 }
 
-void Camera::setProjectionData(GLfloat left, GLfloat right, GLfloat bottom, GLfloat top, GLfloat nearCam, GLfloat farCam){
-	_left = left;
-    _right = right;
-    _bottom = bottom;
-    _top = top;
-	_near = nearCam;
-	_far = farCam;
-}
-
-void Camera::switchCameraProjection(){
-	std::cout<<"Camera projection : ";
-	if (_perspectiveProjection)
-    {
-        std::cout<<"orthographic"<<std::endl;
-		_perspectiveProjection=false;
-    }
-	else
-    {
-        std::cout<<"perspective"<<std::endl;
-		_perspectiveProjection=true;
-    }
-
-    // Changes the matrix accordingly
-    updateProjection();
-}
-
 void Camera::lookAt(GLfloat * position, GLfloat * aim, GLfloat * up)
 {
     for (GLuint iCoord=0 ; iCoord<3; iCoord++)
@@ -107,6 +72,7 @@ void Camera::lookAt(GLfloat * position, GLfloat * aim, GLfloat * up)
 // Updates view
 void Camera::updateView()
 {
+	std::cout<<"position "<<_position[0]<<" "<<_position[1]<<" "<<_position[2]<<std::endl;
     // Rotation to be aligned with correct camera axis
     GLfloat RcInv[]={_xAxis[0], _yAxis[0], _zAxis[0], 0.0,
                      _xAxis[1], _yAxis[1], _zAxis[1], 0.0,
@@ -127,44 +93,6 @@ void Camera::updateView()
     multMatrixBtoMatrixA(_view, TcInv); 
 }
 
-// Set the perspective like gluPerspective
-void Camera::setPerspectiveFromAngle(GLfloat fovy, GLfloat aspectRatio)
-{
-    _top = _near * tan(fovy/2.0);
-    _bottom = - _top;
-    _left = _bottom * aspectRatio;
-    _right = _top * aspectRatio;
-    
-    updateProjection();
-}
 
-// Updates the projection matrix from the data
-void Camera::updateProjection()
-{  
-    GLfloat l =_left;
-    GLfloat r =_right;
-    GLfloat b =_bottom;
-    GLfloat t =_top;
-    GLfloat n =_near;
-    GLfloat f =_far;
 
-    if (_perspectiveProjection) // Perspective projection
-    {
-        GLfloat P[]={ (2.0*n)/(r-l), 0.0,           0.0,              0.0,
-                      0.0,           (2.0*n)/(t-b), 0.0,              0.0,
-                      (r+l)/(r-l),   (t+b)/(t-b),   -(f+n)/(f-n),    -1.0,
-                      0.0,           0.0,           -(2.0*f*n)/(f-n), 0.0}; // Perspective projection
-        for (int iMatrixCoord=0 ; iMatrixCoord<16 ; iMatrixCoord++)
-            _projection[iMatrixCoord]=P[iMatrixCoord];
-    }
-    else // Orthographic projection
-    { 
-        GLfloat P[]={ 2.0/(r-l),   0.0,         0.0,         0.0,
-                      0.0,         2.0/(t-b),   0.0,         0.0,
-                      0.0,         0.0,         -2.0/(f-n),  0.0,
-                    -(r+l)/(r-l), -(t+b)/(t-b), -(f+n)/(f-n), 1.0}; // Orthographic projection
-        for (int iMatrixCoord=0 ; iMatrixCoord<16 ; iMatrixCoord++)
-            _projection[iMatrixCoord]=P[iMatrixCoord];
-    }
-}
 

@@ -121,6 +121,28 @@ void multMatrixBtoMatrixA(GLfloat * A, GLfloat * B)
         A[iValue]=temp[iValue];
 }
 
+// Does the multiplication result=A*B : all the matrices are described column-major
+void multMatrixBtoMatrixA(GLfloat * A, GLfloat * B, GLfloat * result)
+{
+    int i=0; // row index
+    int j=0; // column index
+    
+    for (int iValue=0 ; iValue<16 ; iValue++)
+    {
+        result[iValue]=0;
+        //j=iValue%4; // if raw-major
+        //i=iValue/4; // if raw-major
+        i=iValue%4; // if column-major
+        j=iValue/4; // if column-major
+        for (int k=0 ; k<4 ; k++)
+        {
+            int indexik=k*4+i;
+            int indexkj=j*4+k;
+            result[iValue]+=A[indexik]*B[indexkj];
+        }
+    }
+}
+
 
 // Sets the provided matrix to identity
 void setToIdentity(GLfloat * matrix)

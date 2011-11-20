@@ -88,7 +88,7 @@ void Object::draw()
 		// modelViewProj[16] = camera.getViewProjMatrix();
         // multMatrixBtoMatrixA( camera.getViewProjMatrix(), objects[i].getModelMatrix());
 		// glUniformMatrix4fv(glGetUniformLocation( m_uiShaderId, "modelViewProj" ), 1, GL_TRUE, modelViewProj);
-		glUniformMatrix4fv(glGetUniformLocation( m_uiShaderId, "matTransform" ), 1, GL_TRUE, m_transformMat);
+		glUniformMatrix4fv(glGetUniformLocation( m_uiShaderId, "model" ), 1, GL_TRUE, m_transformMat);
 		//for(int i = 0 ; i < 16; i++) std::cout << m_transformMat[i] << ", " ;
 		//std::cout<< std::endl;
 		

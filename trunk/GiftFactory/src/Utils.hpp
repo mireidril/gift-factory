@@ -24,6 +24,7 @@ void normalize (GLfloat * a);
 GLfloat getNorm (GLfloat * a);
 void vectorProduct (GLfloat * a, GLfloat * b, GLfloat * result);
 void multMatrixBtoMatrixA(GLfloat * A, GLfloat * B);
+void multMatrixBtoMatrixA(GLfloat * A, GLfloat * B, GLfloat * result);
 void setToIdentity(GLfloat * matrix);
 void setToTranslate(GLfloat * matrix, GLfloat * t);
 void setToScale(GLfloat * matrix, GLfloat * s);

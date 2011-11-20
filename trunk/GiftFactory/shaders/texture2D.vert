@@ -2,7 +2,8 @@
 
 //uniform mat4 ProjectionModelviewMatrix;
 //uniform mat4 ModelviewMatrix;
-uniform mat4 matTransform;
+uniform mat4 model;
+uniform mat4 view;
 
 //attribute vec3 inVertex;
 //attribute vec2 inTexCoords;
@@ -13,8 +14,6 @@ uniform mat4 matTransform;
 void main()
 {
 	gl_TexCoord[0] = gl_MultiTexCoord0;
-	mat4 matModelViewProjObjet = matTransform * gl_ModelViewProjectionMatrix;
-	gl_Position = matModelViewProjObjet *gl_Vertex;// * vec4(inVertex, 1.0);
-	
+	gl_Position = gl_ProjectionMatrix * view * model * gl_Vertex;
 }
 
