@@ -3,6 +3,7 @@
 
 #include "Utils.hpp"
 #include "model_obj.h"
+#include <sdl/SDL_image.h>
 
 class ShaderManager;
 

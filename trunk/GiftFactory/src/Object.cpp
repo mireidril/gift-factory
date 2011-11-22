@@ -46,15 +46,16 @@ void Object::init()
 	  		unsigned int tmpwidth, tmpheight;
 			std::string texFile = "./objects/" + pMaterial->textures[i]->texFileName;
 			std::cout << "texFile = " << texFile << std::endl;
-	  		unsigned char * image = loadPPM(texFile.c_str(), tmpwidth, tmpheight);
+	  		//unsigned char * image = loadPPM(texFile.c_str(), tmpwidth, tmpheight);
+			SDL_Surface *surf = IMG_Load(texFile.c_str());
 
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, tmpwidth, tmpheight, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, surf->w, surf->h, 0, GL_RGB, GL_UNSIGNED_BYTE, surf->pixels);
 
-			delete[] image;
+			//delete[] image;
 
 		}
 	}
@@ -77,7 +78,7 @@ void Object::draw()
 	const ModelOBJ::Mesh *pMesh = 0;
     const ModelOBJ::Material *pMaterial = 0;
     const ModelOBJ::Vertex *pVertices = 0;
-	float modelViewProj[16];
+	//float modelViewProj[16];
     
     for (int i = 0; i < g_model.getNumberOfMeshes(); ++i)
     {
