@@ -15,6 +15,7 @@ class Scene
 
 		void init();
 		void loadObj(const std::string setFile);
+		void update();
 		void render();
 
 		inline Camera* getCamera() {return m_camera;};

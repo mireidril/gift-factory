@@ -1,7 +1,7 @@
 #include "Spline.hpp"
 
-Spline::Spline(const std::vector<ModelOBJ::Vertex> & vertices, int nbPoints)
-	:_nbPoints(nbPoints), _step(1/(double)nbPoints)
+Spline::Spline(const std::vector<PointSpline> & vertices, int nbPoints)
+	:_nbPoints(nbPoints), _step(1/(double)nbPoints), _currentPosition(0), _currentPointFrame(0)
 {
 	std::vector<double> nodes;
 	nodes.push_back(0.);
@@ -12,27 +12,49 @@ Spline::Spline(const std::vector<ModelOBJ::Vertex> & vertices, int nbPoints)
 	nodes.push_back(1.);
 	nodes.push_back(1.);
 	double t=0;
+
+	std::vector<std::pair<int, double>> splineCoefMax;
+	for (int i = 0 ; i<vertices.size() ; i++){
+		std::pair<int, double> pair;
+		pair.first = 0;
+		pair.second = 0;
+		splineCoefMax.push_back(pair);
+	}
+
 	while (t<1){
 		int nbIte = 0;
 		double posX = 0;
 		double posY = 0;
 		double posZ = 0;
-		std::vector<ModelOBJ::Vertex>::const_iterator it;
+		std::vector<PointSpline>::const_iterator it;
 		for (it=vertices.begin() ; it!=vertices.end() ; it++){
 			double splineCoef = computeCoefSpline(nbIte, 2, nodes, t);
 			posX += splineCoef * it->position[0];
 			posY += splineCoef * it->position[1];
 			posZ += splineCoef * it->position[2];
+			if (splineCoef > splineCoefMax[nbIte].second){
+				std::pair<int, double> pair;
+				pair.first = _splinePoints.size();
+				pair.second = splineCoef;
+				splineCoefMax[nbIte] = pair;
+			}
 			++nbIte;
 		}
-		ModelOBJ::Vertex pointSpline;
+		PointSpline pointSpline;
 		pointSpline.position[0] = posX;
 		pointSpline.position[1] = posY;
 		pointSpline.position[2] = posZ;
+		pointSpline.yaw = 0;
+		pointSpline.roll = 0;
+		pointSpline.pitch = 0;
+		pointSpline.nbFrames = 1;
 
 		_splinePoints.push_back(pointSpline);
 
 		t +=  _step;
+	}
+	for (int i=0 ; i<splineCoefMax.size() ; i++){
+		_splinePoints[splineCoefMax[i].first].nbFrames = vertices[i].nbFrames;
 	}
 }
 
@@ -70,5 +92,39 @@ double Spline::computeCoefSpline(int i, int d, const std::vector<double> & nodes
 			coef2 = ((nodes [i+d+1] - t) / (nodes[i+d+1] - nodes[i+1])) * computeCoefSpline(i+1, d-1, nodes, t);
 		}
 		return coef1 + coef2;
+	}
+}
+
+void Spline::moveForward(){
+	if (_currentPointFrame < _splinePoints[_currentPosition].nbFrames-1){
+		_currentPointFrame++;
+	}
+	else {
+		if (_currentPosition < _nbPoints-1){
+			_currentPosition++;
+			_currentPointFrame = 0;
+		}
+	}
+}
+
+Spline::PointSpline Spline::getCurrentPosition(){
+	return _splinePoints[_currentPosition];
+}
+
+Spline::PointSpline Spline::getLastPosition(){
+	if (_currentPosition>100){
+		return _splinePoints[_currentPosition-100];
+	}
+	else{
+		return _splinePoints[0];
+	}
+}
+	
+Spline::PointSpline Spline::getNextPosition(){
+	if (_currentPosition<_nbPoints-101){
+		return _splinePoints[_currentPosition+100];
+	}
+	else{
+		return _splinePoints[_nbPoints-1];
 	}
 }

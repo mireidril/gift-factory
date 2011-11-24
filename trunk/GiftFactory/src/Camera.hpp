@@ -15,7 +15,13 @@ class Camera
 
 		void updateView();
 
+		void moveForward();
+
 		inline GLfloat* getView () {return _view;};
+
+		void setPosition (GLfloat* position);
+
+		
 
 	private :
 		// View Data
