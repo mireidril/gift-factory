@@ -22,32 +22,39 @@ Camera::Camera()
 	vertices.push_back(v1);
 
 	Spline::PointSpline v2;
-	v2.position[0] = 1;
+	v2.position[0] = -2;
 	v2.position[1] = 0;
-	v2.position[2] = 10;
+	v2.position[2] = 9;
 	v2.nbFrames = 1;
 	vertices.push_back(v2);
 
 	Spline::PointSpline v3;
 	v3.position[0] = 0;
 	v3.position[1] = 0;
-	v3.position[2] = 5;
+	v3.position[2] = 6;
 	v3.nbFrames = 1;
 	vertices.push_back(v3);
 
 	Spline::PointSpline v4;
-	v4.position[0] = -2;
-	v4.position[1] = 0;
-	v4.position[2] = 3;
+	v4.position[0] = 2;
+	v4.position[1] = -1;
+	v4.position[2] = 5;
 	v4.nbFrames = 1;
 	vertices.push_back(v4);
 
 	Spline::PointSpline v5;
-	v5.position[0] = 0;
+	v5.position[0] = 3;
 	v5.position[1] = 0;
-	v5.position[2] = 1;
+	v5.position[2] = 2;
 	v5.nbFrames = 1;
 	vertices.push_back(v5);
+
+	Spline::PointSpline v6;
+	v6.position[0] = 1;
+	v6.position[1] = 0;
+	v6.position[2] = 1;
+	v6.nbFrames = 1;
+	vertices.push_back(v6);
 
 	_spline = new Spline(vertices, 5000);
 }
@@ -77,6 +84,7 @@ void Camera::lookAt(GLfloat * position, GLfloat * aim, GLfloat * up)
 
     // Builds the new view matrix
     updateView();
+	//std::cout<<_position[0]<<" "<<_position[1]<<" "<<_position[2]<<std::endl;
 }
 
 // Updates view
@@ -110,7 +118,7 @@ void Camera::moveForward(){
 	GLfloat* aim = new GLfloat[3];
 	aim[0] = cameraPos[0] + (_spline->getNextPosition().position[0] - _spline->getLastPosition().position[0]);
 	//TODO orientation vers le haut géré aussi par la spline ? modifier le up du coup
-	aim[1] = 0;
+	aim[1] = cameraPos[1];
 	aim[2] = cameraPos[2] + (_spline->getNextPosition().position[2] - _spline->getLastPosition().position[2]);
 	lookAt(cameraPos, aim, _yAxis);
 }

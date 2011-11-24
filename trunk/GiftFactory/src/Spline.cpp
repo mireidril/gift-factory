@@ -50,7 +50,6 @@ Spline::Spline(const std::vector<PointSpline> & vertices, int nbPoints)
 		pointSpline.nbFrames = 1;
 
 		_splinePoints.push_back(pointSpline);
-
 		t +=  _step;
 	}
 	for (int i=0 ; i<splineCoefMax.size() ; i++){
