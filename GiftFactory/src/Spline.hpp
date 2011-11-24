@@ -7,16 +7,36 @@
 class Spline
 {
 public:
-	Spline(const std::vector<ModelOBJ::Vertex> & vertices, int nbPoints = 10000);
+
+	struct PointSpline{
+		GLfloat position[3];
+		//rotation around up axis
+		GLfloat yaw;
+		//rotation around left axis
+		GLfloat pitch;
+		//rotation around lookAt axis
+		GLfloat roll;
+		GLuint nbFrames;
+	};
+
+	Spline(const std::vector<PointSpline> & vertices, int nbPoints = 10000);
 	~Spline();
 
 	double computeCoefSpline(int i, int d, const std::vector<double> & nodes, double t);
 
+	void moveForward();
+
+	PointSpline getCurrentPosition();
+	PointSpline getLastPosition();
+	PointSpline getNextPosition();
 
 private:
-	std::vector<ModelOBJ::Vertex> _splinePoints;
+	std::vector<PointSpline> _splinePoints;
 	int _nbPoints;
 	double _step;
+
+	GLuint _currentPosition;
+	GLuint _currentPointFrame;
 };
 
 #endif

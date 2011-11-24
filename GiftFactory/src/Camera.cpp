@@ -13,33 +13,43 @@ Camera::Camera()
     lookAt(position, aim, up);
 
 	//tests spline 
-	std::vector<ModelOBJ::Vertex> vertices;
-	ModelOBJ::Vertex v1;
-	v1.position[0] = 1;
-	v1.position[1] = 1;
-	v1.position[2] = 1;
+	std::vector<Spline::PointSpline> vertices;
+	Spline::PointSpline v1;
+	v1.position[0] = 0;
+	v1.position[1] = 0;
+	v1.position[2] = 12;
+	v1.nbFrames = 1;
 	vertices.push_back(v1);
-	ModelOBJ::Vertex v2;
-	v2.position[0] = 3;
-	v2.position[1] = 3;
-	v2.position[2] = 3;
+
+	Spline::PointSpline v2;
+	v2.position[0] = 1;
+	v2.position[1] = 0;
+	v2.position[2] = 10;
+	v2.nbFrames = 1;
 	vertices.push_back(v2);
-	ModelOBJ::Vertex v3;
-	v3.position[0] = 4;
-	v3.position[1] = 6;
-	v3.position[2] = 4;
+
+	Spline::PointSpline v3;
+	v3.position[0] = 0;
+	v3.position[1] = 0;
+	v3.position[2] = 5;
+	v3.nbFrames = 1;
 	vertices.push_back(v3);
-	ModelOBJ::Vertex v4;
-	v4.position[0] = 9;
-	v4.position[1] = 9;
-	v4.position[2] = 12;
+
+	Spline::PointSpline v4;
+	v4.position[0] = -2;
+	v4.position[1] = 0;
+	v4.position[2] = 3;
+	v4.nbFrames = 1;
 	vertices.push_back(v4);
-	ModelOBJ::Vertex v5;
-	v5.position[0] = 11;
-	v5.position[1] = 11;
-	v5.position[2] = 11;
+
+	Spline::PointSpline v5;
+	v5.position[0] = 0;
+	v5.position[1] = 0;
+	v5.position[2] = 1;
+	v5.nbFrames = 1;
 	vertices.push_back(v5);
-	_spline = new Spline(vertices, 20);
+
+	_spline = new Spline(vertices, 5000);
 }
 
 Camera::~Camera()
@@ -72,7 +82,6 @@ void Camera::lookAt(GLfloat * position, GLfloat * aim, GLfloat * up)
 // Updates view
 void Camera::updateView()
 {
-	std::cout<<"position "<<_position[0]<<" "<<_position[1]<<" "<<_position[2]<<std::endl;
     // Rotation to be aligned with correct camera axis
     GLfloat RcInv[]={_xAxis[0], _yAxis[0], _zAxis[0], 0.0,
                      _xAxis[1], _yAxis[1], _zAxis[1], 0.0,
@@ -93,6 +102,22 @@ void Camera::updateView()
     multMatrixBtoMatrixA(_view, TcInv); 
 }
 
+void Camera::moveForward(){
+	_spline->moveForward();
+	Spline::PointSpline splinePos = _spline->getCurrentPosition();
+	GLfloat cameraPos[] = {splinePos.position[0], splinePos.position[1], splinePos.position[2]};
+	//setPosition(cameraPos);
+	GLfloat* aim = new GLfloat[3];
+	aim[0] = cameraPos[0] + (_spline->getNextPosition().position[0] - _spline->getLastPosition().position[0]);
+	//TODO orientation vers le haut géré aussi par la spline ? modifier le up du coup
+	aim[1] = 0;
+	aim[2] = cameraPos[2] + (_spline->getNextPosition().position[2] - _spline->getLastPosition().position[2]);
+	lookAt(cameraPos, aim, _yAxis);
+}
 
-
+void Camera::setPosition(GLfloat* position){
+	_position[0] = position[0];
+	_position[1] = position[1];
+	_position[2] = position[2];
+}
 

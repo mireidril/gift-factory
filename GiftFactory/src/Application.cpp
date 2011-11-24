@@ -226,6 +226,7 @@ void Application::update()
 		for(unsigned int i = 0; i < m_vSceneRendered.size(); ++i)
 		{
 			unsigned int uiId = m_vSceneRendered[i];
+			m_vScenes[uiId]->update();
 			m_vScenes[uiId]->render();
 		}
 	}
