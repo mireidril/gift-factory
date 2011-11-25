@@ -1,5 +1,6 @@
 #include "Object.hpp"
 #include "ShaderManager.hpp"
+#include "Application.hpp"
 
 
 Object::Object(const char* filename, bool enableTextures)
@@ -42,20 +43,16 @@ void Object::init()
 		for(unsigned int i = 0 ; i < pMaterial->textures.size() ; i++){
 
 			glBindTexture(GL_TEXTURE_2D,m_iTextureIds+i);
-
-	  		unsigned int tmpwidth, tmpheight;
-			std::string texFile = "./objects/" + pMaterial->textures[i]->texFileName;
-			std::cout << "texFile = " << texFile << std::endl;
-	  		//unsigned char * image = loadPPM(texFile.c_str(), tmpwidth, tmpheight);
-			SDL_Surface *surf = IMG_Load(texFile.c_str());
-
+			
+			TextureManager::Texture* tex =  pMaterial->textures[i];
+			if(tex == 0)
+				std::cout << "Erreur texture : la texture n'a pas été chargée préalablement dans model_obj ?" << std::endl;
+			
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, surf->w, surf->h, 0, GL_RGB, GL_UNSIGNED_BYTE, surf->pixels);
-
-			//delete[] image;
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, tex->texPicture->w, tex->texPicture->h, 0, GL_RGB, GL_UNSIGNED_BYTE, tex->texPicture->pixels);
 
 		}
 	}

@@ -88,6 +88,7 @@
     <ClCompile Include="src\Scene.cpp" />
     <ClCompile Include="src\ShaderManager.cpp" />
     <ClCompile Include="src\Spline.cpp" />
+    <ClCompile Include="src\TextureManager.cpp" />
     <ClCompile Include="src\Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -98,6 +99,7 @@
     <ClInclude Include="src\Scene.hpp" />
     <ClInclude Include="src\ShaderManager.hpp" />
     <ClInclude Include="src\Spline.hpp" />
+    <ClInclude Include="src\TextureManager.hpp" />
     <ClInclude Include="src\Utils.hpp" />
   </ItemGroup>
   <ItemGroup>

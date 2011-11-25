@@ -28,6 +28,7 @@
 #include <map>
 #include <string>
 #include <vector>
+#include "TextureManager.hpp"
 
 //-----------------------------------------------------------------------------
 // Alias|Wavefront OBJ file loader.
@@ -46,12 +47,6 @@
 class ModelOBJ
 {
 public:
-	struct Texture
-	{
-		std::string texFileName;
-		std::string shaderUniformName;
-	};
-
     struct Material
     {
         float ambient[4];
@@ -64,7 +59,7 @@ public:
         std::string colorMapFilename;
         std::string bumpMapFilename;
 		std::string shaderName;
-		std::vector<Texture*> textures;
+		std::vector<TextureManager::Texture*> textures;
     };
 
     struct Vertex
