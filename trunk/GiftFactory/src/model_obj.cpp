@@ -1244,12 +1244,15 @@ bool ModelOBJ::importMaterials(const char *pszFilename)
 			{
 				fgets(buffer, sizeof(buffer), pFile);
 				char buffer2[256] = {0};
-				Texture* tex = new Texture();
                 sscanf(buffer, "%s %s", buffer, buffer2);
-				//std::cout << "buffer = " << buffer << std::endl; 
-				//std::cout << "buffer2 = " << buffer2 << std::endl;
-				tex->shaderUniformName = buffer;
-				tex->texFileName = buffer2;
+				
+				TextureManager::Texture* tex = TextureManager::getTextIfExist(buffer2);
+				if(tex == 0){
+					//std::cout << "la texture " << buffer2 << " n'existe pas encore -> Load and add to the textures vector " << std::endl;
+					tex = TextureManager::addAndLoadTexture(buffer2, buffer);
+				}
+				//else std::cout << "la texture " << buffer2 << " existe deja :) " << std::endl;
+				
 				pMaterial->textures.push_back(tex);
 			}
             else

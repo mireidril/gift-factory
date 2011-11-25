@@ -2,6 +2,7 @@
 #include "Scene.hpp"
 #include "ShaderManager.hpp"
 
+
 Application::Application()
 : m_bRunning(true)
 , screen(NULL)

@@ -9,6 +9,7 @@ class Scene;
 class Application
 {
 	public :
+		
 		Application();
 		virtual ~Application();
 
@@ -50,6 +51,7 @@ class Application
 		//Scenes
 		std::vector<Scene*> m_vScenes;
 		std::vector<unsigned int> m_vSceneRendered;		//Contains the position (of the vector "m_vScenes") of the scenes which are going to be rendered
+
 };
 
 #endif
