@@ -1,2 +1,3 @@
 - Clic droit sur le projet et cliquez sur "Personnalisations de la build" et cochez ensuite la case "CUDA 4.0"
 - Dans les Propriétés du projet, C/C++, Préprocesseur : rajouter _USING_CUDA_ dans "Définitions de préprocessseur"
+- Si le fichier cuda_functions.cu n'est pas présent dans les fichiers du projet sous Visual, ajoute le (il est dans le répertoire src/
