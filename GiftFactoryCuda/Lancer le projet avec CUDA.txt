@@ -1,0 +1,1 @@
+Dans les Propriétés du projet, C/C++, Préprocesseur : rajouter _USING_CUDA_ dans "Définitions de préprocessseur"
