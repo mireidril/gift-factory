@@ -1,1 +1,2 @@
-Dans les Propriétés du projet, C/C++, Préprocesseur : rajouter _USING_CUDA_ dans "Définitions de préprocessseur"
+- Clic droit sur le projet et cliquez sur "Personnalisations de la build" et cochez ensuite la case "CUDA 4.0"
+- Dans les Propriétés du projet, C/C++, Préprocesseur : rajouter _USING_CUDA_ dans "Définitions de préprocessseur"
