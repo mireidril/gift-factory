@@ -19,6 +19,9 @@ Camera::Camera()
 	v1.position[1] = 0;
 	v1.position[2] = 12;
 	v1.nbFrames = 1;
+	v1.yaw = 0;
+	v1.debutRotation = false;
+	v1.finRotation = false;
 	vertices.push_back(v1);
 
 	Spline::PointSpline v2;
@@ -26,6 +29,9 @@ Camera::Camera()
 	v2.position[1] = 0;
 	v2.position[2] = 9;
 	v2.nbFrames = 1;
+	v2.yaw = 0;
+	v2.debutRotation = true;
+	v2.finRotation = false;
 	vertices.push_back(v2);
 
 	Spline::PointSpline v3;
@@ -33,13 +39,22 @@ Camera::Camera()
 	v3.position[1] = 0;
 	v3.position[2] = 6;
 	v3.nbFrames = 1;
+	v3.yaw = -90;
+	v3.debutRotation = false;
+	v3.finRotation = true;
 	vertices.push_back(v3);
 
 	Spline::PointSpline v4;
 	v4.position[0] = 2;
 	v4.position[1] = -1;
 	v4.position[2] = 5;
-	v4.nbFrames = 1;
+	v4.nbFrames = 1000;
+	v4.yaw = 20;
+	v4.selfRotate = true;
+	v4.debutSelfRotate = 0;
+	v4.finSelfRotate = 1000;
+	v4.debutRotation = false;
+	v4.finRotation = false;
 	vertices.push_back(v4);
 
 	Spline::PointSpline v5;
@@ -47,6 +62,9 @@ Camera::Camera()
 	v5.position[1] = 0;
 	v5.position[2] = 2;
 	v5.nbFrames = 1;
+	v5.yaw = 20;
+	v5.debutRotation = true;
+	v5.finRotation = false;
 	vertices.push_back(v5);
 
 	Spline::PointSpline v6;
@@ -54,6 +72,9 @@ Camera::Camera()
 	v6.position[1] = 0;
 	v6.position[2] = 1;
 	v6.nbFrames = 1;
+	v6.yaw = 45;
+	v6.debutRotation = false;
+	v6.finRotation = true;
 	vertices.push_back(v6);
 
 	_spline = new Spline(vertices, 5000);
@@ -114,12 +135,21 @@ void Camera::moveForward(){
 	_spline->moveForward();
 	Spline::PointSpline splinePos = _spline->getCurrentPosition();
 	GLfloat cameraPos[] = {splinePos.position[0], splinePos.position[1], splinePos.position[2]};
-	//setPosition(cameraPos);
 	GLfloat* aim = new GLfloat[3];
 	aim[0] = cameraPos[0] + (_spline->getNextPosition().position[0] - _spline->getLastPosition().position[0]);
 	//TODO orientation vers le haut géré aussi par la spline ? modifier le up du coup
 	aim[1] = cameraPos[1];
 	aim[2] = cameraPos[2] + (_spline->getNextPosition().position[2] - _spline->getLastPosition().position[2]);
+	GLfloat vectDirect[3] = {aim[0] - cameraPos[0], 0, aim[2] - cameraPos[2]};
+	GLfloat* vectDirectRotated = new GLfloat[3];
+	vectDirectRotated[0] = vectDirect[0] * cos(_spline->getCurrentYaw()*3.1416/180) - vectDirect[2] * sin(_spline->getCurrentYaw()*3.1416/180);
+	vectDirectRotated[1] = 0;
+	vectDirectRotated[2] = vectDirect[0] * sin(_spline->getCurrentYaw()*3.1416/180) + vectDirect[2] * cos(_spline->getCurrentYaw()*3.1416/180);
+
+	aim[0] = cameraPos[0] + vectDirectRotated[0];
+	aim[1] = cameraPos[1] + vectDirectRotated[1];
+	aim[2] = cameraPos[2] + vectDirectRotated[2];
+
 	lookAt(cameraPos, aim, _yAxis);
 }
 

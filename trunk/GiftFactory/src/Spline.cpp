@@ -45,8 +45,8 @@ Spline::Spline(const std::vector<PointSpline> & vertices, int nbPoints)
 		pointSpline.position[1] = posY;
 		pointSpline.position[2] = posZ;
 		pointSpline.yaw = 0;
-		pointSpline.roll = 0;
-		pointSpline.pitch = 0;
+		//pointSpline.roll = 0;
+		//pointSpline.pitch = 0;
 		pointSpline.nbFrames = 1;
 
 		_splinePoints.push_back(pointSpline);
@@ -54,6 +54,28 @@ Spline::Spline(const std::vector<PointSpline> & vertices, int nbPoints)
 	}
 	for (int i=0 ; i<splineCoefMax.size() ; i++){
 		_splinePoints[splineCoefMax[i].first].nbFrames = vertices[i].nbFrames;
+		_splinePoints[splineCoefMax[i].first].selfRotate = vertices[i].selfRotate;
+		_splinePoints[splineCoefMax[i].first].debutSelfRotate = vertices[i].debutSelfRotate;
+		_splinePoints[splineCoefMax[i].first].finSelfRotate = vertices[i].finSelfRotate;
+		if (i+1<splineCoefMax.size()){
+			for (int j=splineCoefMax[i].first+1 ; j<splineCoefMax[i+1].first+1 ; j++){
+				_splinePoints[j].yaw = vertices[i].yaw;
+			}
+		}
+	}
+	for (int i=0 ; i<splineCoefMax.size() ; i++){
+		if (vertices[i].debutRotation){
+			int j=i;
+			while (!vertices[j].finRotation){
+				j++;
+			}
+			GLfloat coefDivise = splineCoefMax[j].first - splineCoefMax[i].first + 1;
+			GLfloat yawBegin = vertices[i].yaw;
+			GLfloat yawEnd = vertices[j].yaw;
+			for (int kPointSpline = 0 ; kPointSpline < coefDivise ; kPointSpline++){
+				_splinePoints[splineCoefMax[i].first + kPointSpline].yaw = ((yawEnd - yawBegin) / coefDivise) * kPointSpline + yawBegin;
+			}
+		}
 	}
 }
 
@@ -96,12 +118,27 @@ double Spline::computeCoefSpline(int i, int d, const std::vector<double> & nodes
 
 void Spline::moveForward(){
 	if (_currentPointFrame < _splinePoints[_currentPosition].nbFrames-1){
+		if (_splinePoints[_currentPosition].selfRotate){
+			if (_currentPointFrame >= _splinePoints[_currentPosition].debutSelfRotate && _currentPointFrame <= _splinePoints[_currentPosition].finSelfRotate){
+				GLfloat coefDivise =  _splinePoints[_currentPosition].finSelfRotate - _splinePoints[_currentPosition].debutSelfRotate + 1;
+				GLfloat yawBegin = _splinePoints[_currentPosition].yaw;
+				GLfloat yawEnd = _splinePoints[_currentPosition+1].yaw;
+				_currentYaw = ((yawEnd - yawBegin) / coefDivise) * (_currentPointFrame - _splinePoints[_currentPosition].debutSelfRotate) + yawBegin;
+			}
+			else if (_currentPointFrame < _splinePoints[_currentPosition].debutSelfRotate){
+				_currentYaw = _splinePoints[_currentPosition].yaw;
+			}
+		}
+		else {
+			_currentYaw = _splinePoints[_currentPosition].yaw;
+		}
 		_currentPointFrame++;
 	}
 	else {
 		if (_currentPosition < _nbPoints-1){
 			_currentPosition++;
 			_currentPointFrame = 0;
+			_currentYaw = _splinePoints[_currentPosition].yaw;
 		}
 	}
 }
