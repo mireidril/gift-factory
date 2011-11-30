@@ -13,9 +13,14 @@ public:
 		//rotation around up axis
 		GLfloat yaw;
 		//rotation around left axis
-		GLfloat pitch;
+		//GLfloat pitch;
 		//rotation around lookAt axis
-		GLfloat roll;
+		//GLfloat roll;
+		bool debutRotation;
+		bool finRotation;
+		bool selfRotate;
+		GLuint debutSelfRotate;
+		GLuint finSelfRotate;
 		GLuint nbFrames;
 	};
 
@@ -30,6 +35,8 @@ public:
 	PointSpline getLastPosition();
 	PointSpline getNextPosition();
 
+	inline GLfloat getCurrentYaw(){return _currentYaw;}; 
+
 private:
 	std::vector<PointSpline> _splinePoints;
 	int _nbPoints;
@@ -37,6 +44,7 @@ private:
 
 	GLuint _currentPosition;
 	GLuint _currentPointFrame;
+	GLfloat _currentYaw;
 };
 
 #endif
