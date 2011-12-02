@@ -104,6 +104,12 @@
     </CudaCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <None Include="shaders\color.frag" />
+    <None Include="shaders\color.vert" />
+    <None Include="shaders\earthShader.frag" />
+    <None Include="shaders\earthShader.vert" />
+    <None Include="shaders\texture2D.frag" />
+    <None Include="shaders\texture2D.vert" />
   </ItemGroup>
   <ItemGroup>
     <CudaCompile Include="src\cuda_functions.cu" />
