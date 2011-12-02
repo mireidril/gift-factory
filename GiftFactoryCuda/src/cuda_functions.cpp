@@ -8,4 +8,7 @@ SnowManager::SnowManager(const unsigned int & nbFlakes, const int & xMax, const 
 void SnowManager::update()
 {}
 
+void SnowManager::see()
+{}
+
 #endif
