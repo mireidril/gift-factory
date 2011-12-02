@@ -1,4 +1,5 @@
 #include "cuda_functions.h"
+#include "Application.hpp"
 
 int main(int argc, char **argv)
 {
@@ -7,6 +8,10 @@ int main(int argc, char **argv)
 #else
 	std::cout<<"Coucou, chez moi j'ai PAS CUDA !!!"<<std::endl;
 #endif
-	system("PAUSE");
-	return 0;
+
+	Application giftFactory;
+	giftFactory.init();
+	giftFactory.update();
+    
+	return EXIT_SUCCESS;
 }
