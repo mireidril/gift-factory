@@ -14,6 +14,7 @@ Application::Application()
 , m_iMousePositionY(-1)
 , m_bButtonPressed(false)
 , m_bUseGeometryShader(true)
+, m_SnowManager(NULL)
 {
 	m_vScenes.clear();
 	m_vSceneRendered.clear();
@@ -31,6 +32,11 @@ Application::~Application()
 
 void Application::init()
 {
+	//Snow Manager
+	m_SnowManager = new SnowManager(5, 0, 0, 0);
+	m_SnowManager->update();
+	m_SnowManager->see();
+
 	// SDL initialisation
 	initSDL();
 	// Glew initialisation
