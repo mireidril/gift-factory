@@ -2,9 +2,9 @@
 #define __APPLICATION_HPP__
 
 #include "Utils.hpp"
-#include "cuda_functions.h"
 
 class Scene;
+class SnowManager;
 
 //Main class of the program
 class Application

@@ -3,6 +3,8 @@
 #include "ShaderManager.hpp"
 #include "Camera.hpp"
 
+#include "cuda_functions.h"
+
 Application::Application()
 : m_bRunning(true)
 , screen(NULL)
