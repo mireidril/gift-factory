@@ -4,6 +4,8 @@
 #include <iostream>
 #include <vector>
 
+#include "GL/glew.h"
+
 typedef struct _flake
 {
 	float x;
