@@ -6,22 +6,28 @@
 
 typedef struct _flake
 {
-	int x;
-	int y;
-	int size;
+	float x;
+	float y;
+	float z;
+	float size;
 } Flake;
 
 class SnowManager
 {
 	private :
 		unsigned int m_uiNbFlakes;
-		int m_iXMax;
-		int m_iYMax;
-		int m_iZMax;
+		float m_iXMax;
+		float m_iYMax;
+		float m_iZMax;
 		Flake * m_vFlakes;
+
+		GLuint verticesObjId;
+		GLuint textureId;
+
 	public:
 		SnowManager(const unsigned int & nbFlakes, const int & xMax, const int & yMax, const int & zMax);
-		void update();
+		void init();
+		void update(const float * posCamera);
 		void see();
 };
 void launch_bb();
