@@ -20,7 +20,7 @@ class Camera
 		inline GLfloat* getView () {return _view;};
 
 		void setPosition (GLfloat* position);
-
+		inline GLfloat * getPosition () {return _position;};
 		
 
 	private :
