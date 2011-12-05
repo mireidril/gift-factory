@@ -14,7 +14,7 @@ void Scene::init()
 	ShaderManager::getInstance()->addShaders("color", false);
 	ShaderManager::getInstance()->addShaders("texture2D", false);
 	loadObj("SET_test");
-	
+	//loadObj("SET_scene1");
 
 	//TODO : fonction setCamera
 	m_camera =  new Camera();
