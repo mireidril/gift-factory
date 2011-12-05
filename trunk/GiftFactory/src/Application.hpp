@@ -18,6 +18,7 @@ class Application
 		void initExtensionsGlew();
 		void initGL();
 		void initScenes();
+		void initShaders();
 
 		void reshapeWindow(int iNewWidth, int iNewHeight);
 
@@ -31,6 +32,10 @@ class Application
 		bool isRunning();
 		bool useGeometryShader();
 
+		
+		static unsigned int windowWidth;
+		static unsigned int windowHeight;
+
 	private :
 		bool m_bRunning;
 		
@@ -38,8 +43,6 @@ class Application
 		SDL_Surface *screen;
 		const unsigned int m_uiWindowX;
 		const unsigned int m_uiWindowY;
-		unsigned int m_uiWindowWidth;
-		unsigned int m_uiWindowHeight;
 
 		//Mouse
 		int m_iMousePositionX;

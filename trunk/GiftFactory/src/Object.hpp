@@ -16,7 +16,7 @@ class Object
 		~Object();
 
 		void init();
-		void draw();
+		void draw(GLfloat* view);
 		GLuint LoadTexture(const char *pszFilename);
 
 		inline float * getTransformMat(){ return m_transformMat; };

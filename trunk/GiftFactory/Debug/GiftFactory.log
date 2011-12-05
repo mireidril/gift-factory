@@ -1,0 +1,49 @@
+﻿La génération a démarré 05/12/2011 15:43:09.
+     1>Projet "C:\Users\Nonore\Documents\IMAC\GiftFactory\GiftFactory\GiftFactory.vcxproj" sur le nœud 2 (build cible(s)).
+     1>InitializeBuildStatus:
+         Création de "Debug\GiftFactory.unsuccessfulbuild", car "AlwaysCreate" a été spécifié.
+       ClCompile:
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I../Dependencies/include /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt src\Application.cpp src\Scene.cpp
+         Scene.cpp
+     1>c:\program files (x86)\microsoft sdks\windows\v7.0a\include\windef.h(126): warning C4005: 'APIENTRY' : redéfinition de macro
+                 c:\users\nonore\documents\imac\giftfactory\dependencies\include\gl\glew.h(113) : voir la définition précédente de 'APIENTRY'
+     1>c:\program files (x86)\microsoft sdks\windows\v7.0a\include\wingdi.h(30): warning C4005: 'WINGDIAPI' : redéfinition de macro
+                 c:\users\nonore\documents\imac\giftfactory\dependencies\include\gl\glew.h(137) : voir la définition précédente de 'WINGDIAPI'
+     1>c:\users\nonore\documents\imac\giftfactory\giftfactory\src\scene.cpp(110): warning C4018: '<' : incompatibilité signed/unsigned
+     1>c:\users\nonore\documents\imac\giftfactory\giftfactory\src\scene.cpp(101): warning C4101: 'i' : variable locale non référencée
+         Application.cpp
+     1>c:\program files (x86)\microsoft sdks\windows\v7.0a\include\windef.h(126): warning C4005: 'APIENTRY' : redéfinition de macro
+                 c:\users\nonore\documents\imac\giftfactory\dependencies\include\gl\glew.h(113) : voir la définition précédente de 'APIENTRY'
+     1>c:\program files (x86)\microsoft sdks\windows\v7.0a\include\wingdi.h(30): warning C4005: 'WINGDIAPI' : redéfinition de macro
+                 c:\users\nonore\documents\imac\giftfactory\dependencies\include\gl\glew.h(137) : voir la définition précédente de 'WINGDIAPI'
+     1>c:\users\nonore\documents\imac\giftfactory\giftfactory\src\application.cpp(123): warning C4101: 'i' : variable locale non référencée
+     1>c:\users\nonore\documents\imac\giftfactory\giftfactory\src\application.cpp(123): warning C4101: 'j' : variable locale non référencée
+         Génération de code en cours...
+       ManifestResourceCompile:
+         Toutes les sorties sont à jour.
+       Link:
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Nonore\Documents\IMAC\GiftFactory\GiftFactory\Debug\GiftFactory.exe" /INCREMENTAL /NOLOGO /LIBPATH:../Dependencies/lib SDL.lib SDLmain.lib SDL_image.lib glew32.lib glu32.lib glut32.lib opengl32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\GiftFactory.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\Nonore\Documents\IMAC\GiftFactory\GiftFactory\Debug\GiftFactory.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Nonore\Documents\IMAC\GiftFactory\GiftFactory\Debug\GiftFactory.lib" /MACHINE:X86 Debug\GiftFactory.exe.embed.manifest.res
+         Debug\Application.obj
+         Debug\Camera.obj
+         Debug\main.obj
+         Debug\model_obj.obj
+         Debug\Object.obj
+         Debug\Scene.obj
+         Debug\ShaderManager.obj
+         Debug\Spline.obj
+         Debug\TextureManager.obj
+         Debug\Utils.obj
+       Manifest:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /out:"Debug\GiftFactory.exe.embed.manifest" /manifest Debug\GiftFactory.exe.intermediate.manifest
+         Toutes les sorties sont à jour.
+       LinkEmbedManifest:
+         Toutes les sorties sont à jour.
+         GiftFactory.vcxproj -> C:\Users\Nonore\Documents\IMAC\GiftFactory\GiftFactory\Debug\GiftFactory.exe
+       FinalizeBuildStatus:
+         Suppression du fichier "Debug\GiftFactory.unsuccessfulbuild".
+         Mise à jour de l'horodatage "Debug\GiftFactory.lastbuildstate".
+     1>Génération du projet "C:\Users\Nonore\Documents\IMAC\GiftFactory\GiftFactory\GiftFactory.vcxproj" terminée (build cible(s)).
+
+La génération a réussi.
+
+Temps écoulé 00:00:05.37

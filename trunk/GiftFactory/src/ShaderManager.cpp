@@ -1,6 +1,7 @@
 #include "ShaderManager.hpp"
 
 ShaderManager* ShaderManager::m_pInstance = NULL;
+GLhandleARB ShaderManager::actualShader = NULL;
 
 ShaderManager* ShaderManager::getInstance()
 {

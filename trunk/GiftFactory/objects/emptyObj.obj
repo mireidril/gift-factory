@@ -1,0 +1,23 @@
+# 3ds Max Wavefront OBJ Exporter v0.97b - (c)2007 guruware
+# Filchier créé : 16.11.2011 21:40:53
+
+mtllib emptyObj.mtl
+
+#
+# object Sph_re001
+#
+
+v  0.0000 0.0000 0.0000
+# 1 vertices
+
+vn 0.0000 1.0000 0.0000
+# 1 vertex normals
+
+vt 0.0000 1.0000 0.0000
+# 1 texture coords
+
+g Sph_re001
+usemtl wire_087224143
+f 1/1/1 2/2/2 3/3/3 
+# 1 faces
+

@@ -1,6 +1,7 @@
 #include "Object.hpp"
 #include "ShaderManager.hpp"
 #include "Application.hpp"
+#include "Camera.hpp"
 
 
 Object::Object(const char* filename, bool enableTextures)
@@ -67,9 +68,15 @@ void Object::init()
 	}
 }
 
-void Object::draw()
+void Object::draw(GLfloat* view)
 {
-	glUseProgramObjectARB(m_uiShaderId);
+	if(ShaderManager::actualShader != m_uiShaderId){
+		glUseProgramObjectARB(m_uiShaderId);
+		glUniformMatrix4fv(glGetUniformLocation(m_uiShaderId, "view"), 1, GL_FALSE, view);
+		
+		glUniform1f(glGetUniformLocation(m_uiShaderId, "focalDistance"), Camera::focalDistance);
+		glUniform1f(glGetUniformLocation(m_uiShaderId, "focalRange"), Camera::focalRange);
+	}
 
 	//Draw here
 	const ModelOBJ::Mesh *pMesh = 0;
@@ -97,7 +104,7 @@ void Object::draw()
 		
         if (g_enableTextures)
         {
-			glEnable(GL_TEXTURE_2D);
+			//glEnable(GL_TEXTURE_2D);
 			for(unsigned int i = 0 ; i < pMaterial->textures.size() ; i++){
 				glActiveTexture( GL_TEXTURE0+i );
 				glBindTexture(GL_TEXTURE_2D,m_iTextureIds+i);
@@ -138,6 +145,16 @@ void Object::draw()
 
         if (g_model.hasPositions())
             glDisableClientState(GL_VERTEX_ARRAY);
+
+		if (g_enableTextures)
+		{
+			glEnable(GL_TEXTURE_2D);
+			for(unsigned int i = 0 ; i < pMaterial->textures.size() ; i++){
+				glActiveTexture( GL_TEXTURE0+i );
+				glBindTexture(GL_TEXTURE_2D,0);
+			}
+	  	
+		}
     }
 	
 }
