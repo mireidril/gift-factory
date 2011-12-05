@@ -1,19 +1,20 @@
 #version 120
 
-//uniform mat4 ProjectionModelviewMatrix;
-//uniform mat4 ModelviewMatrix;
 uniform mat4 model;
 uniform mat4 view;
 
-//attribute vec3 inVertex;
-//attribute vec2 inTexCoords;
-//attribute vec3 inNormals;
-
-//varying vec4 OutTexCoord0;
+uniform float focalDistance;
+uniform float focalRange;
+varying float Blur;
 
 void main()
 {
 	gl_TexCoord[0] = gl_MultiTexCoord0;
 	gl_Position = gl_ProjectionMatrix * view * model * gl_Vertex;
+
+	vec4 PosWV = gl_ModelViewMatrix * gl_Vertex;
+	PosWV /= PosWV.w;
+	Blur = clamp(abs(-PosWV.z - focalDistance) / focalRange, 0.0, 1.0);
+	//Blur = 0.5;
 }
 

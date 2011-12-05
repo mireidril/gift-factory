@@ -2,14 +2,14 @@
 #include "Scene.hpp"
 #include "ShaderManager.hpp"
 
+unsigned int Application::windowWidth = 800;
+unsigned int Application::windowHeight = 600;
 
 Application::Application()
 : m_bRunning(true)
 , screen(NULL)
 , m_uiWindowX(0)
 , m_uiWindowY(0)
-, m_uiWindowWidth(800)
-, m_uiWindowHeight(600)
 , m_iMousePositionX(-1)
 , m_iMousePositionY(-1)
 , m_bButtonPressed(false)
@@ -37,6 +37,8 @@ void Application::init()
 	initExtensionsGlew();
 	// OpenGL initialisation
 	initGL();
+	// Shaders initialisation
+	initShaders();
 	// Scene loadings
 	initScenes();
 }
@@ -53,7 +55,7 @@ void Application::initSDL()
 
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
-	screen = SDL_SetVideoMode(m_uiWindowWidth, m_uiWindowHeight, 32, SDL_OPENGL | SDL_RESIZABLE);
+	screen = SDL_SetVideoMode(Application::windowWidth, Application::windowHeight, 32, SDL_OPENGL | SDL_RESIZABLE);
 	if(screen == NULL)
 	{
 		m_bRunning = false;
@@ -102,7 +104,7 @@ void Application::initGL()
 	glPixelStorei(GL_UNPACK_ALIGNMENT,1);
 	glPixelStorei(GL_PACK_ALIGNMENT,1);
 
-	reshapeWindow(m_uiWindowWidth, m_uiWindowHeight);
+	reshapeWindow(Application::windowWidth, Application::windowHeight);
 }
 
 void Application::initScenes()
@@ -113,14 +115,35 @@ void Application::initScenes()
 	m_vSceneRendered.push_back(0);
 }
 
+void Application::initShaders()
+{
+	//ShaderManager::getInstance()->addShaders("color", false);
+	//ShaderManager::getInstance()->addShaders("texture2D", false);
+
+	unsigned int i, j;
+	std::stringstream buffer; std::string line;
+	std::fstream stream("listShaders.txt", std::ios::in);
+	
+	while(std::getline(stream, line)){
+
+		buffer.clear(); buffer.str(line);
+
+		std::string shaderName; 
+		buffer >> shaderName; 
+		std::cout << "shader init : " << shaderName << std::endl;
+		ShaderManager::getInstance()->addShaders(shaderName.c_str(), false);
+	}
+	
+}
+
 void Application::reshapeWindow(int iNewWidth, int iNewHeight)
 {
 	//TODO : EN OPENGL3 ?
 	float ratio = (float)iNewWidth/(float)iNewHeight;
 //	glViewport(0, 0, (GLint)iNewWidth, (GLint)iNewWidth);
 
-	m_uiWindowWidth = iNewWidth;
-	m_uiWindowHeight = iNewHeight;
+	Application::windowWidth = iNewWidth;
+	Application::windowHeight = iNewHeight;
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
@@ -132,10 +155,10 @@ void Application::reshapeWindow(int iNewWidth, int iNewHeight)
 
 	// Copier de Arrows : 
 	//SDL_VideoMode update (may be unnecessary, and not woking proberly on some operating systems) (Comment on MacOSX 10.6)
-	screen = SDL_SetVideoMode(m_uiWindowWidth, m_uiWindowHeight, 0,  SDL_OPENGL | SDL_RESIZABLE);
+	screen = SDL_SetVideoMode(Application::windowWidth, Application::windowHeight, 0,  SDL_OPENGL | SDL_RESIZABLE);
 
     // Viewport transformation update to fit window size
-    glViewport(0, 0, m_uiWindowWidth, m_uiWindowHeight);
+    glViewport(0, 0, Application::windowWidth, Application::windowHeight);
 }
 
 void Application::checkEvents()

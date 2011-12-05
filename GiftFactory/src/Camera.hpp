@@ -21,7 +21,8 @@ class Camera
 
 		void setPosition (GLfloat* position);
 
-		
+		static const float focalDistance;
+		static const float focalRange;
 
 	private :
 		// View Data
@@ -34,6 +35,7 @@ class Camera
 		GLfloat _aim[3];
 
 		Spline* _spline;
+
 };
 
 #endif

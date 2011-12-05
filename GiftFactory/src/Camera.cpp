@@ -1,6 +1,9 @@
 #include "Camera.hpp"
 #include "Spline.hpp"
 
+const float Camera::focalDistance = -0.5;
+const float Camera::focalRange = 0.5;
+
 Camera::Camera()
 {
 	// View Data
