@@ -127,7 +127,7 @@ void Scene::update(){
 	m_camera->moveForward();
 }
 
-
+/*
 void Scene::render()
 {
 	// ===== FBO rendering =====
@@ -135,6 +135,8 @@ void Scene::render()
 	glDisable(GL_TEXTURE_2D);
 
 	// ===== 1ere passe ===== 
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_fboDatas.colorTexture, 0);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, m_fboDatas.depthTexture, 0);
 
 	glPushMatrix();
 		//glClearColor(0.8f,0.8f,0.8f,1.0f);
@@ -153,11 +155,7 @@ void Scene::render()
   
 	// Desactivation du shader
 	glUseProgram(0);
-
-	// ===== Désactivation du FBO =====
-	glBindFramebuffer(GL_FRAMEBUFFER, m_fboDatas.fbo);
-	glDisable(GL_TEXTURE_2D);
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	//ShaderManager::actualShader = NULL;
 
 	// Transformations de positionnement de la camera
 	GLfloat position[] = {0.0, 0.0, 4.0};
@@ -165,10 +163,50 @@ void Scene::render()
 	GLfloat up[] = {0.0, 1.0, 0.0}; // Vector pointing over the camera
 	m_camera->lookAt(position, aim, up);
 	view = getCamera()->getView();
+	
 
+	// ===== 2eme passe ===== 
 	// ===== Screen rendering =====
+
 	glPushMatrix();
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_fboDatas.littleColorTexture, 0);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, m_fboDatas.littleDepthTexture, 0);
+		//glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		//glViewport(0, 0, Application::windowWidth, Application::windowHeight);
+		glViewport(0, 0, m_fboDatas.width/4, m_fboDatas.height/4);
         
+		glClearColor(0.0f,0.0f,0.0f,0.0f);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		//glEnable(GL_CULL_FACE);
+		glEnable(GL_DEPTH_TEST);
+
+		GLhandleARB idShaderFBO = ShaderManager::getInstance()->getShaderProgramId("passe2");
+		glUseProgram( idShaderFBO );
+		
+		glUniformMatrix4fv(glGetUniformLocation(idShaderFBO, "view"), 1, GL_FALSE, view);
+		
+		GLfloat m_transformMat[16] = { 2.0*(float)Application::windowWidth/(float)Application::windowHeight, 0.0, 0.0, 0.0,  0.0, 2.0, 0.0, 0.0,  0.0, 0.0, 1.0, -1.0,  0.0, 0.0, 0.0, 1.0};
+		glUniformMatrix4fv(glGetUniformLocation( idShaderFBO, "model" ), 1, GL_TRUE, m_transformMat);
+
+		glActiveTexture(GL_TEXTURE0);
+		//glEnable(GL_TEXTURE_2D);
+		glBindTexture(GL_TEXTURE_2D, m_fboDatas.colorTexture);
+		glUniform1i( glGetUniformLocation( idShaderFBO, "FBOtex" ), 0 );
+		
+		drawSquare();
+
+		glBindTexture(GL_TEXTURE_2D, NULL);
+		//objects[0]->draw(view); // TROUVER UNE SOLUTION !!!		
+	
+	glPopMatrix();
+
+	// ===== Désactivation du FBO =====
+	glBindFramebuffer(GL_FRAMEBUFFER, m_fboDatas.fbo);
+	glDisable(GL_TEXTURE_2D);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	glPushMatrix();
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		glViewport(0, 0, Application::windowWidth, Application::windowHeight);
         
@@ -178,25 +216,54 @@ void Scene::render()
 		//glEnable(GL_CULL_FACE);
 		glEnable(GL_DEPTH_TEST);
 
+		idShaderFBO = ShaderManager::getInstance()->getShaderProgramId("passe3");
+		glUseProgram( idShaderFBO );
+		
+		glUniformMatrix4fv(glGetUniformLocation(idShaderFBO, "view"), 1, GL_FALSE, view);
+		
+		GLfloat m_transformMat2[16] = { 2.0*(float)Application::windowWidth/(float)Application::windowHeight, 0.0, 0.0, 0.0,  0.0, 2.0, 0.0, 0.0,  0.0, 0.0, 1.0, 0.0,  0.0, 0.0, 0.0, 1.0};
+		glUniformMatrix4fv(glGetUniformLocation( idShaderFBO, "model" ), 1, GL_TRUE, m_transformMat2);
+
+
 		glActiveTexture(GL_TEXTURE0);
 		glEnable(GL_TEXTURE_2D);
 		glBindTexture(GL_TEXTURE_2D, m_fboDatas.colorTexture);
+		glUniform1i( glGetUniformLocation( idShaderFBO, "FBOtex" ), 0 );
+
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, m_fboDatas.littleColorTexture);
+		glUniform1i( glGetUniformLocation( idShaderFBO, "littleFBOtex" ), 1 );
 		
 		drawSquare();
         
 		glBindTexture(GL_TEXTURE_2D, NULL);
-		objects[0]->draw(view); // TROUVER UNE SOLUTION !!!		
+		//objects[0]->draw(view); // TROUVER UNE SOLUTION !!!		
 	
 	glPopMatrix();
 	
 	SDL_GL_SwapBuffers();
 }
+*/
+
+void Scene::render()
+{
+	glPushMatrix();
+		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+		GLfloat* view = getCamera()->getView();
+		for(unsigned int i = 0; i<objects.size() ; i++){
+			objects[i]->draw(view);
+		}
+	glPopMatrix();
+  	
+	SDL_GL_SwapBuffers();
+}
 
 
 void Scene::drawSquare(){
-	glTranslatef( 0.0f, 0.0f, -2.0f );
+	//glTranslatef( 0.0f, 0.0f, -2.0f );
 
 	glScalef((float)Application::windowWidth/(float)Application::windowHeight, 1.0, 1.0);	
+	//glScalef((float)m_fboDatas.width/(float)m_fboDatas.height, 1.0, 1.0);	
 
 	glBegin(GL_QUADS);
 		glNormal3f( 0.0f, 0.0f, 1.0f ); 

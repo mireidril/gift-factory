@@ -97,5 +97,17 @@
     <None Include="shaders\texture2D.vert">
       <Filter>shaders</Filter>
     </None>
+    <None Include="shaders\passe3.frag">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\passe3.vert">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\passe2.frag">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shaders\passe2.vert">
+      <Filter>shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>
