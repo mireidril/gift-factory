@@ -70,14 +70,12 @@ void Object::init()
 
 void Object::draw(GLfloat* view)
 {
-	if(ShaderManager::actualShader != m_uiShaderId){
-		glUseProgramObjectARB(m_uiShaderId);
-		glUniformMatrix4fv(glGetUniformLocation(m_uiShaderId, "view"), 1, GL_FALSE, view);
+	glUseProgramObjectARB(m_uiShaderId);
+	glUniformMatrix4fv(glGetUniformLocation(m_uiShaderId, "view"), 1, GL_FALSE, view);
 		
-		glUniform1f(glGetUniformLocation(m_uiShaderId, "focalDistance"), Camera::focalDistance);
-		glUniform1f(glGetUniformLocation(m_uiShaderId, "focalRange"), Camera::focalRange);
-	}
-
+	glUniform1f(glGetUniformLocation(m_uiShaderId, "focalDistance"), Camera::focalDistance);
+	glUniform1f(glGetUniformLocation(m_uiShaderId, "focalRange"), Camera::focalRange);
+	
 	//Draw here
 	const ModelOBJ::Mesh *pMesh = 0;
     const ModelOBJ::Material *pMaterial = 0;
