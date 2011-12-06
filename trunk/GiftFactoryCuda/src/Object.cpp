@@ -1,12 +1,15 @@
 #include "Object.hpp"
 #include "ShaderManager.hpp"
 #include "Application.hpp"
+#include "Camera.hpp"
 
 
-Object::Object(const char* filename, bool enableTextures)
-: m_uiNbTextures(0)
+Object::Object(const char* filename, bool enableTextures, const char* shaderName, bool bMesh)
+: m_bMesh(bMesh)
+, m_uiVerticeBufferId (0)
+, m_uiNbTextures(0)
 , m_iTextureIds(NULL)
-, m_sShaderName("")
+, m_sShaderName(shaderName)
 , objFileName(filename)
 , g_enableTextures(enableTextures)
 {
@@ -23,123 +26,174 @@ Object::~Object()
 
 void Object::init()
 {
-	// Mesh initialisation
-	std::cout << "obj to load : " << objFileName << std::endl;
-	if (!g_model.import(objFileName))
-    {
-        SetCursor(LoadCursor(0, IDC_ARROW));
-		std::cout << "Failed to load model " << std::endl;
-        throw std::runtime_error("Failed to load model.");
-    }
-    else 
-		g_model.normalize();
+	if(m_bMesh)
+	{
+		// Mesh initialisation
+		std::cout << "obj to load : " << objFileName << std::endl;
+		if (!g_model.import(objFileName))
+		{
+			SetCursor(LoadCursor(0, IDC_ARROW));
+			std::cout << "Failed to load model " << std::endl;
+			throw std::runtime_error("Failed to load model.");
+		}
+		else 
+			g_model.normalize();
 
-	const ModelOBJ::Material *pMaterial = (g_model.getMesh(0)).pMaterial;
+		const ModelOBJ::Material *pMaterial = (g_model.getMesh(0)).pMaterial;
 
-	//Textures initialization
-	if(g_enableTextures){
-		glGenTextures(pMaterial->textures.size(), &m_iTextureIds);
+		//Textures initialization
+		if(g_enableTextures){
+			glGenTextures(pMaterial->textures.size(), &m_iTextureIds);
 
-		for(unsigned int i = 0 ; i < pMaterial->textures.size() ; i++){
+			for(unsigned int i = 0 ; i < pMaterial->textures.size() ; i++){
 
-			glBindTexture(GL_TEXTURE_2D,m_iTextureIds+i);
+				glBindTexture(GL_TEXTURE_2D,m_iTextureIds+i);
 			
-			TextureManager::Texture* tex =  pMaterial->textures[i];
-			if(tex == 0)
-				std::cout << "Erreur texture : la texture n'a pas été chargée préalablement dans model_obj ?" << std::endl;
+				TextureManager::Texture* tex =  pMaterial->textures[i];
+				if(tex == 0)
+					std::cout << "Erreur texture : la texture n'a pas été chargée préalablement dans model_obj ?" << std::endl;
 			
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, tex->texPicture->w, tex->texPicture->h, 0, GL_RGB, GL_UNSIGNED_BYTE, tex->texPicture->pixels);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, tex->texPicture->w, tex->texPicture->h, 0, GL_RGB, GL_UNSIGNED_BYTE, tex->texPicture->pixels);
 
+			}
+		}
+
+		//Shader initialization
+		m_sShaderName = pMaterial->shaderName.c_str();
+		m_uiShaderId = m_shaderManager->getShaderProgramId(m_sShaderName);
+		if(m_uiShaderId == ERROR_VALUE)
+		{
+			//false if there are only vertex and fragment shader, or true if there are vertex, fragment and geometry shader
+			m_uiShaderId = m_shaderManager->addShaders(m_sShaderName, false);
 		}
 	}
-
-	//Shader initialization
-	m_sShaderName = pMaterial->shaderName.c_str();
-	m_uiShaderId = m_shaderManager->getShaderProgramId(m_sShaderName);
-	if(m_uiShaderId == ERROR_VALUE)
+	else
 	{
-		//false if there are only vertex and fragment shader, or true if there are vertex, fragment and geometry shader
-		m_uiShaderId = m_shaderManager->addShaders(m_sShaderName, false);
+		//Vertex buffer
+		glGenBuffers(1, &m_uiVerticeBufferId);
+
+		//texture initialisation
+
+		//Shader initialization
+		m_uiShaderId = m_shaderManager->getShaderProgramId(m_sShaderName);
+		if(m_uiShaderId == ERROR_VALUE)
+		{
+			//false if there are only vertex and fragment shader, or true if there are vertex, fragment and geometry shader
+			m_uiShaderId = m_shaderManager->addShaders(m_sShaderName, false);
+		}
 	}
 }
 
-void Object::draw()
+void Object::sendVertices(GLfloat * vertices, const unsigned int & nbVertices)
+{
+	m_uiNbVertices = nbVertices;
+    glBindBuffer(GL_ARRAY_BUFFER, m_uiVerticeBufferId);
+	glBufferData(GL_ARRAY_BUFFER, nbVertices*4*sizeof(GLfloat), vertices, GL_DYNAMIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+}
+
+void Object::draw(GLfloat* view)
 {
 	glUseProgramObjectARB(m_uiShaderId);
 
-	//Draw here
-	const ModelOBJ::Mesh *pMesh = 0;
-    const ModelOBJ::Material *pMaterial = 0;
-    const ModelOBJ::Vertex *pVertices = 0;
-	//float modelViewProj[16];
-    
-    for (int i = 0; i < g_model.getNumberOfMeshes(); ++i)
-    {
-        pMesh = &g_model.getMesh(i);
-        pMaterial = pMesh->pMaterial;
-        pVertices = g_model.getVertexBuffer();
-
-		// modelViewProj[16] = camera.getViewProjMatrix();
-        // multMatrixBtoMatrixA( camera.getViewProjMatrix(), objects[i].getModelMatrix());
-		// glUniformMatrix4fv(glGetUniformLocation( m_uiShaderId, "modelViewProj" ), 1, GL_TRUE, modelViewProj);
-		glUniformMatrix4fv(glGetUniformLocation( m_uiShaderId, "model" ), 1, GL_TRUE, m_transformMat);
-		//for(int i = 0 ; i < 16; i++) std::cout << m_transformMat[i] << ", " ;
-		//std::cout<< std::endl;
+	if(m_bMesh)
+	{
+		//Draw here
+		glUniformMatrix4fv(glGetUniformLocation(m_uiShaderId, "view"), 1, GL_FALSE, view);
 		
-		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, pMaterial->ambient);
-        glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, pMaterial->diffuse);
-        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, pMaterial->specular);
-        glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, pMaterial->shininess * 128.0f);
-		
-        if (g_enableTextures)
-        {
-			glEnable(GL_TEXTURE_2D);
-			for(unsigned int i = 0 ; i < pMaterial->textures.size() ; i++){
-				glActiveTexture( GL_TEXTURE0+i );
-				glBindTexture(GL_TEXTURE_2D,m_iTextureIds+i);
-				glUniform1i( glGetUniformLocation( m_uiShaderId, pMaterial->textures[i]->shaderUniformName.c_str() ), i );
-			}
-	  	
-        }
-        else
-        {
-            glDisable(GL_TEXTURE_2D);
-        }
-
-        if (g_model.hasPositions())
-        {
-            glEnableClientState(GL_VERTEX_ARRAY);
-            glVertexPointer(3, GL_FLOAT, g_model.getVertexSize(), g_model.getVertexBuffer()->position);
-        }
-
-        if (g_model.hasTextureCoords())
-        {
-            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-            glTexCoordPointer(2, GL_FLOAT, g_model.getVertexSize(), g_model.getVertexBuffer()->texCoord);
-        }
-
-        if (g_model.hasNormals())
-        {
-            glEnableClientState(GL_NORMAL_ARRAY);
-            glNormalPointer(GL_FLOAT, g_model.getVertexSize(), g_model.getVertexBuffer()->normal);
-        }
-
-        glDrawElements(GL_TRIANGLES, pMesh->triangleCount * 3, GL_UNSIGNED_INT, g_model.getIndexBuffer() + pMesh->startIndex);
-
-        if (g_model.hasNormals())
-            glDisableClientState(GL_NORMAL_ARRAY);
-
-        if (g_model.hasTextureCoords())
-            glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-
-        if (g_model.hasPositions())
-            glDisableClientState(GL_VERTEX_ARRAY);
-    }
+		glUniform1f(glGetUniformLocation(m_uiShaderId, "focalDistance"), Camera::focalDistance);
+		glUniform1f(glGetUniformLocation(m_uiShaderId, "focalRange"), Camera::focalRange);
 	
+		const ModelOBJ::Mesh *pMesh = 0;
+		const ModelOBJ::Material *pMaterial = 0;
+		const ModelOBJ::Vertex *pVertices = 0;
+		//float modelViewProj[16];
+    
+		for (int i = 0; i < g_model.getNumberOfMeshes(); ++i)
+		{
+			pMesh = &g_model.getMesh(i);
+			pMaterial = pMesh->pMaterial;
+			pVertices = g_model.getVertexBuffer();
+
+			// modelViewProj[16] = camera.getViewProjMatrix();
+			// multMatrixBtoMatrixA( camera.getViewProjMatrix(), objects[i].getModelMatrix());
+			// glUniformMatrix4fv(glGetUniformLocation( m_uiShaderId, "modelViewProj" ), 1, GL_TRUE, modelViewProj);
+			glUniformMatrix4fv(glGetUniformLocation( m_uiShaderId, "model" ), 1, GL_TRUE, m_transformMat);
+			//for(int i = 0 ; i < 16; i++) std::cout << m_transformMat[i] << ", " ;
+			//std::cout<< std::endl;
+		
+			glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, pMaterial->ambient);
+			glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, pMaterial->diffuse);
+			glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, pMaterial->specular);
+			glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, pMaterial->shininess * 128.0f);
+		
+			if (g_enableTextures)
+			{
+				//glEnable(GL_TEXTURE_2D);
+				for(unsigned int i = 0 ; i < pMaterial->textures.size() ; i++){
+					glActiveTexture( GL_TEXTURE0+i );
+					glBindTexture(GL_TEXTURE_2D,m_iTextureIds+i);
+					glUniform1i( glGetUniformLocation( m_uiShaderId, pMaterial->textures[i]->shaderUniformName.c_str() ), i );
+				}
+	  	
+			}
+			else
+			{
+				glDisable(GL_TEXTURE_2D);
+			}
+
+			if (g_model.hasPositions())
+			{
+				glEnableClientState(GL_VERTEX_ARRAY);
+				glVertexPointer(3, GL_FLOAT, g_model.getVertexSize(), g_model.getVertexBuffer()->position);
+			}
+
+			if (g_model.hasTextureCoords())
+			{
+				glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+				glTexCoordPointer(2, GL_FLOAT, g_model.getVertexSize(), g_model.getVertexBuffer()->texCoord);
+			}
+
+			if (g_model.hasNormals())
+			{
+				glEnableClientState(GL_NORMAL_ARRAY);
+				glNormalPointer(GL_FLOAT, g_model.getVertexSize(), g_model.getVertexBuffer()->normal);
+			}
+
+			glDrawElements(GL_TRIANGLES, pMesh->triangleCount * 3, GL_UNSIGNED_INT, g_model.getIndexBuffer() + pMesh->startIndex);
+
+			if (g_model.hasNormals())
+				glDisableClientState(GL_NORMAL_ARRAY);
+
+			if (g_model.hasTextureCoords())
+				glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+
+			if (g_model.hasPositions())
+				glDisableClientState(GL_VERTEX_ARRAY);
+			
+			if (g_enableTextures)
+			{
+				glEnable(GL_TEXTURE_2D);
+				for(unsigned int i = 0 ; i < pMaterial->textures.size() ; i++){
+					glActiveTexture( GL_TEXTURE0+i );
+					glBindTexture(GL_TEXTURE_2D,0);
+				}
+			}
+		}
+	}
+	else
+	{
+		glBindBuffer(GL_ARRAY_BUFFER, m_uiVerticeBufferId);
+		glDrawArrays(GL_POINTS, 0, m_uiNbVertices);
+		//glDrawElements(GL_POINTS, m_uiNbVertices, GL_FLOAT, 0);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+	}
+	
+	//glUseProgram(0);
 }
 
 

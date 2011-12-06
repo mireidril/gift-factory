@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "GL/glew.h"
+#include "Object.hpp"
 
 typedef struct _flake
 {
@@ -23,8 +24,15 @@ class SnowManager
 		float m_iZMax;
 		Flake * m_vFlakes;
 
-		GLuint verticesObjId;
+		GLuint m_uiShaderId;
+		GLuint indiceId;
 		GLuint textureId;
+		GLuint vboId;
+
+		GLfloat * m_flakesvertices;
+		GLuint * m_flakesindices;
+
+		Object * m_oFlakes;
 
 	public:
 		SnowManager(const unsigned int & nbFlakes, const int & xMax, const int & yMax, const int & zMax);

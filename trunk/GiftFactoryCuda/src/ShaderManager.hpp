@@ -21,6 +21,8 @@ class ShaderManager
 
 		GLhandleARB getShaderProgramId(const std::string & sShaderName);
 
+		static GLhandleARB actualShader;
+
 	private :
 		ShaderManager();
 		~ShaderManager();

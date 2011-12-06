@@ -21,7 +21,10 @@ class Camera
 
 		void setPosition (GLfloat* position);
 		inline GLfloat * getPosition () {return _position;};
+		inline GLfloat * getAim () {return _aim;};
 		
+		static const float focalDistance;
+		static const float focalRange;
 
 	private :
 		// View Data

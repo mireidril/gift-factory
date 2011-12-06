@@ -14,7 +14,7 @@ Spline::Spline(const std::vector<PointSpline> & vertices, int nbPoints)
 	double t=0;
 
 	std::vector<std::pair<int, double>> splineCoefMax;
-	for (int i = 0 ; i<vertices.size() ; i++){
+	for (unsigned int i = 0 ; i<vertices.size() ; i++){
 		std::pair<int, double> pair;
 		pair.first = 0;
 		pair.second = 0;
@@ -52,13 +52,13 @@ Spline::Spline(const std::vector<PointSpline> & vertices, int nbPoints)
 		_splinePoints.push_back(pointSpline);
 		t +=  _step;
 	}
-	for (int i=0 ; i<splineCoefMax.size() ; i++){
+	for (unsigned int i=0 ; i<splineCoefMax.size() ; i++){
 		_splinePoints[splineCoefMax[i].first].nbFrames = vertices[i].nbFrames;
 		_splinePoints[splineCoefMax[i].first].selfRotate = vertices[i].selfRotate;
 		_splinePoints[splineCoefMax[i].first].debutSelfRotate = vertices[i].debutSelfRotate;
 		_splinePoints[splineCoefMax[i].first].finSelfRotate = vertices[i].finSelfRotate;
 		if (i+1<splineCoefMax.size()){
-			for (int j=splineCoefMax[i].first+1 ; j<splineCoefMax[i+1].first+1 ; j++){
+			for (unsigned int j=splineCoefMax[i].first+1 ; j<splineCoefMax[i+1].first+1 ; j++){
 				_splinePoints[j].yaw = vertices[i].yaw;
 			}
 		}

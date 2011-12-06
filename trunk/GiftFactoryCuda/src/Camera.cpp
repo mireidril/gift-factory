@@ -1,16 +1,17 @@
 #include "Camera.hpp"
 #include "Spline.hpp"
 
+const float Camera::focalDistance = -0.5;
+const float Camera::focalRange = 0.5;
 Camera::Camera()
 {
 	// View Data
     // Camera position and orientation  
 	GLfloat position[] = {0.0, 0.0, 3.0};
 	std::cout<<"init camera"<<std::endl;
-	GLfloat aim[] = {0.0, 0.0, 0.0};
 
     GLfloat up[] = {0.0, 1.0, 0.0}; // Vector pointing over the camera
-    lookAt(position, aim, up);
+    lookAt(position, _aim, up);
 
 	//tests spline 
 	std::vector<Spline::PointSpline> vertices;
@@ -135,22 +136,21 @@ void Camera::moveForward(){
 	_spline->moveForward();
 	Spline::PointSpline splinePos = _spline->getCurrentPosition();
 	GLfloat cameraPos[] = {splinePos.position[0], splinePos.position[1], splinePos.position[2]};
-	GLfloat* aim = new GLfloat[3];
-	aim[0] = cameraPos[0] + (_spline->getNextPosition().position[0] - _spline->getLastPosition().position[0]);
+	_aim[0] = cameraPos[0] + (_spline->getNextPosition().position[0] - _spline->getLastPosition().position[0]);
 	//TODO orientation vers le haut géré aussi par la spline ? modifier le up du coup
-	aim[1] = cameraPos[1];
-	aim[2] = cameraPos[2] + (_spline->getNextPosition().position[2] - _spline->getLastPosition().position[2]);
-	GLfloat vectDirect[3] = {aim[0] - cameraPos[0], 0, aim[2] - cameraPos[2]};
+	_aim[1] = cameraPos[1];
+	_aim[2] = cameraPos[2] + (_spline->getNextPosition().position[2] - _spline->getLastPosition().position[2]);
+	GLfloat vectDirect[3] = {_aim[0] - cameraPos[0], 0, _aim[2] - cameraPos[2]};
 	GLfloat* vectDirectRotated = new GLfloat[3];
 	vectDirectRotated[0] = vectDirect[0] * cos(_spline->getCurrentYaw()*3.1416/180) - vectDirect[2] * sin(_spline->getCurrentYaw()*3.1416/180);
 	vectDirectRotated[1] = 0;
 	vectDirectRotated[2] = vectDirect[0] * sin(_spline->getCurrentYaw()*3.1416/180) + vectDirect[2] * cos(_spline->getCurrentYaw()*3.1416/180);
 
-	aim[0] = cameraPos[0] + vectDirectRotated[0];
-	aim[1] = cameraPos[1] + vectDirectRotated[1];
-	aim[2] = cameraPos[2] + vectDirectRotated[2];
+	_aim[0] = cameraPos[0] + vectDirectRotated[0];
+	_aim[1] = cameraPos[1] + vectDirectRotated[1];
+	_aim[2] = cameraPos[2] + vectDirectRotated[2];
 
-	lookAt(cameraPos, aim, _yAxis);
+	lookAt(cameraPos, _aim, _yAxis);
 }
 
 void Camera::setPosition(GLfloat* position){
