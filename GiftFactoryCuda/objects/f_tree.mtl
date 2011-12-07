@@ -12,4 +12,4 @@ newmtl wire_000000000
 	Kd 0.5880 0.5880 0.5880
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
-map_multiTex diffuseTexture map.ppm
+map_multiTex diffuseTexture tree.ppm
