@@ -3,6 +3,7 @@
 
 #include "Utils.hpp"
 #include "Object.hpp"
+#include "Spline.hpp"
 
 class Object;
 class Application;
@@ -20,7 +21,7 @@ class Scene
 			unsigned int colorTexture, depthTexture;
 			unsigned int littleColorTexture, littleDepthTexture; 
 	};
-		Scene(Application* parentApp);
+		Scene(Application* parentApp, std::vector<Spline::PointSpline> vertices, std::string file);
 		~Scene();
 
 		void init();
@@ -38,7 +39,7 @@ class Scene
 		std::vector<Object*> objects;
 		Application* m_parentApp;
 		Spline* _spline;
-		
+		std::string m_file;		
 };
 
 #endif

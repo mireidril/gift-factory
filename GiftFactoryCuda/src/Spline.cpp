@@ -116,7 +116,9 @@ double Spline::computeCoefSpline(int i, int d, const std::vector<double> & nodes
 	}
 }
 
-void Spline::moveForward(){
+
+//returns false if we are at the end of the spline
+bool Spline::moveForward(){
 	if (_currentPointFrame < _splinePoints[_currentPosition].nbFrames-1){
 		if (_splinePoints[_currentPosition].selfRotate){
 			if (_currentPointFrame >= _splinePoints[_currentPosition].debutSelfRotate && _currentPointFrame <= _splinePoints[_currentPosition].finSelfRotate){
@@ -133,12 +135,17 @@ void Spline::moveForward(){
 			_currentYaw = _splinePoints[_currentPosition].yaw;
 		}
 		_currentPointFrame++;
+		return true;
 	}
 	else {
 		if (_currentPosition < _nbPoints-1){
 			_currentPosition++;
 			_currentPointFrame = 0;
 			_currentYaw = _splinePoints[_currentPosition].yaw;
+			return true;
+		}
+		else {
+			return false;
 		}
 	}
 }

@@ -29,7 +29,7 @@ public:
 
 	double computeCoefSpline(int i, int d, const std::vector<double> & nodes, double t);
 
-	void moveForward();
+	bool moveForward();
 
 	PointSpline getCurrentPosition();
 	PointSpline getLastPosition();
