@@ -16,7 +16,7 @@ class Camera
 
 		void updateView();
 
-		void moveForward();
+		bool moveForward();
 
 		inline GLfloat* getView () {return _view;};
 

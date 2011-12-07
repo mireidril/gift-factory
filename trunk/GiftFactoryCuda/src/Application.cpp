@@ -2,6 +2,7 @@
 #include "Scene.hpp"
 #include "ShaderManager.hpp"
 #include "Camera.hpp"
+#include "Spline.hpp"
 
 #include "cuda_functions.h"
 
@@ -123,8 +124,142 @@ void Application::initGL()
 void Application::initScenes()
 {
 	// TODO : A REMPLACER
-	m_vScenes.push_back(new Scene(this));
+
+	//tests spline 
+	std::vector<Spline::PointSpline> verticesScene1;
+	Spline::PointSpline v1;
+	v1.position[0] = 0;
+	v1.position[1] = 0;
+	v1.position[2] = 12;
+	v1.nbFrames = 1;
+	v1.yaw = 0;
+	v1.debutRotation = false;
+	v1.finRotation = false;
+	verticesScene1.push_back(v1);
+
+	Spline::PointSpline v2;
+	v2.position[0] = -2;
+	v2.position[1] = 0;
+	v2.position[2] = 9;
+	v2.nbFrames = 1;
+	v2.yaw = 0;
+	v2.debutRotation = true;
+	v2.finRotation = false;
+	verticesScene1.push_back(v2);
+
+	Spline::PointSpline v3;
+	v3.position[0] = 0;
+	v3.position[1] = 0;
+	v3.position[2] = 6;
+	v3.nbFrames = 1;
+	v3.yaw = -90;
+	v3.debutRotation = false;
+	v3.finRotation = true;
+	verticesScene1.push_back(v3);
+
+	Spline::PointSpline v4;
+	v4.position[0] = 2;
+	v4.position[1] = -1;
+	v4.position[2] = 5;
+	v4.nbFrames = 1000;
+	v4.yaw = 20;
+	v4.selfRotate = true;
+	v4.debutSelfRotate = 0;
+	v4.finSelfRotate = 1000;
+	v4.debutRotation = false;
+	v4.finRotation = false;
+	verticesScene1.push_back(v4);
+
+	Spline::PointSpline v5;
+	v5.position[0] = 3;
+	v5.position[1] = 0;
+	v5.position[2] = 2;
+	v5.nbFrames = 1;
+	v5.yaw = 20;
+	v5.debutRotation = true;
+	v5.finRotation = false;
+	verticesScene1.push_back(v5);
+
+	Spline::PointSpline v6;
+	v6.position[0] = 1;
+	v6.position[1] = 0;
+	v6.position[2] = 1;
+	v6.nbFrames = 1;
+	v6.yaw = 45;
+	v6.debutRotation = false;
+	v6.finRotation = true;
+	verticesScene1.push_back(v6);
+
+	std::vector<Spline::PointSpline> verticesScene2;
+	Spline::PointSpline v11;
+	v11.position[0] = 0;
+	v11.position[1] = 0;
+	v11.position[2] = 12;
+	v11.nbFrames = 1;
+	v11.yaw = 0;
+	v11.debutRotation = false;
+	v11.finRotation = false;
+	verticesScene2.push_back(v11);
+
+	Spline::PointSpline v12;
+	v12.position[0] = -2;
+	v12.position[1] = 0;
+	v12.position[2] = 9;
+	v12.nbFrames = 1;
+	v12.yaw = 0;
+	v12.debutRotation = true;
+	v12.finRotation = false;
+	verticesScene2.push_back(v12);
+
+	Spline::PointSpline v13;
+	v13.position[0] = 0;
+	v13.position[1] = 0;
+	v13.position[2] = 6;
+	v13.nbFrames = 1;
+	v13.yaw = -90;
+	v13.debutRotation = false;
+	v13.finRotation = true;
+	verticesScene2.push_back(v13);
+
+	Spline::PointSpline v14;
+	v14.position[0] = 2;
+	v14.position[1] = -1;
+	v14.position[2] = 5;
+	v14.nbFrames = 1000;
+	v14.yaw = 20;
+	v14.selfRotate = true;
+	v14.debutSelfRotate = 0;
+	v14.finSelfRotate = 1000;
+	v14.debutRotation = false;
+	v14.finRotation = false;
+	verticesScene2.push_back(v14);
+
+	Spline::PointSpline v15;
+	v15.position[0] = 3;
+	v15.position[1] = 0;
+	v15.position[2] = 2;
+	v15.nbFrames = 1;
+	v15.yaw = 20;
+	v15.debutRotation = true;
+	v15.finRotation = false;
+	verticesScene2.push_back(v15);
+
+	Spline::PointSpline v16;
+	v16.position[0] = 1;
+	v16.position[1] = 0;
+	v16.position[2] = 1;
+	v16.nbFrames = 1;
+	v16.yaw = 45;
+	v16.debutRotation = false;
+	v16.finRotation = true;
+	verticesScene2.push_back(v16);
+
+	m_vScenes.push_back(new Scene(this, verticesScene1, "SET_test"));
+	m_vScenes.push_back(new Scene(this, verticesScene2, "SET_test2"));
+	std::cout<<"init scene 0"<<std::endl;
 	m_vScenes[0]->init();
+	std::cout<<"init scene 1"<<std::endl;
+	m_vScenes[1]->init();
 	m_vSceneRendered = 0;
 }
 
@@ -282,7 +417,10 @@ void Application::update()
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		checkEvents();
-		m_camera->moveForward();
+		//if the spline is at its end
+		if (!m_camera->moveForward() && m_vSceneRendered<m_vScenes.size()-1){
+			m_vSceneRendered++;
+		}
 
 		unsigned int uiId = m_vSceneRendered;
 		m_vScenes[uiId]->update();

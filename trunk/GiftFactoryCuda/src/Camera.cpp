@@ -69,9 +69,9 @@ void Camera::updateView()
     multMatrixBtoMatrixA(_view, TcInv); 
 }
 
-void Camera::moveForward(){
+bool Camera::moveForward(){
 	Spline* spline = m_parentApp->getRenderedScene()->getSpline();
-	spline->moveForward();
+	bool splineEnded = spline->moveForward();
 	Spline::PointSpline splinePos = spline->getCurrentPosition();
 	GLfloat cameraPos[] = {splinePos.position[0], splinePos.position[1], splinePos.position[2]};
 	_aim[0] = cameraPos[0] + (spline->getNextPosition().position[0] - spline->getLastPosition().position[0]);
@@ -89,6 +89,8 @@ void Camera::moveForward(){
 	_aim[2] = cameraPos[2] + vectDirectRotated[2];
 
 	lookAt(cameraPos, _aim, _yAxis);
+
+	return splineEnded;
 }
 
 void Camera::setPosition(GLfloat* position){
