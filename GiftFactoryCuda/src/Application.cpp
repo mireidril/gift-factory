@@ -20,7 +20,6 @@ Application::Application()
 , m_SnowManager(NULL)
 {
 	m_vScenes.clear();
-	m_vSceneRendered.clear();
 }
 
 Application::~Application()
@@ -28,7 +27,6 @@ Application::~Application()
 	ShaderManager::destroy();
 
 	m_vScenes.clear();
-	m_vSceneRendered.clear();
 
 	SDL_Quit();
 }
@@ -45,11 +43,14 @@ void Application::init()
 	initShaders();
 
 	//Snow Manager
-	m_SnowManager = new SnowManager(5, 0, 0, 0);
-	m_SnowManager->init();
+	//m_SnowManager = new SnowManager(5, 0, 0, 0);
+	//m_SnowManager->init();
 
 	// Scene loadings
 	initScenes();
+
+	//TODO : fonction setCamera
+	m_camera =  new Camera(this);
 }
 
 void Application::initSDL()
@@ -122,9 +123,9 @@ void Application::initGL()
 void Application::initScenes()
 {
 	// TODO : A REMPLACER
-	m_vScenes.push_back(new Scene());
+	m_vScenes.push_back(new Scene(this));
 	m_vScenes[0]->init();
-	m_vSceneRendered.push_back(0);
+	m_vSceneRendered = 0;
 }
 
 void Application::initShaders()
@@ -227,24 +228,24 @@ void Application::keyboardEvent(SDL_KeyboardEvent *event)
 			break;
 		//Pour se déplacer : attention c'est dégueu -> utilise la camera de la scene 0
 		case SDLK_UP:
-			position = m_vScenes[0]->getCamera()->getPosition();
+			position = getCamera()->getPosition();
 			position[2] -= 1;
-			m_vScenes[0]->getCamera()->setPosition(position);
+			getCamera()->setPosition(position);
 			break;
 		case SDLK_DOWN:
-			position = m_vScenes[0]->getCamera()->getPosition();
+			position = getCamera()->getPosition();
 			position[2] += 1;
-			m_vScenes[0]->getCamera()->setPosition(position);
+			getCamera()->setPosition(position);
 			break;
 		case SDLK_LEFT:
-			position = m_vScenes[0]->getCamera()->getPosition();
+			position = getCamera()->getPosition();
 			position[0] -= 1;
-			m_vScenes[0]->getCamera()->setPosition(position);
+			getCamera()->setPosition(position);
 			break;
 		case SDLK_RIGHT:
-			position = m_vScenes[0]->getCamera()->getPosition();
+			position = getCamera()->getPosition();
 			position[0] += 1;
-			m_vScenes[0]->getCamera()->setPosition(position);
+			getCamera()->setPosition(position);
 			break;
 		default:
 			break;
@@ -281,16 +282,15 @@ void Application::update()
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		checkEvents();
+		m_camera->moveForward();
 
-		for(unsigned int i = 0; i < m_vSceneRendered.size(); ++i)
-		{
-			unsigned int uiId = m_vSceneRendered[i];
-			m_vScenes[uiId]->update();
-			m_vScenes[uiId]->render();
+		unsigned int uiId = m_vSceneRendered;
+		m_vScenes[uiId]->update();
+		m_vScenes[uiId]->render();
 
-			//Snow Manager
-			//m_SnowManager->update(m_vScenes[uiId]->getCamera()->getAim());
-		}
+		//Snow Manager
+		//m_SnowManager->update(m_vScenes[uiId]->getCamera()->getAim());
+
 		
 		SDL_GL_SwapBuffers();
 	}
@@ -299,4 +299,8 @@ void Application::update()
 bool Application::isRunning()
 {
 	return m_bRunning;
+}
+
+Scene* Application::getRenderedScene(){
+	return m_vScenes[m_vSceneRendered];
 }

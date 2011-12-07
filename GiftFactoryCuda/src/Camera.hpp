@@ -4,11 +4,12 @@
 #include "Utils.hpp"
 
 class Spline;
+class Application;
 
 class Camera
 {
 	public :
-		Camera();
+		Camera(Application* parentApp);
 		~Camera();
 
 		void lookAt(GLfloat * c, GLfloat * aim, GLfloat * up);
@@ -26,6 +27,8 @@ class Camera
 		static const float focalDistance;
 		static const float focalRange;
 
+		inline Application* getParentApp() {return m_parentApp;};
+
 	private :
 		// View Data
 		GLfloat _position[3]; // Camera position 
@@ -36,7 +39,9 @@ class Camera
 
 		GLfloat _aim[3];
 
-		Spline* _spline;
+		Application* m_parentApp;
+
+		
 };
 
 #endif

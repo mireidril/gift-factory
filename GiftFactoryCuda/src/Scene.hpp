@@ -3,10 +3,11 @@
 
 #include "Utils.hpp"
 #include "Object.hpp"
-#include "Application.hpp"
 
 class Object;
+class Application;
 class Camera;
+class Spline;
 
 class Scene
 {
@@ -19,7 +20,7 @@ class Scene
 			unsigned int colorTexture, depthTexture;
 			unsigned int littleColorTexture, littleDepthTexture; 
 	};
-		Scene();
+		Scene(Application* parentApp);
 		~Scene();
 
 		void init();
@@ -29,13 +30,15 @@ class Scene
 		void update();
 		void drawSquare();
 
-		inline Camera* getCamera() {return m_camera;};
+		inline Spline* getSpline () {return _spline;};
 
 	private :
 		FBODatas m_fboDatas;
 		//Objets id
 		std::vector<Object*> objects;
-		Camera* m_camera;
+		Application* m_parentApp;
+		Spline* _spline;
+		
 };
 
 #endif
