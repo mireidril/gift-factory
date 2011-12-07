@@ -5,6 +5,7 @@
 
 class Scene;
 class SnowManager;
+class Camera;
 
 //Main class of the program
 class Application
@@ -35,6 +36,11 @@ class Application
 
 		static unsigned int windowWidth;
 		static unsigned int windowHeight;
+
+		inline Camera* getCamera() {return m_camera;};
+
+		Scene* getRenderedScene();
+
 	private :
 		bool m_bRunning;
 		
@@ -52,10 +58,12 @@ class Application
 
 		//Scenes
 		std::vector<Scene*> m_vScenes;
-		std::vector<unsigned int> m_vSceneRendered;		//Contains the position (of the vector "m_vScenes") of the scenes which are going to be rendered
+		unsigned int m_vSceneRendered;		//Contains the position (of the vector "m_vScenes") of the scenes which are going to be rendered
 
 		//Snow Manager
 		SnowManager * m_SnowManager;
+
+		Camera* m_camera;
 
 };
 

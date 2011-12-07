@@ -2,9 +2,80 @@
 #include "Object.hpp"
 #include "ShaderManager.hpp"
 #include "Camera.hpp"
+#include "Application.hpp"
+#include "Spline.hpp"
 
-Scene::Scene()
-{}
+Scene::Scene(Application* parentApp)
+{
+	m_parentApp = parentApp;
+
+	//tests spline 
+	std::vector<Spline::PointSpline> vertices;
+	Spline::PointSpline v1;
+	v1.position[0] = 0;
+	v1.position[1] = 0;
+	v1.position[2] = 12;
+	v1.nbFrames = 1;
+	v1.yaw = 0;
+	v1.debutRotation = false;
+	v1.finRotation = false;
+	vertices.push_back(v1);
+
+	Spline::PointSpline v2;
+	v2.position[0] = -2;
+	v2.position[1] = 0;
+	v2.position[2] = 9;
+	v2.nbFrames = 1;
+	v2.yaw = 0;
+	v2.debutRotation = true;
+	v2.finRotation = false;
+	vertices.push_back(v2);
+
+	Spline::PointSpline v3;
+	v3.position[0] = 0;
+	v3.position[1] = 0;
+	v3.position[2] = 6;
+	v3.nbFrames = 1;
+	v3.yaw = -90;
+	v3.debutRotation = false;
+	v3.finRotation = true;
+	vertices.push_back(v3);
+
+	Spline::PointSpline v4;
+	v4.position[0] = 2;
+	v4.position[1] = -1;
+	v4.position[2] = 5;
+	v4.nbFrames = 1000;
+	v4.yaw = 20;
+	v4.selfRotate = true;
+	v4.debutSelfRotate = 0;
+	v4.finSelfRotate = 1000;
+	v4.debutRotation = false;
+	v4.finRotation = false;
+	vertices.push_back(v4);
+
+	Spline::PointSpline v5;
+	v5.position[0] = 3;
+	v5.position[1] = 0;
+	v5.position[2] = 2;
+	v5.nbFrames = 1;
+	v5.yaw = 20;
+	v5.debutRotation = true;
+	v5.finRotation = false;
+	vertices.push_back(v5);
+
+	Spline::PointSpline v6;
+	v6.position[0] = 1;
+	v6.position[1] = 0;
+	v6.position[2] = 1;
+	v6.nbFrames = 1;
+	v6.yaw = 45;
+	v6.debutRotation = false;
+	v6.finRotation = true;
+	vertices.push_back(v6);
+
+	_spline = new Spline(vertices, 5000);
+}
 
 Scene::~Scene()
 {}
@@ -17,8 +88,7 @@ void Scene::init()
 	loadObj("SET_test");
 	//loadObj("SET_scene1");
 
-	//TODO : fonction setCamera
-	m_camera =  new Camera();
+	
 }
 
 
@@ -133,7 +203,7 @@ void Scene::loadObj(const std::string setFile)
 }
 
 void Scene::update(){
-	m_camera->moveForward();
+	
 	//m_camera->updateView(); //TESTS CELINE
 }
 
@@ -261,7 +331,7 @@ void Scene::render()
 	//Draw here
 	
 	//TODO : envoyer au shader actuellement utilise
-	GLfloat* view = getCamera()->getView();
+	GLfloat* view = m_parentApp->getCamera()->getView();
 	glUniformMatrix4fv(glGetUniformLocation(ShaderManager::getInstance()->getShaderProgramId("texture2D"), "view"), 1, GL_FALSE, view);
 
 	//glUniform3f( glGetUniformLocation( earthProgram, "light" ), lightDir[0], lightDir[1], lightDir[2] );

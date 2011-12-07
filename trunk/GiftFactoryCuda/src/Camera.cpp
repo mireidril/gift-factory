@@ -1,9 +1,11 @@
 #include "Camera.hpp"
 #include "Spline.hpp"
+#include "Application.hpp"
+#include "Scene.hpp"
 
 const float Camera::focalDistance = -0.5;
 const float Camera::focalRange = 0.5;
-Camera::Camera()
+Camera::Camera(Application* parentApp)
 {
 	// View Data
     // Camera position and orientation  
@@ -13,72 +15,7 @@ Camera::Camera()
     GLfloat up[] = {0.0, 1.0, 0.0}; // Vector pointing over the camera
     lookAt(position, _aim, up);
 
-	//tests spline 
-	std::vector<Spline::PointSpline> vertices;
-	Spline::PointSpline v1;
-	v1.position[0] = 0;
-	v1.position[1] = 0;
-	v1.position[2] = 12;
-	v1.nbFrames = 1;
-	v1.yaw = 0;
-	v1.debutRotation = false;
-	v1.finRotation = false;
-	vertices.push_back(v1);
-
-	Spline::PointSpline v2;
-	v2.position[0] = -2;
-	v2.position[1] = 0;
-	v2.position[2] = 9;
-	v2.nbFrames = 1;
-	v2.yaw = 0;
-	v2.debutRotation = true;
-	v2.finRotation = false;
-	vertices.push_back(v2);
-
-	Spline::PointSpline v3;
-	v3.position[0] = 0;
-	v3.position[1] = 0;
-	v3.position[2] = 6;
-	v3.nbFrames = 1;
-	v3.yaw = -90;
-	v3.debutRotation = false;
-	v3.finRotation = true;
-	vertices.push_back(v3);
-
-	Spline::PointSpline v4;
-	v4.position[0] = 2;
-	v4.position[1] = -1;
-	v4.position[2] = 5;
-	v4.nbFrames = 1000;
-	v4.yaw = 20;
-	v4.selfRotate = true;
-	v4.debutSelfRotate = 0;
-	v4.finSelfRotate = 1000;
-	v4.debutRotation = false;
-	v4.finRotation = false;
-	vertices.push_back(v4);
-
-	Spline::PointSpline v5;
-	v5.position[0] = 3;
-	v5.position[1] = 0;
-	v5.position[2] = 2;
-	v5.nbFrames = 1;
-	v5.yaw = 20;
-	v5.debutRotation = true;
-	v5.finRotation = false;
-	vertices.push_back(v5);
-
-	Spline::PointSpline v6;
-	v6.position[0] = 1;
-	v6.position[1] = 0;
-	v6.position[2] = 1;
-	v6.nbFrames = 1;
-	v6.yaw = 45;
-	v6.debutRotation = false;
-	v6.finRotation = true;
-	vertices.push_back(v6);
-
-	_spline = new Spline(vertices, 5000);
+	m_parentApp = parentApp;
 }
 
 Camera::~Camera()
@@ -133,18 +70,19 @@ void Camera::updateView()
 }
 
 void Camera::moveForward(){
-	_spline->moveForward();
-	Spline::PointSpline splinePos = _spline->getCurrentPosition();
+	Spline* spline = m_parentApp->getRenderedScene()->getSpline();
+	spline->moveForward();
+	Spline::PointSpline splinePos = spline->getCurrentPosition();
 	GLfloat cameraPos[] = {splinePos.position[0], splinePos.position[1], splinePos.position[2]};
-	_aim[0] = cameraPos[0] + (_spline->getNextPosition().position[0] - _spline->getLastPosition().position[0]);
+	_aim[0] = cameraPos[0] + (spline->getNextPosition().position[0] - spline->getLastPosition().position[0]);
 	//TODO orientation vers le haut géré aussi par la spline ? modifier le up du coup
 	_aim[1] = cameraPos[1];
-	_aim[2] = cameraPos[2] + (_spline->getNextPosition().position[2] - _spline->getLastPosition().position[2]);
+	_aim[2] = cameraPos[2] + (spline->getNextPosition().position[2] - spline->getLastPosition().position[2]);
 	GLfloat vectDirect[3] = {_aim[0] - cameraPos[0], 0, _aim[2] - cameraPos[2]};
 	GLfloat* vectDirectRotated = new GLfloat[3];
-	vectDirectRotated[0] = vectDirect[0] * cos(_spline->getCurrentYaw()*3.1416/180) - vectDirect[2] * sin(_spline->getCurrentYaw()*3.1416/180);
+	vectDirectRotated[0] = vectDirect[0] * cos(spline->getCurrentYaw()*3.1416/180) - vectDirect[2] * sin(spline->getCurrentYaw()*3.1416/180);
 	vectDirectRotated[1] = 0;
-	vectDirectRotated[2] = vectDirect[0] * sin(_spline->getCurrentYaw()*3.1416/180) + vectDirect[2] * cos(_spline->getCurrentYaw()*3.1416/180);
+	vectDirectRotated[2] = vectDirect[0] * sin(spline->getCurrentYaw()*3.1416/180) + vectDirect[2] * cos(spline->getCurrentYaw()*3.1416/180);
 
 	_aim[0] = cameraPos[0] + vectDirectRotated[0];
 	_aim[1] = cameraPos[1] + vectDirectRotated[1];
