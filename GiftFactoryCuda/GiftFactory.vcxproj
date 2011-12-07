@@ -59,7 +59,7 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>cudart.lib;glew32.lib;opengl32.lib;SDL.lib;SDLmain.lib;SDL_image.lib;glu32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>cudart.lib;opengl32.lib;SDL.lib;SDLmain.lib;SDL_image.lib;glew32.lib;glu32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>../Dependencies/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
@@ -108,6 +108,8 @@
     <None Include="shaders\color.vert" />
     <None Include="shaders\earthShader.frag" />
     <None Include="shaders\earthShader.vert" />
+    <None Include="shaders\star.frag" />
+    <None Include="shaders\star.vert" />
     <None Include="shaders\texture2D.frag" />
     <None Include="shaders\texture2D.vert" />
   </ItemGroup>
