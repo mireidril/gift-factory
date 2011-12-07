@@ -43,8 +43,8 @@ void Application::init()
 	initShaders();
 
 	//Snow Manager
-	//m_SnowManager = new SnowManager(5, 0, 0, 0);
-	//m_SnowManager->init();
+	m_SnowManager = new SnowManager(5, 0, 0, 0);
+	m_SnowManager->init();
 
 	// Scene loadings
 	initScenes();
@@ -287,10 +287,8 @@ void Application::update()
 		unsigned int uiId = m_vSceneRendered;
 		m_vScenes[uiId]->update();
 		m_vScenes[uiId]->render();
-
-			//Snow Manager
-			m_SnowManager->update(m_vScenes[uiId]->getCamera()->getAim());
-		}
+		//Snow Manager
+		m_SnowManager->update(m_camera->getAim());
 		
 		SDL_GL_SwapBuffers();
 	}
