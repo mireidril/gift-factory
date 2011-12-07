@@ -12,11 +12,10 @@ typedef std::map<std::string, GLuint> ModelTextures;
 class Object
 {
 	public :
-		Object(const char* filename, bool enableTextures = true, const char* shaderName = "", bool bMesh = true);
+		Object(const char* filename, bool enableTextures = true);
 		~Object();
 
 		void init();
-		void sendVertices(GLfloat * vertices, const unsigned int & nbVertices);
 		void draw(GLfloat* view);
 		GLuint LoadTexture(const char *pszFilename);
 
@@ -24,13 +23,6 @@ class Object
 		inline void setTransformMat( float * transformMat ){ m_transformMat = transformMat; };
 
 	private :
-		//false = Point Sprite, and true = Mesh
-		bool m_bMesh;
-
-		//Buffers
-		GLuint m_uiVerticeBufferId;
-		GLuint m_uiNbVertices;
-
 		// Mesh Datas
 		const char* objFileName;
 		ModelOBJ	g_model;
