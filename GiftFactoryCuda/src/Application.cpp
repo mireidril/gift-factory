@@ -288,9 +288,9 @@ void Application::update()
 		m_vScenes[uiId]->update();
 		m_vScenes[uiId]->render();
 
-		//Snow Manager
-		//m_SnowManager->update(m_vScenes[uiId]->getCamera()->getAim());
-
+			//Snow Manager
+			m_SnowManager->update(m_vScenes[uiId]->getCamera()->getAim());
+		}
 		
 		SDL_GL_SwapBuffers();
 	}

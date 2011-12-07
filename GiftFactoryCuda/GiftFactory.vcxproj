@@ -108,8 +108,6 @@
     <None Include="shaders\color.vert" />
     <None Include="shaders\earthShader.frag" />
     <None Include="shaders\earthShader.vert" />
-    <None Include="shaders\star.frag" />
-    <None Include="shaders\star.vert" />
     <None Include="shaders\texture2D.frag" />
     <None Include="shaders\texture2D.vert" />
   </ItemGroup>
@@ -128,6 +126,7 @@
     <ClInclude Include="src\ShaderManager.hpp" />
     <ClInclude Include="src\Spline.hpp" />
     <ClInclude Include="src\TextureManager.hpp" />
+    <ClInclude Include="src\TGALoader.h" />
     <ClInclude Include="src\Utils.hpp" />
   </ItemGroup>
   <ItemGroup>
@@ -142,6 +141,7 @@
     <ClCompile Include="src\ShaderManager.cpp" />
     <ClCompile Include="src\Spline.cpp" />
     <ClCompile Include="src\TextureManager.cpp" />
+    <ClCompile Include="src\TGALoader.cpp" />
     <ClCompile Include="src\Utils.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
