@@ -83,7 +83,7 @@ void Object::draw(GLfloat* view)
 	const ModelOBJ::Material *pMaterial = 0;
 	const ModelOBJ::Vertex *pVertices = 0;
 	//float modelViewProj[16];
-    
+    glDisable(GL_BLEND);
 	for (int i = 0; i < g_model.getNumberOfMeshes(); ++i)
 	{
 		pMesh = &g_model.getMesh(i);
