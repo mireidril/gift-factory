@@ -1,16 +1,15 @@
 # 3ds Max Wavefront OBJ Exporter v0.94b - (c)2007 guruware
-# File Created: 07.12.2011 16:34:25
-shader texture2D
-newmtl wire_000000000
-	Ns 58.0000
+# File Created: 08.12.2011 12:03:04
+shader oneTexture
+newmtl 02___Default
+	Ns 10.0000
 	Ni 1.5000
 	d 1.0000
 	Tr 1.0000
 	Tf 1.0000 1.0000 1.0000 
 	illum 2
 	Ka 0.0000 0.0000 0.0000
-	Kd 0.4980 0.4980 0.4980
-	Ks 0.2000 0.2000 0.2000
+	Kd 0.5882 0.5882 0.5882
+	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
-	
-map_multiTex diffuseTexture tree.ppm
+map_multiTex diffuseTexture treeTex.ppm
