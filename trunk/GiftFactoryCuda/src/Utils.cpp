@@ -8,7 +8,7 @@ GLubyte * loadPPM(const char * const fn, unsigned int& w, unsigned int& h)
 	GLubyte * img = NULL;
 
 	FILE * f;
-	fopen_s(&f, fn, "r");
+	f = fopen(fn, "r");
 	if(f == NULL)
 	{
 		fprintf(stderr,"Error in function readPPM : %s doesn't exist\n",fn);
@@ -29,13 +29,13 @@ GLubyte * loadPPM(const char * const fn, unsigned int& w, unsigned int& h)
 				continue;
 			}
 			if(i==0)
-				i += sscanf_s(head, "%d %d %d", &w, &h, &d);
+				i += sscanf(head, "%d %d %d", &w, &h, &d);
 			else
 				if(i==1)
-					i += sscanf_s(head, "%d %d", &h, &d);
+					i += sscanf(head, "%d %d", &h, &d);
 				else
 					if(i==2)
-						i += sscanf_s(head, "%d", &d);
+						i += sscanf(head, "%d", &d);
 		}
 		img = new GLubyte[(size_t)(w) * (size_t)(h) * 3];
 		

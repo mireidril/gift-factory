@@ -4,7 +4,11 @@
 #include <iostream>
 #include <vector>
 
+#ifdef _WIN32
 #include "GL/glew.h"
+#else
+#include <GL/glew.h>
+#endif
 #include "Object.hpp"
 
 typedef struct _flake

@@ -115,7 +115,11 @@ void Scene::loadObj(const std::string setFile)
 		getline(stream, line); // get the ligne
 		buffer.clear(); buffer.str(line);
 		std::string name; buffer >> name; // Read the name of the object
+#ifdef _WIN32
 		std::string fileName = "./objects/"+name+".obj";
+#else
+		std::string fileName = "../objects/"+name+".obj";
+#endif
 
 		Object * objLoaded = new Object(fileName.c_str());
 
