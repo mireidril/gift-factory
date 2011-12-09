@@ -4,7 +4,11 @@
 #include <iostream>
 #include <vector>
 #include <sstream>
+#ifdef _WIN32
 #include "SDL/SDL_image.h"
+#else
+#include <SDL/SDL_image.h>
+#endif
 
 class TextureManager
 {

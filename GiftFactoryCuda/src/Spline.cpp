@@ -13,7 +13,7 @@ Spline::Spline(const std::vector<PointSpline> & vertices, int nbPoints)
 	nodes.push_back(1.);
 	double t=0;
 
-	std::vector<std::pair<int, double>> splineCoefMax;
+	std::vector<std::pair<int, double> > splineCoefMax;
 	for (unsigned int i = 0 ; i<vertices.size() ; i++){
 		std::pair<int, double> pair;
 		pair.first = 0;
@@ -63,7 +63,7 @@ Spline::Spline(const std::vector<PointSpline> & vertices, int nbPoints)
 			}
 		}
 	}
-	for (int i=0 ; i<splineCoefMax.size() ; i++){
+	for (unsigned int i=0 ; i<splineCoefMax.size() ; i++){
 		if (vertices[i].debutRotation){
 			int j=i;
 			while (!vertices[j].finRotation){

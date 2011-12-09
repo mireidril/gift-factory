@@ -20,7 +20,11 @@ void ShaderManager::destroy()
 
 GLhandleARB ShaderManager::addShaders(const char* fileName,  bool bGeometryShader)
 {
+#ifdef _WIN32
 	std::string sFileName("shaders/");
+#else
+	std::string sFileName("../shaders/");
+#endif
 	sFileName += fileName;
 
 	unsigned int nbShaderFiles;
@@ -88,7 +92,7 @@ GLhandleARB ShaderManager::loadShader(const std::string & sFileName)
 		return 0;
 	}
 
-	std::ifstream file(sFileName); 
+	std::ifstream file(sFileName.c_str()); 
 	if(!file)
 	{
 		return 0;
@@ -143,7 +147,11 @@ GLhandleARB ShaderManager::compileShader(GLhandleARB object)
 		glGetObjectParameterivARB(object, GL_OBJECT_INFO_LOG_LENGTH_ARB, &length);
 		if(length>0)
 		{
+#ifdef _WIN32
 			GLsizei minlength = min(MAX_LOG_STRING, length);
+#else
+			GLsizei minlength = std::min(MAX_LOG_STRING, length);
+#endif
 			glGetInfoLogARB(object, minlength, 0, logstring);
 			std::cerr << logstring << std::endl;
 		}
@@ -179,7 +187,11 @@ GLhandleARB ShaderManager::linkShaders(GLhandleARB* object, const unsigned int& 
 		glGetObjectParameterivARB(programObject, GL_OBJECT_INFO_LOG_LENGTH_ARB, &length);
 		if(length>0)
 		{
-			GLsizei minlength = min(MAX_LOG_STRING,length);
+#ifdef _WIN32
+			GLsizei minlength = min(MAX_LOG_STRING, length);
+#else
+			GLsizei minlength = std::min(MAX_LOG_STRING, length);
+#endif
 			glGetInfoLogARB(programObject, minlength, 0, logstring);
 			std::cerr << logstring << std::endl;
 		}

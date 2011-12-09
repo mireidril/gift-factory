@@ -2,7 +2,11 @@
 
 #include "cuda_functions.h"
 
+#ifdef _WIN32
 #include "GL/glu.h"
+#else
+#include <GL/glu.h>
+#endif
 
 #include "cuda_functions.h"
 #include "TextureManager.hpp"

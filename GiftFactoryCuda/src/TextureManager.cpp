@@ -16,7 +16,11 @@ TextureManager::Texture* TextureManager::addAndLoadTexture(std::string name, std
 	tex->texFileName = name;
 	tex->shaderUniformName = shaderUniformName;
 	// Load the texture image
+#ifdef _WIN32
 	std::string texFile = "./textures/" + name;
+#else
+	std::string texFile = "../textures/" + name;
+#endif
 	std::cout << "loading : " << texFile << std::endl;
 	SDL_Surface *surf = IMG_Load(texFile.c_str());
 	tex->texPicture = surf;

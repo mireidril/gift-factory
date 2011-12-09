@@ -28,9 +28,7 @@ void Object::init()
 	std::cout << "obj to load : " << objFileName << std::endl;
 	if (!g_model.import(objFileName))
 	{
-		SetCursor(LoadCursor(0, IDC_ARROW));
 		std::cout << "Failed to load model " << std::endl;
-		throw std::runtime_error("Failed to load model.");
 	}
 	else 
 		g_model.normalize();
