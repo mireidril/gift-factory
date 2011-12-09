@@ -12,7 +12,6 @@ typedef struct _flake
 	float x;
 	float y;
 	float z;
-	float size;
 } Flake;
 
 class SnowManager
@@ -22,6 +21,9 @@ class SnowManager
 		float m_iXMax;
 		float m_iYMax;
 		float m_iZMax;
+
+		float size;
+
 		Flake * m_vFlakes;
 
 		GLuint textureId;
