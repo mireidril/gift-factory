@@ -13,19 +13,21 @@ SnowManager::SnowManager(const unsigned int & nbFlakes, const int & xMax, const 
 , m_iXMax(xMax)
 , m_iYMax(yMax)
 , m_iZMax(zMax)
+, m_Size (17.f)
+, m_Vent(0)
+, cameraLastPos(NULL)
 , textureId(0)
 {
 	if( m_uiNbFlakes > 0)
 	{
-		size = 40.f;
 		m_vFlakes = new Flake[m_uiNbFlakes];
 		for(unsigned int i = 0; i < m_uiNbFlakes; ++i)
 		{
 			Flake f;
 			//At the start, random position
-			f.x = rand()%100 - 50;
-			f.y = rand()%100 - 50;
-			f.z = - rand()%100;
+			f.x = rand()%m_iXMax - m_iXMax/2;
+			f.y = rand()%m_iYMax - m_iYMax/2 + m_iYMax/3;
+			f.z = - rand()%m_iZMax + 10.f;
 
 			m_vFlakes[i] = f;
 		}
@@ -38,7 +40,7 @@ void SnowManager::init()
 	glBindTexture(GL_TEXTURE_2D, textureId);
 	
 	TextureManager::Texture * tex = NULL;
-	tex = TextureManager::addAndLoadTexture("particle.png", "");
+	tex = TextureManager::addAndLoadTexture("bouboule.png", "");
 	
 	if (tex->texPicture)
 	{
@@ -47,13 +49,13 @@ void SnowManager::init()
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, tex->texPicture->w, tex->texPicture->h, 0, GL_RGBA, GL_UNSIGNED_BYTE, tex->texPicture->pixels);
 	}
 	else
-		std::cout<<"Problem when loading 'particle.png'"<<std::endl;
+		std::cout<<"Problem when loading 'floconGrise.png'"<<std::endl;
 
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 
-	float fMaxSize = 64.0f;
+	float fMaxSize = 40.0f;
 	float coeffs[] = { 1.0f, .0f, 0.0001f };
     glPointParameterfv(GL_POINT_DISTANCE_ATTENUATION, coeffs);
     
@@ -62,20 +64,66 @@ void SnowManager::init()
     glPointParameterf (GL_POINT_SIZE_MIN, 1.0f);
 }
 
-void SnowManager::update(const float* posCamera)
+void SnowManager::moveFlakes()
 {
 	for(unsigned int i = 0; i < m_uiNbFlakes; ++i)
 	{
-		/*m_vFlakes[i].x = posCamera[0] + (float) i/10;
-		m_vFlakes[i].y = posCamera[1];
-		m_vFlakes[i].z = -1.f;*/
+		if(m_Vent == 0)
+		{
+			m_Vent = rand()%10 - 10.f;
+		}
+		if(m_Vent < 0.f)
+		{
+			m_vFlakes[i].x -= 0.01f;
+			m_Vent += 0.1f;
+			if(m_Vent >= 0.f)
+				m_Vent = 0.f;
+		}
+		else
+		{
+			m_vFlakes[i].x += 0.01f;
+			m_Vent -= 0.1f;
+			if(m_Vent <= 0.f)
+				m_Vent = 0.f;
+		}
+
+		if(m_vFlakes[i].y < -m_iYMax/2)
+		{
+			m_vFlakes[i].y += m_iYMax;
+		}
+		m_vFlakes[i].y -= 0.1f;
 	}
+}
+
+void SnowManager::update(const float* posCamera)
+{
+	if(cameraLastPos == NULL)
+	{
+		cameraLastPos = new GLfloat[3];
+		cameraLastPos[0] = 0.f;
+		cameraLastPos[1] = 0.f;
+		cameraLastPos[2] = 0.f;
+	}
+
+	for(unsigned int i = 0; i < m_uiNbFlakes; ++i)
+	{
+		m_vFlakes[i].x += posCamera[0] - cameraLastPos[0];
+		m_vFlakes[i].y -= posCamera[1] - cameraLastPos[1];
+		m_vFlakes[i].z += posCamera[2] - cameraLastPos[2];
+	}
+
+	for(unsigned int i = 0; i < 3; ++i)
+	{
+		cameraLastPos[i] = posCamera[i];
+	}
+
+	moveFlakes();
 
 	glUseProgram(0);
 	//glEnable(GL_POINT_SMOOTH);
 	glEnable (GL_BLEND);
 	glBlendFunc (GL_ONE, GL_ONE);
-	glPointSize(size);
+	glPointSize(m_Size);
 
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, textureId);
