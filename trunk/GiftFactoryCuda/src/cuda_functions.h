@@ -32,6 +32,5 @@ class SnowManager
 		void update(const float * posCamera);
 		void see();
 };
-void launch_bb();
 
 #endif
