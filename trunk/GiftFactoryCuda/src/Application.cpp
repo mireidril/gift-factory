@@ -44,7 +44,7 @@ void Application::init()
 	initShaders();
 
 	//Snow Manager
-	m_SnowManager = new SnowManager(5, 0, 0, 0);
+	m_SnowManager = new SnowManager(1000, 0, 0, 0);
 	m_SnowManager->init();
 
 	// Scene loadings

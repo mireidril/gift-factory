@@ -126,7 +126,6 @@
     <ClInclude Include="src\ShaderManager.hpp" />
     <ClInclude Include="src\Spline.hpp" />
     <ClInclude Include="src\TextureManager.hpp" />
-    <ClInclude Include="src\TGALoader.h" />
     <ClInclude Include="src\Utils.hpp" />
   </ItemGroup>
   <ItemGroup>
@@ -141,7 +140,6 @@
     <ClCompile Include="src\ShaderManager.cpp" />
     <ClCompile Include="src\Spline.cpp" />
     <ClCompile Include="src\TextureManager.cpp" />
-    <ClCompile Include="src\TGALoader.cpp" />
     <ClCompile Include="src\Utils.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
