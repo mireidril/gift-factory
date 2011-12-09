@@ -2,7 +2,6 @@
 #include "ShaderManager.hpp"
 #include "Application.hpp"
 #include "Camera.hpp"
-#include "TGALoader.h"
 
 
 Object::Object(const char* filename, bool enableTextures)

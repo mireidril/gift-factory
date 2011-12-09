@@ -18,19 +18,21 @@ class SnowManager
 {
 	private :
 		unsigned int m_uiNbFlakes;
-		float m_iXMax;
-		float m_iYMax;
-		float m_iZMax;
-
-		float size;
+		int m_iXMax;
+		int m_iYMax;
+		int m_iZMax;
+		float m_Size;
+		float m_Vent;
 
 		Flake * m_vFlakes;
+		GLfloat * cameraLastPos;
 
 		GLuint textureId;
 
 	public:
 		SnowManager(const unsigned int & nbFlakes, const int & xMax, const int & yMax, const int & zMax);
 		void init();
+		void moveFlakes();
 		void update(const float * posCamera);
 		void see();
 };
