@@ -120,11 +120,18 @@ void Scene::loadObj(const std::string setFile)
 #else
 		std::string fileName = "../objects/"+name+".obj";
 #endif
+		float scale = 1.0;
+		buffer >> scale;
 
 		Object * objLoaded = new Object(fileName.c_str());
 
 		float * transformMat = new float[16];
+		
 		for(j=0; j<16; j++) buffer >> transformMat[j];
+		std::cout << "scale = " << scale << std::endl;
+		transformMat[0] *= scale;
+		transformMat[5] *= scale;
+		transformMat[10] *= scale;
 		//transformMat[0] *= objects[i].scale[0]; 
 		//transformMat[5] *= objects[i].scale[1]; 
 		//objects[i].transformArray[10] *= objects[i].scale[2];	// Apply object scale
