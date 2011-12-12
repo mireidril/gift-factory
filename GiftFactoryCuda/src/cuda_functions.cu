@@ -93,12 +93,16 @@ void SnowManager::update(const float* posCamera)
 		cameraLastPos[2] = 0.f;
 	}
 
-	/*for(unsigned int i = 0; i < m_uiNbFlakes; ++i)
+	for(unsigned int i = 0; i < m_uiNbFlakes; ++i)
 	{
-		m_vFlakes[i].x += posCamera[0] - cameraLastPos[0];
-		m_vFlakes[i].y -= posCamera[1] - cameraLastPos[1];
-		m_vFlakes[i].z += posCamera[2] - cameraLastPos[2];
-	}*/
+		//m_vFlakes[i].x += posCamera[0] - cameraLastPos[0];
+		//m_vFlakes[i].y -= posCamera[1] - cameraLastPos[1];
+		//m_vFlakes[i].z += posCamera[2] - cameraLastPos[2];
+
+		m_vFlakes[i].x -= posCamera[0] - cameraLastPos[0];
+		m_vFlakes[i].y += posCamera[1] - cameraLastPos[1];
+		//m_vFlakes[i].z -= posCamera[2] - cameraLastPos[2];
+	}
 
 	for(unsigned int i = 0; i < 3; ++i)
 	{
