@@ -10,7 +10,6 @@
 
 #include "cuda_functions.h"
 #include "TextureManager.hpp"
-#include "ShaderManager.hpp"
 
 SnowManager::SnowManager(const unsigned int & nbFlakes, const int & xMax, const int & yMax, const int & zMax)
 : m_uiNbFlakes(nbFlakes)
@@ -29,9 +28,9 @@ SnowManager::SnowManager(const unsigned int & nbFlakes, const int & xMax, const 
 		{
 			Flake f;
 			//At the start, random position
-			f.x = rand()%m_iXMax - m_iXMax/2;
-			f.y = rand()%m_iYMax - m_iYMax/2 + m_iYMax/3;
-			f.z = - rand()%m_iZMax + 10.f;
+			f.x = rand()%m_iXMax - (float)m_iXMax/2.f + (float) (rand()%100/100.f);
+			f.y = rand()%m_iYMax - (float)m_iYMax/2.f + (float)m_iYMax/3.f + (float) (rand()%100/100.f);
+			f.z = - rand()%m_iZMax + 1.f + (float) (rand()%100/100.f);
 
 			m_vFlakes[i] = f;
 		}
@@ -53,7 +52,7 @@ void SnowManager::init()
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, tex->texPicture->w, tex->texPicture->h, 0, GL_RGBA, GL_UNSIGNED_BYTE, tex->texPicture->pixels);
 	}
 	else
-		std::cout<<"Problem when loading 'floconGrise.png'"<<std::endl;
+		std::cout<<"Problem when loading 'bouboule.png'"<<std::endl;
 
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -72,7 +71,7 @@ void SnowManager::moveFlakes()
 {
 	for(unsigned int i = 0; i < m_uiNbFlakes; ++i)
 	{
-		if(m_Vent == 0)
+		/*if(m_Vent == 0)
 		{
 			m_Vent = rand()%10 - 10.f;
 		}
@@ -89,13 +88,13 @@ void SnowManager::moveFlakes()
 			m_Vent -= 0.1f;
 			if(m_Vent <= 0.f)
 				m_Vent = 0.f;
-		}
+		}*/
 
 		if(m_vFlakes[i].y < -m_iYMax/2)
 		{
 			m_vFlakes[i].y += m_iYMax;
 		}
-		m_vFlakes[i].y -= 0.1f;
+		m_vFlakes[i].y -= (float) izMax/1000.f;
 	}
 }
 
@@ -152,14 +151,6 @@ void SnowManager::update(const float* posCamera)
 	glDisable(GL_TEXTURE_2D);
 	glDisable(GL_ALPHA_TEST);
 	//glDisable(GL_POINT_SMOOTH);
-}
-
-void SnowManager::see()
-{
-	/*for(unsigned int i = 0; i < m_uiNbFlakes; ++i)
-	{
-		std::cout << m_vFlakes[i].x<< std::endl;
-	}*/
 }
 
 #endif

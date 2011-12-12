@@ -150,7 +150,6 @@ void Scene::loadObj(const std::string setFile)
 
 void Scene::update(){
 	
-	//m_camera->updateView(); //TESTS CELINE
 }
 
 /*

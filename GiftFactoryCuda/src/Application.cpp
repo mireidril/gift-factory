@@ -43,8 +43,8 @@ void Application::init()
 	// Shaders initialisation
 	//initShaders();
 
-	//Snow Manager
-	m_SnowManager = new SnowManager(5000, 100, 100, 75);
+	//Snow Manager : swow fall is the most realistic if xMax = yMax = zMax
+	m_SnowManager = new SnowManager(3000, 10, 10, 10);
 	m_SnowManager->init();
 
 	// Scene loadings
@@ -426,6 +426,8 @@ void Application::update()
 		if (!m_camera->moveForward() && m_vSceneRendered<m_vScenes.size()-1){
 			m_vSceneRendered++;
 		}
+		//For tests
+		//getCamera()->updateView();
 
 		unsigned int uiId = m_vSceneRendered;
 		m_vScenes[uiId]->update();
