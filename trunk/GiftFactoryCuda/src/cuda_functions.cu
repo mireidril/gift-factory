@@ -1,10 +1,11 @@
 #include "GL/glew.h"
+#include "GL/glu.h"
+
+#ifdef _WIN32
 #include "CUDA/cuda.h"
-#include "GL/glu.h"
-
-#include "cuda_functions.h"
-
-#include "GL/glu.h"
+#else
+#include <cuda.h>
+#endif
 
 #include "cuda_functions.h"
 #include "TextureManager.hpp"
@@ -93,7 +94,7 @@ void SnowManager::update(const float* posCamera)
 		cameraLastPos[2] = 0.f;
 	}
 
-	for(unsigned int i = 0; i < m_uiNbFlakes; ++i)
+	/*for(unsigned int i = 0; i < m_uiNbFlakes; ++i)
 	{
 		//m_vFlakes[i].x += posCamera[0] - cameraLastPos[0];
 		//m_vFlakes[i].y -= posCamera[1] - cameraLastPos[1];
@@ -102,7 +103,7 @@ void SnowManager::update(const float* posCamera)
 		m_vFlakes[i].x -= posCamera[0] - cameraLastPos[0];
 		m_vFlakes[i].y += posCamera[1] - cameraLastPos[1];
 		//m_vFlakes[i].z -= posCamera[2] - cameraLastPos[2];
-	}
+	}*/
 
 	for(unsigned int i = 0; i < 3; ++i)
 	{

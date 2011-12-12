@@ -14,6 +14,7 @@
 #endif
 
 #include <algorithm>
+#include <math.h>
 
 #include <iostream>
 #include <fstream>
