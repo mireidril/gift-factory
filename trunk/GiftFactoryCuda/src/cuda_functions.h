@@ -38,7 +38,6 @@ class SnowManager
 		void init();
 		void moveFlakes();
 		void update(const float * posCamera);
-		void see();
 };
 
 #endif
