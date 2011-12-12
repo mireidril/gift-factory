@@ -21,7 +21,7 @@ class Scene
 			unsigned int colorTexture, depthTexture;
 			unsigned int littleColorTexture, littleDepthTexture; 
 	};
-		Scene(Application* parentApp, std::vector<Spline::PointSpline> vertices, std::string file);
+		Scene(Application* parentApp, std::string file_spline, std::string file);
 		~Scene();
 
 		void init();

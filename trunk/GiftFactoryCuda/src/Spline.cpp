@@ -1,8 +1,61 @@
 #include "Spline.hpp"
 
-Spline::Spline(const std::vector<PointSpline> & vertices, int nbPoints)
-	:_nbPoints(nbPoints), _step(1/(double)nbPoints), _currentPosition(0), _currentPointFrame(0)
+Spline::Spline(std::string file_spline)
+	: _currentPosition(0), _currentPointFrame(0)
 {
+	//creer le tableau a partir du fichier
+
+	std::stringstream buffer; std::string line;
+	std::fstream stream(file_spline.c_str(), std::ios::in);
+	int numPoints = 0;
+	
+	while(std::getline(stream, line)) numPoints++;
+	
+	stream.clear(); stream.seekg(0, std::ios::beg);	// Rewind the file
+
+	//first and second lines are ignored for the comment
+	getline(stream, line);
+	getline(stream, line);
+	//third line for the nb of points
+	getline(stream, line); 
+	buffer.clear(); buffer.str(line);
+	buffer >> _nbPoints; 
+	_step = 1/(double)_nbPoints;
+
+	std::vector<Spline::PointSpline> vertices;
+
+	for(int n = 0; n<numPoints; n++){
+		getline(stream, line); // get the ligne
+		buffer.clear(); buffer.str(line);
+
+		Spline::PointSpline v;
+		bool testBoolean;
+
+		buffer >> v.position[0];
+		buffer >> v.position[1];
+		buffer >> v.position[2];
+		
+		buffer >> v.yaw;
+		buffer >> testBoolean;
+		if (testBoolean == 0) v.debutRotation = false;
+		else v.debutRotation = true;
+		buffer >> testBoolean;
+		if (testBoolean == 0) v.finRotation = false;
+		else v.finRotation = true;
+
+		buffer >> testBoolean;
+		if (testBoolean == 0) v.selfRotate = false;
+		else v.selfRotate = true;
+
+		buffer >> v.debutSelfRotate;
+		buffer >> v.finSelfRotate;
+
+		buffer >> v.nbFrames;
+
+		vertices.push_back(v);
+
+	}
+
 	std::vector<double> nodes;
 	nodes.push_back(0.);
 	nodes.push_back(0.);
@@ -45,13 +98,13 @@ Spline::Spline(const std::vector<PointSpline> & vertices, int nbPoints)
 		pointSpline.position[1] = posY;
 		pointSpline.position[2] = posZ;
 		pointSpline.yaw = 0;
-		//pointSpline.roll = 0;
-		//pointSpline.pitch = 0;
 		pointSpline.nbFrames = 1;
 
 		_splinePoints.push_back(pointSpline);
 		t +=  _step;
+
 	}
+
 	for (unsigned int i=0 ; i<splineCoefMax.size() ; i++){
 		_splinePoints[splineCoefMax[i].first].nbFrames = vertices[i].nbFrames;
 		_splinePoints[splineCoefMax[i].first].selfRotate = vertices[i].selfRotate;
@@ -63,6 +116,7 @@ Spline::Spline(const std::vector<PointSpline> & vertices, int nbPoints)
 			}
 		}
 	}
+
 	for (unsigned int i=0 ; i<splineCoefMax.size() ; i++){
 		if (vertices[i].debutRotation){
 			int j=i;
@@ -77,6 +131,7 @@ Spline::Spline(const std::vector<PointSpline> & vertices, int nbPoints)
 			}
 		}
 	}
+
 }
 
 

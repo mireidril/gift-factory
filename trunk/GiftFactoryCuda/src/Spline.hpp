@@ -24,7 +24,7 @@ public:
 		GLuint nbFrames;
 	};
 
-	Spline(const std::vector<PointSpline> & vertices, int nbPoints = 10000);
+	Spline(std::string file_spline);
 	~Spline();
 
 	double computeCoefSpline(int i, int d, const std::vector<double> & nodes, double t);
