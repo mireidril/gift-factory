@@ -5,11 +5,11 @@
 #include "Application.hpp"
 #include "Spline.hpp"
 
-Scene::Scene(Application* parentApp, std::vector<Spline::PointSpline> vertices, std::string file)
+Scene::Scene(Application* parentApp, std::string file_spline, std::string file)
 {
 	m_parentApp = parentApp;
 	m_file = file;
-	_spline = new Spline(vertices, 5000);
+	_spline = new Spline(file_spline);
 }
 
 Scene::~Scene()

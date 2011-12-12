@@ -1,0 +1,9 @@
+# first line = nb points de la spline apres l'interpolation
+# a partir de la 2e ligne : position[0] position[1] position[2] yaw(float) debutRotation(0 ou 1) finRotation(0 ou 1) selfRotate(0 ou 1) debutSelfRotate(int) finSelfRotate(int) nbFrames(int)
+5000
+10 0 0 0 0 0 0 0 0 1
+8 0 0 0 0 0 0 0 0 1
+6 0 0 0 0 0 0 0 0 1
+4 0 0 0 0 0 0 0 0 1
+2 0 0 0 0 0 0 0 0 1
+0 0 0 0 0 0 0 0 0 1

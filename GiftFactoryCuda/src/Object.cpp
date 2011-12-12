@@ -25,7 +25,7 @@ Object::~Object()
 void Object::init()
 {
 	// Mesh initialisation
-	std::cout << "obj to load : " << objFileName << std::endl;
+	std::cout << objFileName<< "obj to load : " << objFileName << std::endl;
 	if (!g_model.import(objFileName))
 	{
 		std::cout << "Failed to load model " << std::endl;
@@ -80,7 +80,9 @@ void Object::draw(GLfloat* view)
 	const ModelOBJ::Material *pMaterial = 0;
 	const ModelOBJ::Vertex *pVertices = 0;
 	//float modelViewProj[16];
-    glDisable(GL_BLEND);
+
+	glDisable(GL_BLEND);
+    
 	for (int i = 0; i < g_model.getNumberOfMeshes(); ++i)
 	{
 		pMesh = &g_model.getMesh(i);
