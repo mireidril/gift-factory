@@ -138,7 +138,11 @@ void Scene::loadObj(const std::string setFile)
 		std::cout<<std::endl;
 		std::cout << "scale = " << scale << std::endl;
 		transformMat[0] *= scale;
-		transformMat[5] *= scale;
+		if(name == "chalet" ){
+			transformMat[5] *= scale*0.5;
+		}
+		else
+			transformMat[5] *= scale;
 		transformMat[10] *= scale;
 		//transformMat[0] *= objects[i].scale[0]; 
 		//transformMat[5] *= objects[i].scale[1]; 

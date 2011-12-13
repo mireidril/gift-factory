@@ -1,6 +1,6 @@
 # 3ds Max Wavefront OBJ Exporter v0.94b - (c)2007 guruware
 # File Created: 07.12.2011 16:11:05
-shader texture2D
+shader oneTexture
 newmtl _terrainwire_154215229
 	Ns 32.0000
 	Ni 1.5000
@@ -12,6 +12,4 @@ newmtl _terrainwire_154215229
 	Kd 0.6039 0.8431 0.8980
 	Ks 0.3500 0.3500 0.3500
 	Ke 0.0000 0.0000 0.0000
-map_multiTex diffuseTexture map.ppm
-map_multiTex cloudTexture clouds.ppm
-map_multiTex nightTexture night.ppm
+map_multiTex diffuseTexture terrain.ppm

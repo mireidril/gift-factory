@@ -123,7 +123,7 @@ void Application::initGL()
 
 void Application::initScenes()
 {
-	m_vScenes.push_back(new Scene(this, "settings/spline_scene1", "settings/SET_scene1"));
+	m_vScenes.push_back(new Scene(this, "settings/spline2", "settings/SET_scene1_degeu"));
 
 	std::string path;
 #ifdef _WIN32
