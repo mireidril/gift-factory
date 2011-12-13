@@ -44,7 +44,7 @@ void Application::init()
 	//initShaders();
 
 	//Snow Manager : swow fall is the most realistic if xMax = yMax = zMax
-	m_SnowManager = new SnowManager(3000, 10, 10, 10);
+	m_SnowManager = new SnowManager(3000, 30, 30, 30);
 	m_SnowManager->init();
 
 	// Scene loadings

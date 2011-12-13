@@ -50,7 +50,7 @@ SnowManager::SnowManager(const unsigned int & nbFlakes, const int & xMax, const 
 , m_iXMax(xMax)
 , m_iYMax(yMax)
 , m_iZMax(zMax)
-, m_Size (17.f)
+, m_Size (12.f)
 , m_Vent(0)
 , cameraLastPos(NULL)
 , textureId(0)
