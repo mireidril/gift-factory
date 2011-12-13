@@ -1,0 +1,15 @@
+# 3ds Max Wavefront OBJ Exporter v0.97b - (c)2007 guruware
+# Filchier créé : 12.12.2011 23:21:34
+shader oneTexture
+newmtl 3___Default
+	Ns 11.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 0.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.1451 0.1451 0.1451
+	Kd 0.1451 0.1451 0.1451
+	Ks 0.1710 0.1710 0.1710
+	Ke 0.0000 0.0000 0.0000
+map_multiTex diffuseTexture chalet.ppm

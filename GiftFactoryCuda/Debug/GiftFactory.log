@@ -1,15 +1,16 @@
-﻿La génération a démarré 11/12/2011 15:18:44.
+﻿La génération a démarré 13/12/2011 10:35:11.
      1>Projet "C:\Users\Nonore\Documents\IMAC\GiftFactory\GiftFactoryCuda\GiftFactory.vcxproj" sur le nœud 2 (build cible(s)).
      1>InitializeBuildStatus:
          Création de "Debug\GiftFactory.unsuccessfulbuild", car "AlwaysCreate" a été spécifié.
        ClCompile:
-         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I../Dependencies/include /ZI /nologo /W3 /WX- /Od /Oy- /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt src\Scene.cpp
-         Scene.cpp
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I../Dependencies/include /ZI /nologo /W3 /WX- /Od /Oy- /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt src\Application.cpp
+         Application.cpp
      1>c:\program files (x86)\microsoft sdks\windows\v7.0a\include\windef.h(126): warning C4005: 'APIENTRY' : redéfinition de macro
                  c:\users\nonore\documents\imac\giftfactory\dependencies\include\gl\glew.h(113) : voir la définition précédente de 'APIENTRY'
      1>c:\program files (x86)\microsoft sdks\windows\v7.0a\include\wingdi.h(30): warning C4005: 'WINGDIAPI' : redéfinition de macro
                  c:\users\nonore\documents\imac\giftfactory\dependencies\include\gl\glew.h(137) : voir la définition précédente de 'WINGDIAPI'
-     1>c:\users\nonore\documents\imac\giftfactory\giftfactorycuda\src\scene.cpp(105): warning C4101: 'i' : variable locale non référencée
+     1>c:\users\nonore\documents\imac\giftfactory\giftfactorycuda\src\application.cpp(150): warning C4101: 'i' : variable locale non référencée
+     1>c:\users\nonore\documents\imac\giftfactory\giftfactorycuda\src\application.cpp(150): warning C4101: 'j' : variable locale non référencée
        ManifestResourceCompile:
          Toutes les sorties sont à jour.
        Link:
@@ -38,4 +39,4 @@
 
 La génération a réussi.
 
-Temps écoulé 00:00:03.56
+Temps écoulé 00:00:04.31

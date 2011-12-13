@@ -25,7 +25,7 @@ Object::~Object()
 void Object::init()
 {
 	// Mesh initialisation
-	std::cout << objFileName<< "obj to load : " << objFileName << std::endl;
+	std::cout << "obj to load : " << objFileName << std::endl;
 	if (!g_model.import(objFileName))
 	{
 		std::cout << "Failed to load model " << std::endl;
