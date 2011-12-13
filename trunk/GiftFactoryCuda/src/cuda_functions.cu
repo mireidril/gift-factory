@@ -12,7 +12,7 @@
 
 
 // Kernel that executes on the CUDA device
-__global__ void cuda_render(Flake * vFlakes, unsigned int iYMax, unsigned int izMax)
+__global__ void cuda_render(Flake * vFlakes, GLfloat actualAimX, GLfloat lastAimX, unsigned int iXMax, unsigned int iYMax, unsigned int izMax)
 {
 	int index = blockIdx.x * blockDim.x + threadIdx.x;
 
@@ -20,6 +20,28 @@ __global__ void cuda_render(Flake * vFlakes, unsigned int iYMax, unsigned int iz
 	{
 		vFlakes[index].y += iYMax;
 	}
+
+	if(vFlakes[index].x < - (float)iXMax/2.f)
+	{
+		vFlakes[index].x += iXMax;
+	}
+	else if(vFlakes[index].x > (float)iXMax/2.f)
+	{
+		vFlakes[index].x -= iXMax;
+	}
+
+	if(lastAimX != 0.f)
+	{
+		vFlakes[index].x -= actualAimX - lastAimX;
+
+		//vFlakes[index].y += posCamera[1] - cameraLastPos[1];
+		//vFlakes[index].z += posCamera[2] - cameraLastPos[2];
+
+		//vFlakes[index].x -= posCamera[0] - cameraLastPos[0];
+		//vFlakes[index].y += posCamera[1] - cameraLastPos[1];
+		//vFlakes[index].z -= posCamera[2] - cameraLastPos[2];
+	}	
+
 	vFlakes[index].y -= (float) izMax/1000.f;
 }
 
@@ -94,34 +116,37 @@ void SnowManager::update(const float* posCamera)
 		cameraLastPos[2] = 0.f;
 	}
 
-	/*for(unsigned int i = 0; i < m_uiNbFlakes; ++i)
-	{
-		//m_vFlakes[i].x += posCamera[0] - cameraLastPos[0];
-		//m_vFlakes[i].y -= posCamera[1] - cameraLastPos[1];
-		//m_vFlakes[i].z += posCamera[2] - cameraLastPos[2];
+	//Flakes position updating
+	int block_size = 4;
+	int n_blocks = m_uiNbFlakes/block_size + (m_uiNbFlakes%block_size == 0 ? 0:1);
 
-		m_vFlakes[i].x -= posCamera[0] - cameraLastPos[0];
-		m_vFlakes[i].y += posCamera[1] - cameraLastPos[1];
-		//m_vFlakes[i].z -= posCamera[2] - cameraLastPos[2];
-	}*/
+	Flake *a_flakes;
+	//GLfloat a_cameraActualAim[3];
+	//GLfloat a_cameraLastAim[3];
+
+	size_t size = m_uiNbFlakes * sizeof(Flake);
+	cudaMalloc((void **) &a_flakes, size);
+	//cudaMalloc((void **) &a_cameraActualAim, 3*sizeof(GLfloat));
+	//cudaMalloc((void **) &a_cameraLastAim, 3*sizeof(GLfloat));
+
+	cudaMemcpy(a_flakes, m_vFlakes, size, cudaMemcpyHostToDevice);
+	//cudaMemcpy(a_cameraActualAim, posCamera, 3*sizeof(GLfloat), cudaMemcpyHostToDevice);
+	//cudaMemcpy(a_cameraLastAim, cameraLastPos, 3*sizeof(GLfloat), cudaMemcpyHostToDevice);
+
+	cuda_render <<< n_blocks, block_size >>> ((Flake *)a_flakes, posCamera[0], cameraLastPos[0], m_iXMax, m_iYMax, m_iZMax);
+
+	cudaMemcpy(m_vFlakes, a_flakes, sizeof(Flake)*m_uiNbFlakes, cudaMemcpyDeviceToHost);
+
+	cudaFree(a_flakes);
+	//cudaFree(a_cameraActualAim);
+	//cudaFree(a_cameraLastAim);
 
 	for(unsigned int i = 0; i < 3; ++i)
 	{
 		cameraLastPos[i] = posCamera[i];
 	}
 
-	//Flakes position updating
-	int block_size = 4;
-	int n_blocks = m_uiNbFlakes/block_size + (m_uiNbFlakes%block_size == 0 ? 0:1);
-
-	Flake *a_d;
-	size_t size = m_uiNbFlakes * sizeof(Flake);
-	cudaMalloc((void **) &a_d, size);
-	cudaMemcpy(a_d, m_vFlakes, size, cudaMemcpyHostToDevice);
-	cuda_render <<< n_blocks, block_size >>> ((Flake *)a_d, m_iYMax, m_iZMax);
-	cudaMemcpy(m_vFlakes, a_d, sizeof(Flake)*m_uiNbFlakes, cudaMemcpyDeviceToHost);
-	cudaFree(a_d);
-
+	//----- Drawing ----
 	glUseProgram(0);
 	//glEnable(GL_POINT_SMOOTH);
 	glEnable (GL_BLEND);
