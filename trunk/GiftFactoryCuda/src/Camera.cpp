@@ -26,9 +26,7 @@ Camera::~Camera()
 
 void Camera::lookAt(GLfloat * position, GLfloat * aim, GLfloat * up)
 {
-	std::cout<<"up "<<up[0]<<" "<<up[1]<<" "<<up[2]<<std::endl;
-	std::cout<<"position "<<position[0]<<" "<<position[1]<<" "<<position[2]<<std::endl;
-	std::cout<<"aim "<<aim[0]<<" "<<aim[1]<<" "<<aim[2]<<std::endl;
+
     for (GLuint iCoord=0 ; iCoord<3; iCoord++)
     {
         _position[iCoord]=position[iCoord]; // c : camera position

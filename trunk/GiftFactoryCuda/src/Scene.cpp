@@ -129,10 +129,13 @@ void Scene::loadObj(const std::string setFile)
 		
 		for(j=0; j<16; j++){
 			buffer >> transformMat[j];
-			if (j==3 || j==7 || j==11 || j==15){
+			if (j==3 || j==7 || j==11){
 				transformMat[j] /= 100.0;
-			}			
+				
+			}	
+			std::cout<<transformMat[j]<<" ";
 		}
+		std::cout<<std::endl;
 		std::cout << "scale = " << scale << std::endl;
 		transformMat[0] *= scale;
 		transformMat[5] *= scale;
