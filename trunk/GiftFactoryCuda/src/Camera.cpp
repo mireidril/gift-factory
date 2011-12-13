@@ -11,7 +11,9 @@ Camera::Camera(Application* parentApp)
     // Camera position and orientation  
 	GLfloat position[] = {0.0, 0.0, 3.0};
 	std::cout<<"init camera"<<std::endl;
-
+	_aim[0] = 0.0;
+	_aim[1] = 0.0;
+	_aim[2] = 0.0;
     GLfloat up[] = {0.0, 1.0, 0.0}; // Vector pointing over the camera
     lookAt(position, _aim, up);
 
@@ -24,6 +26,9 @@ Camera::~Camera()
 
 void Camera::lookAt(GLfloat * position, GLfloat * aim, GLfloat * up)
 {
+	std::cout<<"up "<<up[0]<<" "<<up[1]<<" "<<up[2]<<std::endl;
+	std::cout<<"position "<<position[0]<<" "<<position[1]<<" "<<position[2]<<std::endl;
+	std::cout<<"aim "<<aim[0]<<" "<<aim[1]<<" "<<aim[2]<<std::endl;
     for (GLuint iCoord=0 ; iCoord<3; iCoord++)
     {
         _position[iCoord]=position[iCoord]; // c : camera position
