@@ -34,6 +34,10 @@ Spline::Spline(std::string file_spline)
 		buffer >> v.position[0];
 		buffer >> v.position[1];
 		buffer >> v.position[2];
+
+		v.position[0] /=100.0;
+		v.position[1] /=100.0;
+		v.position[2] /=100.0;
 		
 		buffer >> v.yaw;
 		buffer >> testBoolean;
