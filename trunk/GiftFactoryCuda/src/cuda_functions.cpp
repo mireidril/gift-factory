@@ -90,6 +90,15 @@ void SnowManager::moveFlakes()
 				m_Vent = 0.f;
 		}*/
 
+		if(m_vFlakes[i].x < - (float)m_iXMax/2.f)
+		{
+			m_vFlakes[i].x += m_iXMax;
+		}
+		else if(m_vFlakes[i].x > (float)m_iXMax/2.f)
+		{
+			m_vFlakes[i].x -= m_iXMax;
+		}
+
 		if(m_vFlakes[i].y < -m_iYMax/2)
 		{
 			m_vFlakes[i].y += m_iYMax;
