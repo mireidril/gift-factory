@@ -123,7 +123,7 @@ void Application::initGL()
 
 void Application::initScenes()
 {
-	m_vScenes.push_back(new Scene(this, "spline_test", "SET_test"));
+	m_vScenes.push_back(new Scene(this, "spline_test", "settings/SET_scene1"));
 
 	std::string path;
 #ifdef _WIN32
@@ -131,6 +131,7 @@ void Application::initScenes()
 #else
 	path = "../";
 #endif
+
 	//m_vScenes.push_back(new Scene(this, verticesScene1, path + "SET_test"));
 	//m_vScenes.push_back(new Scene(this, verticesScene2, path + "SET_test2"));
 
@@ -298,8 +299,10 @@ void Application::update()
 		if (!m_camera->moveForward() && m_vSceneRendered<m_vScenes.size()-1){
 			m_vSceneRendered++;
 		}
+
 		//For tests
 		//getCamera()->updateView();
+
 
 		unsigned int uiId = m_vSceneRendered;
 		m_vScenes[uiId]->update();
