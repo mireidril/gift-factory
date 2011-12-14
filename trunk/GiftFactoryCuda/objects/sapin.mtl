@@ -12,4 +12,4 @@ newmtl 02___Default
 	Kd 0.5882 0.5882 0.5882
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
-map_multiTex diffuseTexture treeTex.ppm
+map_multiTex diffuseTexture sapin.ppm
