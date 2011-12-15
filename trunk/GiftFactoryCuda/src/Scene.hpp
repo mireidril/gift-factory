@@ -32,6 +32,13 @@ class Scene
 		void drawSquare();
 
 		inline Spline* getSpline () {return _spline;};
+		inline Application* getParentApplication () {return m_parentApp;};
+
+		//Light information
+		GLfloat * m_lightPosition;
+		GLfloat m_lightDiffuse[4];
+		GLfloat m_lightAmbient[4];
+		GLfloat m_lightSpecular[4];
 
 	private :
 		FBODatas m_fboDatas;
@@ -39,7 +46,7 @@ class Scene
 		std::vector<Object*> objects;
 		Application* m_parentApp;
 		Spline* _spline;
-		std::string m_file;		
+		std::string m_file;
 };
 
 #endif
