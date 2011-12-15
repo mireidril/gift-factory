@@ -197,7 +197,7 @@ bool Spline::moveForward(){
 		return true;
 	}
 	else {
-		if (_currentPosition < _nbPoints-1){
+		if (_currentPosition < _nbPoints-150){
 			_currentPosition++;
 			_currentPointFrame = 0;
 			_currentYaw = _splinePoints[_currentPosition].yaw;
