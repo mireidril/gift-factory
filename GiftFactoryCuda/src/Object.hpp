@@ -6,13 +6,14 @@
 #include <SDL/SDL_image.h>
 
 class ShaderManager;
+class Scene;
 
 typedef std::map<std::string, GLuint> ModelTextures;
 
 class Object
 {
 	public :
-		Object(const char* filename, bool enableTextures = true);
+		Object(Scene * scene, const char* filename, bool enableTextures = true);
 		~Object();
 
 		void init();
@@ -23,6 +24,9 @@ class Object
 		inline void setTransformMat( float * transformMat ){ m_transformMat = transformMat; };
 
 	private :
+		//Scene
+		Scene * m_parentScene;
+
 		// Mesh Datas
 		const char* objFileName;
 		ModelOBJ	g_model;
@@ -43,6 +47,12 @@ class Object
 
 		//Transformation matrix
 		float * m_transformMat;
+
+		//Light parameters
+		GLfloat m_diffuse[4];
+		GLfloat m_ambient[4];
+		GLfloat m_specular[4];
+		GLfloat m_shininess;
 };
 
 #endif

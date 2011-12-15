@@ -2,10 +2,11 @@
 #include "ShaderManager.hpp"
 #include "Application.hpp"
 #include "Camera.hpp"
+#include "Scene.hpp"
 
-
-Object::Object(const char* filename, bool enableTextures)
-: m_uiNbTextures(0)
+Object::Object(Scene * scene, const char* filename, bool enableTextures)
+: m_parentScene(scene)
+, m_uiNbTextures(0)
 , m_iTextureIds(NULL)
 , m_sShaderName("")
 , objFileName(filename)
@@ -13,6 +14,24 @@ Object::Object(const char* filename, bool enableTextures)
 {
 	m_shaderManager = ShaderManager::getInstance();
 	m_transformMat = NULL;
+	
+	m_diffuse[0] = 0.f;
+	m_diffuse[1] = 0.f;
+	m_diffuse[2] = 1.f;
+	m_diffuse[3] = 1.f;
+
+	m_ambient[0] = 1.f;
+	m_ambient[1] = 0.f;
+	m_ambient[2] = 0.f;
+	m_ambient[3] = 1.f;
+
+	m_specular[0] = 0.1f;
+	m_specular[1] = 0.1f;
+	m_specular[2] = 0.1f;
+	m_specular[3] = 1.f;
+
+	m_shininess = 2.2f;
+
 	init();
 }
 
@@ -70,11 +89,27 @@ void Object::draw(GLfloat* view)
 {
 	glUseProgramObjectARB(m_uiShaderId);
 
-	//Draw here
 	glUniformMatrix4fv(glGetUniformLocation(m_uiShaderId, "view"), 1, GL_FALSE, view);
 		
 	glUniform1f(glGetUniformLocation(m_uiShaderId, "focalDistance"), Camera::focalDistance);
 	glUniform1f(glGetUniformLocation(m_uiShaderId, "focalRange"), Camera::focalRange);
+	
+	//Light information
+	
+	glUniform3fv(glGetUniformLocation(m_uiShaderId, "posCamera"), 1, m_parentScene->getParentApplication()->getCamera()->getPosition());
+	if( m_parentScene->m_lightPosition != NULL)
+	{
+		glUniform3fv(glGetUniformLocation(m_uiShaderId, "posLight"), 1, m_parentScene->m_lightPosition);
+
+		glUniform4fv(glGetUniformLocation(m_uiShaderId, "diffuse"), 1, m_diffuse);
+		glUniform4fv(glGetUniformLocation(m_uiShaderId, "ambient"), 1, m_ambient);
+		glUniform4fv(glGetUniformLocation(m_uiShaderId, "specular"), 1, m_specular);
+		glUniform1f( glGetUniformLocation(m_uiShaderId, "shine" ), m_shininess );
+
+		glUniform4fv(glGetUniformLocation(m_uiShaderId, "l_diffuse"), 1, m_parentScene->m_lightDiffuse);
+		glUniform4fv(glGetUniformLocation(m_uiShaderId, "l_ambient"), 1, m_parentScene->m_lightAmbient);
+		glUniform4fv(glGetUniformLocation(m_uiShaderId, "l_specular"), 1, m_parentScene->m_lightSpecular);
+	}
 	
 	const ModelOBJ::Mesh *pMesh = 0;
 	const ModelOBJ::Material *pMaterial = 0;

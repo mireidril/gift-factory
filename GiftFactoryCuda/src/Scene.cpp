@@ -10,6 +10,22 @@ Scene::Scene(Application* parentApp, std::string file_spline, std::string file)
 	m_parentApp = parentApp;
 	m_file = file;
 	_spline = new Spline(file_spline);
+
+	m_lightPosition = NULL;
+	m_lightDiffuse[0] = 1.f;
+	m_lightDiffuse[1] = 1.f;
+	m_lightDiffuse[2] = 1.f;
+	m_lightDiffuse[3] = 1.f;
+
+	m_lightAmbient[0] = 0.f;
+	m_lightAmbient[1] = 0.f;
+	m_lightAmbient[2] = 1.f;
+	m_lightAmbient[3] = 1.f;
+
+	m_lightSpecular[0] = 0.2f;
+	m_lightSpecular[1] = 0.2f;
+	m_lightSpecular[2] = 0.2f;
+	m_lightSpecular[3] = 1.f;
 }
 
 Scene::~Scene()
@@ -22,8 +38,6 @@ void Scene::init()
 	initFBODatas();
 	loadObj(m_file);
 	//loadObj("SET_scene1");
-
-	
 }
 
 
@@ -115,6 +129,18 @@ void Scene::loadObj(const std::string setFile)
 		getline(stream, line); // get the ligne
 		buffer.clear(); buffer.str(line);
 		std::string name; buffer >> name; // Read the name of the object
+
+		if(name == "light")
+		{
+			m_lightPosition = new GLfloat[3];
+			buffer >> m_lightPosition[0];
+			buffer >> m_lightPosition[1];
+			buffer >> m_lightPosition[2];
+
+			std::cout<<"Lumiere : ("<<m_lightPosition[0]<<", "<<m_lightPosition[1]<<", "<<m_lightPosition[2]<<" ) "<<std::endl;
+			continue;
+		}
+
 #ifdef _WIN32
 		std::string fileName = "./objects/"+name+".obj";
 #else
@@ -123,7 +149,7 @@ void Scene::loadObj(const std::string setFile)
 		float scale = 1.0;
 		buffer >> scale;
 
-		Object * objLoaded = new Object(fileName.c_str());
+		Object * objLoaded = new Object( this, fileName.c_str());
 
 		float * transformMat = new float[16];
 		
