@@ -1,6 +1,6 @@
 # 3ds Max Wavefront OBJ Exporter v0.94b - (c)2007 guruware
 # File Created: 07.12.2011 16:11:05
-shader oneTexture
+shader toonShader
 newmtl _terrainwire_154215229
 	Ns 32.0000
 	Ni 1.5000

@@ -47,7 +47,7 @@ void main(){
 	vec4 colorTable;
 	float sumInt = dot(normLight, normals);
 	if( sumInt < 0.05 )
-		colorTable = vec4( 0.3, 0.3, 0.3, 1.0);	
+		colorTable = vec4( 0.4, 0.4, 0.4, 1.0);	
 	else if( sumInt < 0.3 && sumInt >= 0.05 )
 		colorTable = vec4( 0.6, 0.6, 0.6, 1.0);	
 	else if( sumInt < 0.6 && sumInt >= 0.3)

@@ -30,7 +30,7 @@ SnowManager::SnowManager(const unsigned int & nbFlakes, const int & xMax, const 
 			//At the start, random position
 			f.x = rand()%m_iXMax - (float)m_iXMax/2.f + (float) (rand()%100/100.f);
 			f.y = rand()%m_iYMax - (float)m_iYMax/2.f + (float)m_iYMax/3.f + (float) (rand()%100/100.f);
-			f.z = - rand()%m_iZMax + 1.f + (float) (rand()%100/100.f);
+			f.z = - rand()%m_iZMax + 0.f + (float) (rand()%100/100.f);
 
 			m_vFlakes[i] = f;
 		}
@@ -58,8 +58,8 @@ void SnowManager::init()
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 
-	float fMaxSize = 40.0f;
-	float coeffs[] = { 1.0f, .0f, 0.0001f };
+	float fMaxSize = 12.0f;
+	float coeffs[] = { 1.0f, .0f, 0.005f };
     glPointParameterfv(GL_POINT_DISTANCE_ATTENUATION, coeffs);
     
     //Taille du point
