@@ -88,7 +88,7 @@ void Object::init()
 	}
 }
 
-void Object::draw(GLfloat* view)
+void Object::draw(GLfloat* view)     
 {
 	glUseProgramObjectARB(m_uiShaderId);
 
@@ -171,6 +171,36 @@ void Object::draw(GLfloat* view)
 			glEnableClientState(GL_NORMAL_ARRAY);
 			glNormalPointer(GL_FLOAT, g_model.getVertexSize(), g_model.getVertexBuffer()->normal);
 		}
+
+
+		// We draw the line if the shader is the toonShader ->doesn't work
+		/*if(strcmp("toonShader", m_sShaderName) == 0)
+		{
+			GLuint simpleShaderUid = m_shaderManager->getShaderProgramId("simpleShader");
+			if(simpleShaderUid == ERROR_VALUE)
+				simpleShaderUid = m_shaderManager->addShaders("simpleShader", false);
+			glUniformMatrix4fv(glGetUniformLocation(simpleShaderUid, "model" ), 1, GL_TRUE, m_transformMat);
+			glUniformMatrix4fv(glGetUniformLocation(simpleShaderUid, "view"), 1, GL_FALSE, view);
+
+			glUseProgramObjectARB(simpleShaderUid);
+			//glLineWidth(10.f);
+			//glEnable(GL_LINE_SMOOTH);
+			//glEnable(GL_CULL_FACE);
+
+			//glPolygonMode(GL_BACK, GL_LINE);
+			//glDepthFunc(GL_LEQUAL);
+			
+			//glCullFace(GL_FRONT);
+
+			glDrawElements(GL_TRIANGLES, pMesh->triangleCount * 3, GL_UNSIGNED_INT, g_model.getIndexBuffer() + pMesh->startIndex);
+
+			//glDisable(GL_LINE_SMOOTH);
+			//glDisable(GL_CULL_FACE);
+
+			glUseProgramObjectARB(m_uiShaderId);
+			//glCullFace(GL_BACK);
+			//glPolygonMode(GL_FRONT, GL_FILL);
+		}*/		
 
 		glDrawElements(GL_TRIANGLES, pMesh->triangleCount * 3, GL_UNSIGNED_INT, g_model.getIndexBuffer() + pMesh->startIndex);
 

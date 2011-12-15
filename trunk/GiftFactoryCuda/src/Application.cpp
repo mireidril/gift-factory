@@ -44,7 +44,7 @@ void Application::init()
 	//initShaders();
 
 	//Snow Manager : swow fall is the most realistic if xMax = yMax = zMax
-	m_SnowManager = new SnowManager(3000, 30, 30, 30);
+	m_SnowManager = new SnowManager(3000, 20, 20, 20);
 	m_SnowManager->init();
 
 	// Scene loadings
@@ -300,13 +300,13 @@ void Application::update()
 
 		checkEvents();
 		//if the spline is at its end
-		if (!m_camera->moveForward() && m_vSceneRendered<m_vScenes.size()-1){
-			m_vSceneRendered++;
-		}
+		//if (!m_camera->moveForward() && m_vSceneRendered<m_vScenes.size()-1){
+		//	m_vSceneRendered++;
+		//}
 
 		//std::cout<<m_vSceneRendered<<std::endl;
 		//For tests
-		//getCamera()->updateView();
+		getCamera()->updateView();
 
 
 		unsigned int uiId = m_vSceneRendered;
