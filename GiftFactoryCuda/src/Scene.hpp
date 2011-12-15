@@ -3,7 +3,6 @@
 
 #include "Utils.hpp"
 #include "Object.hpp"
-#include "Spline.hpp"
 
 class Object;
 class Application;

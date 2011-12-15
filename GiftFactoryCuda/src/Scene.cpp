@@ -148,10 +148,16 @@ void Scene::loadObj(const std::string setFile)
 #else
 		std::string fileName = "../objects/"+name+".obj";
 #endif
+		Object * objLoaded = new Object( this, fileName.c_str());
+
+		std::string splineFile;
+		buffer >> splineFile;
+		if (splineFile != "0"){
+			objLoaded->setSpline(new Spline(splineFile));
+		}
+
 		float scale = 1.0;
 		buffer >> scale;
-
-		Object * objLoaded = new Object( this, fileName.c_str());
 
 		float * transformMat = new float[16];
 		
@@ -189,7 +195,9 @@ void Scene::loadObj(const std::string setFile)
 }
 
 void Scene::update(){
-	
+	for(unsigned int i = 0; i<objects.size() ; i++){
+		objects[i]->move();
+	}
 }
 
 /*

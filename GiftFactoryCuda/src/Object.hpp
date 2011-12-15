@@ -7,6 +7,7 @@
 
 class ShaderManager;
 class Scene;
+class Spline;
 
 typedef std::map<std::string, GLuint> ModelTextures;
 
@@ -22,6 +23,10 @@ class Object
 
 		inline float * getTransformMat(){ return m_transformMat; };
 		inline void setTransformMat( float * transformMat ){ m_transformMat = transformMat; };
+
+		void setSpline(Spline* spline);
+
+		void move();
 
 	private :
 		//Scene
@@ -53,6 +58,9 @@ class Object
 		GLfloat m_ambient[4];
 		GLfloat m_specular[4];
 		GLfloat m_shininess;
+
+		Spline* m_spline;
+		bool m_splineEnded;
 };
 
 #endif
