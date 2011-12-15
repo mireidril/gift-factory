@@ -24,7 +24,7 @@ uniform mat4 matTransform;
 varying float Blur;
 
 void main(){
-	vec3 diffuse = texture2D( diffuseTexture, gl_TexCoord[0].st ).rgb;
+	vec3 text_diffuse = texture2D( diffuseTexture, gl_TexCoord[0].st ).rgb;
 
 	float kc = 1.0;
 	float kl = 0.0;
@@ -57,6 +57,6 @@ void main(){
 	else if( sumInt >= 0.9)
 		colorTable = vec4( 1.0, 1.0, 1.0, 1.0);
 		
-	gl_FragColor = colorTable * vec4(diffuse, 1.0);
+	gl_FragColor = colorTable * vec4(text_diffuse, 1.0);
 
 }
