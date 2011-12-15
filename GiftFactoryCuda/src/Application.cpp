@@ -130,7 +130,7 @@ void Application::initScenes()
 	path = "../";
 #endif
 
-	m_vScenes.push_back(new Scene(this, "settings/spline_scene1", "settings/SET_scene1_degueu"));
+	m_vScenes.push_back(new Scene(this, "settings/spline_scene1", "settings/SET_scene1"));
 	m_vScenes.push_back(new Scene(this, "settings/spline_scene2", "settings/SET_scene2"));
 	m_vScenes.push_back(new Scene(this, "settings/spline_scene3", "settings/SET_scene3"));
 

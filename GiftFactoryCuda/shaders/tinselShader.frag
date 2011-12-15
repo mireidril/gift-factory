@@ -32,9 +32,9 @@ void main(){
 	if(actualText == 0)
 		texture = texture2D( diffuseTexture1, gl_TexCoord[0].st ).rgb;
 	else if(actualText == 1)
-		texture = texture2D( diffuseTexture2, gl_TexCoord[1].st ).rgb;
+		texture = texture2D( diffuseTexture2, gl_TexCoord[0].st ).rgb;
 	else
-		texture = texture2D( diffuseTexture3, gl_TexCoord[2].st ).rgb;
+		texture = texture2D( diffuseTexture3, gl_TexCoord[0].st ).rgb;
 	
 	/*if(actualText == 0)
 		texture = vec3(1.0, 0.0, 0.0);

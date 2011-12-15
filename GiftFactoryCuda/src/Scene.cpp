@@ -205,7 +205,7 @@ void Scene::loadObj(const std::string setFile)
 		std::cout<<std::endl;
 		std::cout << "scale = " << scale << std::endl;
 		transformMat[0] *= scale;
-		if(name == "chalet" ){
+		if(name == "chalet" || name=="chaletGuirlande" ){
 			transformMat[5] *= scale*0.5;
 		}
 		else
