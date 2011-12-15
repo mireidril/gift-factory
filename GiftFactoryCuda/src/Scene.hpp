@@ -40,6 +40,8 @@ class Scene
 		void update();
 		void drawSquare();
 
+		void stopMusic();
+
 		inline Spline* getSpline () {return _spline;};
 		inline Application* getParentApplication () {return m_parentApp;};
 

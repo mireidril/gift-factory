@@ -301,6 +301,7 @@ void Application::update()
 		checkEvents();
 		//if the spline is at its end
 		if (!m_camera->moveForward() && m_vSceneRendered<m_vScenes.size()-1){
+			m_vScenes[m_vSceneRendered]->stopMusic();
 			m_vSceneRendered++;
 		}
 
