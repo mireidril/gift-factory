@@ -50,6 +50,10 @@ class Object
 		//ShaderManager
 		ShaderManager* m_shaderManager;
 
+		//Counter
+		unsigned int m_counter;
+		int m_period;
+
 		//Transformation matrix
 		float * m_transformMat;
 

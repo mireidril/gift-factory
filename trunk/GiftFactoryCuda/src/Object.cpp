@@ -12,6 +12,8 @@ Object::Object(Scene * scene, const char* filename, bool enableTextures)
 , m_sShaderName("")
 , objFileName(filename)
 , g_enableTextures(enableTextures)
+, m_counter(0)
+, m_period( 180 )
 , m_spline(NULL)
 , m_splineEnded(false)
 {
@@ -147,7 +149,20 @@ void Object::draw(GLfloat* view)
 				glBindTexture(GL_TEXTURE_2D,m_iTextureIds+i);
 				glUniform1i( glGetUniformLocation( m_uiShaderId, pMaterial->textures[i]->shaderUniformName.c_str() ), i );
 			}
-	  	
+
+			if(strcmp("tinselShader", m_sShaderName) == 0)
+			{
+				if(m_counter/m_period >= 3)
+				{
+					m_counter = 0;
+				}
+				else
+				{
+					m_counter++;
+				}
+
+				glUniform1i( glGetUniformLocation( m_uiShaderId, "actualText" ), m_counter/m_period );
+			}	  	
 		}
 		else
 		{
@@ -266,14 +281,14 @@ void Object::move(){
 		if (!m_splineEnded){
 			if (!m_spline->moveForward()){
 				m_splineEnded = true;
-				std::cout<<"spline ended"<<std::endl;
+				//std::cout<<"spline ended"<<std::endl;
 			}
 			float* transformMat = getTransformMat();
 			Spline::PointSpline splinePos = m_spline->getCurrentPosition();
 			transformMat[3] = splinePos.position[0];
 			transformMat[7] = splinePos.position[1];
 			transformMat[11] = splinePos.position[2];
-			std::cout<<objFileName<<" "<<transformMat[3]<<" "<<transformMat[7]<<" "<<transformMat[11]<<std::endl;
+			//std::cout<<objFileName<<" "<<transformMat[3]<<" "<<transformMat[7]<<" "<<transformMat[11]<<std::endl;
 			setTransformMat(transformMat);
 		}
 	}
