@@ -123,7 +123,9 @@ void Application::initGL()
 
 void Application::initScenes()
 {
-	m_vScenes.push_back(new Scene(this, "settings/spline2", "settings/SET_scene1_degeu"));
+	m_vScenes.push_back(new Scene(this, "settings/spline_scene1", "settings/SET_scene1_degueu"));
+	m_vScenes.push_back(new Scene(this, "settings/spline_scene2", "settings/SET_scene2"));
+	m_vScenes.push_back(new Scene(this, "settings/spline_scene3", "settings/SET_scene3"));
 
 	std::string path;
 #ifdef _WIN32
@@ -137,6 +139,8 @@ void Application::initScenes()
 
 	std::cout<<"init scene 0"<<std::endl;
 	m_vScenes[0]->init();
+	m_vScenes[1]->init();
+	m_vScenes[2]->init();
 	//std::cout<<"init scene 1"<<std::endl;
 	//m_vScenes[1]->init();
 	m_vSceneRendered = 0;
@@ -300,6 +304,7 @@ void Application::update()
 			m_vSceneRendered++;
 		}
 
+		//std::cout<<m_vSceneRendered<<std::endl;
 		//For tests
 		//getCamera()->updateView();
 
@@ -308,7 +313,9 @@ void Application::update()
 		m_vScenes[uiId]->update();
 		m_vScenes[uiId]->render();
 		//Snow Manager
-		m_SnowManager->update(m_camera->getAim());
+		if (m_vSceneRendered != 1){
+			m_SnowManager->update(m_camera->getAim());
+		}
 		
 		SDL_GL_SwapBuffers();
 	}

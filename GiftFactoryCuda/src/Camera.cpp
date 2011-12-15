@@ -86,7 +86,6 @@ bool Camera::moveForward(){
 	vectDirectRotated[0] = vectDirect[0] * cos(spline->getCurrentYaw()*3.1416/180) - vectDirect[2] * sin(spline->getCurrentYaw()*3.1416/180);
 	vectDirectRotated[1] = 0;
 	vectDirectRotated[2] = vectDirect[0] * sin(spline->getCurrentYaw()*3.1416/180) + vectDirect[2] * cos(spline->getCurrentYaw()*3.1416/180);
-
 	_aim[0] = cameraPos[0] + vectDirectRotated[0];
 	_aim[1] = cameraPos[1] + vectDirectRotated[1];
 	_aim[2] = cameraPos[2] + vectDirectRotated[2];

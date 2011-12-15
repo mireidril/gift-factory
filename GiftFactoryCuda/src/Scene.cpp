@@ -37,7 +37,9 @@ void Scene::init()
 	//ShaderManager::getInstance()->addShaders("texture2D", false);
 	initFBODatas();
 	loadObj(m_file);
-	//loadObj("SET_scene1");
+
+	//loadObj("SET_scene1");	
+
 }
 
 
