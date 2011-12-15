@@ -17,6 +17,7 @@ class Object;
 class Application;
 class Camera;
 class Spline;
+class ObjectManager;
 
 class Scene
 {
@@ -55,6 +56,9 @@ class Scene
 		Application* m_parentApp;
 		Spline* _spline;
 		std::string m_file;
+
+		//Objet Manager
+		ObjectManager * m_objectManager;
 
 		//Sounds
 		std::string m_MusicName;

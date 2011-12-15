@@ -18,6 +18,7 @@ class Object
 		~Object();
 
 		void init();
+		void copy(Object * sameObj);
 		void draw(GLfloat* view);
 		GLuint LoadTexture(const char *pszFilename);
 
@@ -34,7 +35,7 @@ class Object
 
 		// Mesh Datas
 		const char* objFileName;
-		ModelOBJ	g_model;
+		ModelOBJ *	g_model;
 		ModelTextures	g_modelTextures;
 
 		//Textures
