@@ -123,16 +123,16 @@ void Application::initGL()
 
 void Application::initScenes()
 {
-	m_vScenes.push_back(new Scene(this, "settings/spline_scene1", "settings/SET_scene1_degueu"));
-	m_vScenes.push_back(new Scene(this, "settings/spline_scene2", "settings/SET_scene2"));
-	m_vScenes.push_back(new Scene(this, "settings/spline_scene3", "settings/SET_scene3"));
-
 	std::string path;
 #ifdef _WIN32
 	path = "";
 #else
 	path = "../";
 #endif
+
+	m_vScenes.push_back(new Scene(this, "settings/spline_scene1", "settings/SET_scene1_degueu"));
+	m_vScenes.push_back(new Scene(this, "settings/spline_scene2", "settings/SET_scene2"));
+	m_vScenes.push_back(new Scene(this, "settings/spline_scene3", "settings/SET_scene3"));
 
 	//m_vScenes.push_back(new Scene(this, verticesScene1, path + "SET_test"));
 	//m_vScenes.push_back(new Scene(this, verticesScene2, path + "SET_test2"));

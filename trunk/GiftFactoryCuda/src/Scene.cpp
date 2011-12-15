@@ -51,17 +51,6 @@ void Scene::init()
 	//Sounds
 	// start the sound engine with default parameters
 	m_soundEngine = irrklang::createIrrKlangDevice();
-
-#ifdef _WIN32
-		std::string fileName = "./sounds/"+ m_MusicName +".ogg";
-#else
-		std::string fileName = "../sounds/" + m_MusicName + ".mp3";
-#endif
-
-	if(m_soundEngine != NULL)
-	{
-		m_soundEngine->play2D(fileName.c_str(), false);
-	}
 }
 
 
@@ -165,6 +154,18 @@ void Scene::loadObj(const std::string setFile)
 			continue;
 		}
 
+		if(name == "sound")
+		{
+			std::string sName;
+			buffer >> sName;
+#ifdef _WIN32
+			m_MusicName = "./sounds/"+ sName +".ogg";
+#else
+			m_MusicName = "../sounds/" + sName + ".mp3";
+#endif
+			continue;
+		}
+
 #ifdef _WIN32
 		std::string fileName = "./objects/"+name+".obj";
 #else
@@ -219,6 +220,14 @@ void Scene::loadObj(const std::string setFile)
 void Scene::update(){
 	for(unsigned int i = 0; i<objects.size() ; i++){
 		objects[i]->move();
+	}
+
+	if(m_soundEngine != NULL)
+	{
+		if(m_soundEngine != NULL && !m_soundEngine->isCurrentlyPlaying(m_MusicName.c_str()))
+		{
+			m_soundEngine->play2D(m_MusicName.c_str(), false);
+		}
 	}
 }
 
