@@ -28,15 +28,19 @@ Scene::Scene(Application* parentApp, std::string file_spline, std::string file)
 	m_lightSpecular[3] = 1.f;
 
 	m_MusicName = "James_Edwards-A_Merry_Christmas";
+#ifdef _USING_irrKlang_
 	m_soundEngine = NULL;
+#endif
 }
 
 Scene::~Scene()
 {
+#ifdef _USING_irrKlang_
 	if(m_soundEngine != NULL)
 	{
 		m_soundEngine->drop();
 	}
+#endif
 }
 
 void Scene::init()
@@ -50,7 +54,9 @@ void Scene::init()
 
 	//Sounds
 	// start the sound engine with default parameters
+#ifdef _USING_irrKlang_
 	m_soundEngine = irrklang::createIrrKlangDevice();
+#endif
 }
 
 
@@ -222,6 +228,7 @@ void Scene::update(){
 		objects[i]->move();
 	}
 
+#ifdef _USING_irrKlang_
 	if(m_soundEngine != NULL)
 	{
 		if(m_soundEngine != NULL && !m_soundEngine->isCurrentlyPlaying(m_MusicName.c_str()))
@@ -229,6 +236,7 @@ void Scene::update(){
 			m_soundEngine->play2D(m_MusicName.c_str(), false);
 		}
 	}
+#endif
 }
 
 /*

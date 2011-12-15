@@ -4,10 +4,13 @@
 #include "Utils.hpp"
 #include "Object.hpp"
 
-#ifdef _WIN32
-#include "irrKlang/irrKlang.h"
-#else
-#include <irrKlang.h>
+#define _USING_irrKlang_
+#ifdef _USING_irrKlang_
+	#ifdef _WIN32
+	#include "irrKlang/irrKlang.h"
+	#else
+	#include <irrKlang.h>
+	#endif
 #endif
 
 class Object;
@@ -55,7 +58,9 @@ class Scene
 
 		//Sounds
 		std::string m_MusicName;
+#ifdef _USING_irrKlang_
 		irrklang::ISoundEngine* m_soundEngine;
+#endif
 };
 
 #endif
