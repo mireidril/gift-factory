@@ -1,6 +1,6 @@
 # 3ds Max Wavefront OBJ Exporter v0.94b - (c)2007 guruware
 # File Created: 08.12.2011 12:03:04
-shader oneTexture
+shader toonShader
 newmtl 02___Default
 	Ns 10.0000
 	Ni 1.5000
@@ -12,4 +12,4 @@ newmtl 02___Default
 	Kd 0.5882 0.5882 0.5882
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
-map_multiTex diffuseTexture sapin.ppm
+map_multiTex diffuseTexture treeTex.ppm
