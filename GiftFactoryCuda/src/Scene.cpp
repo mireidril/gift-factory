@@ -26,10 +26,18 @@ Scene::Scene(Application* parentApp, std::string file_spline, std::string file)
 	m_lightSpecular[1] = 0.2f;
 	m_lightSpecular[2] = 0.2f;
 	m_lightSpecular[3] = 1.f;
+
+	m_MusicName = "James_Edwards-A_Merry_Christmas";
+	m_soundEngine = NULL;
 }
 
 Scene::~Scene()
-{}
+{
+	if(m_soundEngine != NULL)
+	{
+		m_soundEngine->drop();
+	}
+}
 
 void Scene::init()
 {
@@ -38,8 +46,22 @@ void Scene::init()
 	initFBODatas();
 	loadObj(m_file);
 
-	//loadObj("SET_scene1");	
+	//loadObj("SET_scene1");
 
+	//Sounds
+	// start the sound engine with default parameters
+	m_soundEngine = irrklang::createIrrKlangDevice();
+
+#ifdef _WIN32
+		std::string fileName = "./sounds/"+ m_MusicName +".ogg";
+#else
+		std::string fileName = "../sounds/" + m_MusicName + ".mp3";
+#endif
+
+	if(m_soundEngine != NULL)
+	{
+		m_soundEngine->play2D(fileName.c_str(), false);
+	}
 }
 
 

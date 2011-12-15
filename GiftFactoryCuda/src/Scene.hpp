@@ -4,6 +4,12 @@
 #include "Utils.hpp"
 #include "Object.hpp"
 
+#ifdef _WIN32
+#include "irrKlang/irrKlang.h"
+#else
+#include <irrKlang.h>
+#endif
+
 class Object;
 class Application;
 class Camera;
@@ -46,6 +52,10 @@ class Scene
 		Application* m_parentApp;
 		Spline* _spline;
 		std::string m_file;
+
+		//Sounds
+		std::string m_MusicName;
+		irrklang::ISoundEngine* m_soundEngine;
 };
 
 #endif
