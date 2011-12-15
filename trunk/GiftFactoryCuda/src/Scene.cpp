@@ -394,3 +394,8 @@ void Scene::drawSquare(){
 		glTexCoord2f( 0.0f, 0.0f ); glVertex3f( -1.0f, -1.0f, 0.0f );
 	glEnd();
 }
+
+void Scene::stopMusic()
+{
+	m_soundEngine->stopAllSounds();
+}
