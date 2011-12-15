@@ -25,7 +25,7 @@ public:
 	};
 
 	Spline(std::string file_spline);
-	~Spline();
+	virtual ~Spline();
 
 	double computeCoefSpline(int i, int d, const std::vector<double> & nodes, double t);
 

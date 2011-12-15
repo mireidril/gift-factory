@@ -3,6 +3,7 @@
 #include "Application.hpp"
 #include "Camera.hpp"
 #include "Scene.hpp"
+#include "Spline.hpp"
 
 Object::Object(Scene * scene, const char* filename, bool enableTextures)
 : m_parentScene(scene)
@@ -11,6 +12,8 @@ Object::Object(Scene * scene, const char* filename, bool enableTextures)
 , m_sShaderName("")
 , objFileName(filename)
 , g_enableTextures(enableTextures)
+, m_spline(NULL)
+, m_splineEnded(false)
 {
 	m_shaderManager = ShaderManager::getInstance();
 	m_transformMat = NULL;
@@ -222,4 +225,26 @@ GLuint Object::LoadTexture(const char *pszFilename)
     }
 */
     return id;
+}
+
+void Object::setSpline(Spline* spline){
+	m_spline = spline;
+}
+
+void Object::move(){
+	if (m_spline != NULL){
+		if (!m_splineEnded){
+			if (!m_spline->moveForward()){
+				m_splineEnded = true;
+				std::cout<<"spline ended"<<std::endl;
+			}
+			float* transformMat = getTransformMat();
+			Spline::PointSpline splinePos = m_spline->getCurrentPosition();
+			transformMat[3] = splinePos.position[0];
+			transformMat[7] = splinePos.position[1];
+			transformMat[11] = splinePos.position[2];
+			std::cout<<objFileName<<" "<<transformMat[3]<<" "<<transformMat[7]<<" "<<transformMat[11]<<std::endl;
+			setTransformMat(transformMat);
+		}
+	}
 }

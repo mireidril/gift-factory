@@ -24,7 +24,7 @@ Spline::Spline(std::string file_spline)
 
 	std::vector<Spline::PointSpline> vertices;
 
-	for(int n = 0; n<numPoints; n++){
+	for(int n = 0; n<numPoints-3; n++){
 		getline(stream, line); // get the ligne
 		buffer.clear(); buffer.str(line);
 
@@ -38,7 +38,7 @@ Spline::Spline(std::string file_spline)
 		v.position[0] /=100.0;
 		v.position[1] /=100.0;
 		v.position[2] /=100.0;
-		
+		//std::cout<<v.position[0]<<" "<<v.position[1]<<" "<<v.position[2]<<std::endl;
 		buffer >> v.yaw;
 		buffer >> testBoolean;
 		if (testBoolean == 0) v.debutRotation = false;
@@ -103,7 +103,6 @@ Spline::Spline(std::string file_spline)
 		pointSpline.position[2] = posZ;
 		pointSpline.yaw = 0;
 		pointSpline.nbFrames = 1;
-
 		_splinePoints.push_back(pointSpline);
 		t +=  _step;
 
@@ -197,7 +196,7 @@ bool Spline::moveForward(){
 		return true;
 	}
 	else {
-		if (_currentPosition < _nbPoints-150){
+		if (_currentPosition < _nbPoints-1){
 			_currentPosition++;
 			_currentPointFrame = 0;
 			_currentYaw = _splinePoints[_currentPosition].yaw;
