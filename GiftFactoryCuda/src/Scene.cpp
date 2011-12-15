@@ -4,6 +4,7 @@
 #include "Camera.hpp"
 #include "Application.hpp"
 #include "Spline.hpp"
+#include "ObjectManager.hpp"
 
 Scene::Scene(Application* parentApp, std::string file_spline, std::string file)
 {
@@ -26,6 +27,8 @@ Scene::Scene(Application* parentApp, std::string file_spline, std::string file)
 	m_lightSpecular[1] = 0.2f;
 	m_lightSpecular[2] = 0.2f;
 	m_lightSpecular[3] = 1.f;
+
+	m_objectManager = ObjectManager::getInstance();
 
 	m_MusicName = "James_Edwards-A_Merry_Christmas";
 #ifdef _USING_irrKlang_
@@ -172,12 +175,13 @@ void Scene::loadObj(const std::string setFile)
 			continue;
 		}
 
-#ifdef _WIN32
+/*#ifdef _WIN32
 		std::string fileName = "./objects/"+name+".obj";
 #else
 		std::string fileName = "../objects/"+name+".obj";
-#endif
-		Object * objLoaded = new Object( this, fileName.c_str());
+#endif*/
+
+		Object * objLoaded = objLoaded = m_objectManager->addObject(this, name.c_str());
 
 		std::string splineFile;
 		buffer >> splineFile;

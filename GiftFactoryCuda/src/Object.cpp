@@ -36,8 +36,6 @@ Object::Object(Scene * scene, const char* filename, bool enableTextures)
 	m_specular[3] = 1.f;
 
 	m_shininess = 2.2f;
-
-	init();
 }
 
 Object::~Object()
@@ -50,14 +48,53 @@ void Object::init()
 {
 	// Mesh initialisation
 	std::cout << "obj to load : " << objFileName << std::endl;
-	if (!g_model.import(objFileName))
+	g_model = new ModelOBJ;
+	if (!g_model->import(objFileName))
 	{
 		std::cout << "Failed to load model " << std::endl;
 	}
 	else 
-		g_model.normalize();
+		g_model->normalize();
 
-	const ModelOBJ::Material *pMaterial = (g_model.getMesh(0)).pMaterial;
+	const ModelOBJ::Material *pMaterial = (g_model->getMesh(0)).pMaterial;
+
+	//Textures initialization
+	if(g_enableTextures){
+		glGenTextures(pMaterial->textures.size(), &m_iTextureIds);
+
+		for(unsigned int i = 0 ; i < pMaterial->textures.size() ; i++){
+
+			glBindTexture(GL_TEXTURE_2D,m_iTextureIds+i);
+			
+			TextureManager::Texture* tex =  pMaterial->textures[i];
+			if(tex == 0)
+				std::cout << "Erreur texture : la texture n'a pas été chargée préalablement dans model_obj ?" << std::endl;
+			
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, tex->texPicture->w, tex->texPicture->h, 0, GL_RGB, GL_UNSIGNED_BYTE, tex->texPicture->pixels);
+
+		}
+	}
+
+	//Shader initialization
+	m_sShaderName = pMaterial->shaderName.c_str();
+	m_uiShaderId = m_shaderManager->getShaderProgramId(m_sShaderName);
+	if(m_uiShaderId == ERROR_VALUE)
+	{
+		//false if there are only vertex and fragment shader, or true if there are vertex, fragment and geometry shader
+		m_uiShaderId = m_shaderManager->addShaders(m_sShaderName, false);
+	}
+}
+
+void Object::copy(Object * sameObj)
+{
+	// Mesh initialisation
+	g_model = sameObj->g_model;
+
+	const ModelOBJ::Material *pMaterial = (g_model->getMesh(0)).pMaterial;
 
 	//Textures initialization
 	if(g_enableTextures){
@@ -123,11 +160,11 @@ void Object::draw(GLfloat* view)
 
 	glDisable(GL_BLEND);
     
-	for (int i = 0; i < g_model.getNumberOfMeshes(); ++i)
+	for (int i = 0; i < g_model->getNumberOfMeshes(); ++i)
 	{
-		pMesh = &g_model.getMesh(i);
+		pMesh = &(g_model->getMesh(i));
 		pMaterial = pMesh->pMaterial;
-		pVertices = g_model.getVertexBuffer();
+		pVertices = g_model->getVertexBuffer();
 
 		// modelViewProj[16] = camera.getViewProjMatrix();
 		// multMatrixBtoMatrixA( camera.getViewProjMatrix(), objects[i].getModelMatrix());
@@ -169,22 +206,22 @@ void Object::draw(GLfloat* view)
 			glDisable(GL_TEXTURE_2D);
 		}
 
-		if (g_model.hasPositions())
+		if (g_model->hasPositions())
 		{
 			glEnableClientState(GL_VERTEX_ARRAY);
-			glVertexPointer(3, GL_FLOAT, g_model.getVertexSize(), g_model.getVertexBuffer()->position);
+			glVertexPointer(3, GL_FLOAT, g_model->getVertexSize(), g_model->getVertexBuffer()->position);
 		}
 
-		if (g_model.hasTextureCoords())
+		if (g_model->hasTextureCoords())
 		{
 			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-			glTexCoordPointer(2, GL_FLOAT, g_model.getVertexSize(), g_model.getVertexBuffer()->texCoord);
+			glTexCoordPointer(2, GL_FLOAT, g_model->getVertexSize(), g_model->getVertexBuffer()->texCoord);
 		}
 
-		if (g_model.hasNormals())
+		if (g_model->hasNormals())
 		{
 			glEnableClientState(GL_NORMAL_ARRAY);
-			glNormalPointer(GL_FLOAT, g_model.getVertexSize(), g_model.getVertexBuffer()->normal);
+			glNormalPointer(GL_FLOAT, g_model->getVertexSize(), g_model->getVertexBuffer()->normal);
 		}
 
 
@@ -217,15 +254,15 @@ void Object::draw(GLfloat* view)
 			//glPolygonMode(GL_FRONT, GL_FILL);
 		}*/		
 
-		glDrawElements(GL_TRIANGLES, pMesh->triangleCount * 3, GL_UNSIGNED_INT, g_model.getIndexBuffer() + pMesh->startIndex);
+		glDrawElements(GL_TRIANGLES, pMesh->triangleCount * 3, GL_UNSIGNED_INT, g_model->getIndexBuffer() + pMesh->startIndex);
 
-		if (g_model.hasNormals())
+		if (g_model->hasNormals())
 			glDisableClientState(GL_NORMAL_ARRAY);
 
-		if (g_model.hasTextureCoords())
+		if (g_model->hasTextureCoords())
 			glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 
-		if (g_model.hasPositions())
+		if (g_model->hasPositions())
 			glDisableClientState(GL_VERTEX_ARRAY);
 			
 		if (g_enableTextures)
