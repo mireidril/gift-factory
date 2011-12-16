@@ -19,6 +19,8 @@ Application::Application()
 , m_bButtonPressed(false)
 , m_bUseGeometryShader(true)
 , m_SnowManager(NULL)
+, m_currentTime(0.f)
+, m_lastTime(0.f)
 {
 	m_vScenes.clear();
 }
@@ -292,12 +294,23 @@ void Application::mouseMotionEvent(SDL_MouseMotionEvent *event)
 	}
 }
 
+void Application::calculateFPS()
+{
+	m_lastTime = m_currentTime;
+	m_currentTime = SDL_GetTicks()/1000.f;
+
+	double fps = 1.0 / (m_currentTime - m_lastTime);
+
+	//std::cout << "---------- FPS : " << (int) fps << std::endl;
+}
+
 void Application::update()
 {
 	while(m_bRunning)
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+		calculateFPS();
 		checkEvents();
 		//if the spline is at its end
 		if (!m_camera->moveForward() && m_vSceneRendered<m_vScenes.size()-1){

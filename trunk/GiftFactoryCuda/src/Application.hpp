@@ -29,6 +29,8 @@ class Application
 		void mouseButtonEvent(SDL_MouseButtonEvent *event);
 		void mouseMotionEvent(SDL_MouseMotionEvent *event);
 
+		void calculateFPS();
+
 		void update();
 
 		bool isRunning();
@@ -64,6 +66,10 @@ class Application
 		SnowManager * m_SnowManager;
 
 		Camera* m_camera;
+
+		//FPS
+		float m_currentTime;
+		float m_lastTime;
 
 };
 
